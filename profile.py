@@ -1,0 +1,321 @@
+#!/usr/bin/python
+
+"""
+This profile allows the allocation of resources for over-the-air
+operation on the POWDER platform. Specifically, the profile has
+options to request the allocation of SDR radios in rooftop 
+base-stations and fixed-endpoints (i.e., nodes deployed at
+human height).
+
+Map of deployment is here:
+https://www.powderwireless.net/map
+
+The base-station SDRs are X310s and connected to an antenna
+covering the cellular band (1695 - 2690 MHz), i.e., cellsdr,
+or to an antenna covering the CBRS band (3400 - 3800 MHz), i.e.,
+cbrssdr. Each X310 is paired with a compute node (by default
+a Dell d740).
+
+The fixed-endpoint SDRs are B210s each of which is paired with 
+an Intel NUC small form factor compute node. Both B210s are connected
+to broadband antennas: nuc1 is connected in an RX only configuration,
+while nuc2 is connected in a TX/RX configuration.
+
+The instructions below shows how GNU Radio software can be used
+with SDRs connected to the CBRS antennas to transmit and receive
+a file with QPSK over OFDM.
+
+cbrssdr1-browning cbrssdr1-bes
+cbrssdr1-meb cbrssdr1-ustar
+cbrssdr1-honors cbrssdr1-smt
+
+Good node pair options to use for this are:
+
+  * **Behavioral: cbrssdr** and **Browning: cbrssdr**
+  * **MEB: cbrssdr** and **USTAR: cbrssdr**
+  * **Honors: cbrssdr** and **SMT: cbrssdr**
+
+Instructions:
+
+## SSH to the nodes
+
+1. Once the profile is created, go to `List View` option to get the node address.
+2. With a remote SSH client login to the nodes. (Must have SSH public key uploaded).
+3. In this experiment your group will be assigned one of the node pairs listed above. You will use one of the nodes as the transmitter and the other as the receiver.
+4. While SSH make sure the X11 forwarding option is enable.
+
+## Open and edit flowgraph in GNU Radio Companion - transmitter node
+
+
+GNU Radio provides the building blocks for OFDM modulated signal. We will use these blocks for this experiment.
+
+1. Open transmitter file 
+```python
+bash -l
+gnuradio-companion /proj/mww2019/gnuradio-ofdm-example/TX1.grc
+```
+3. Save the file in your user directory /users/username/
+4. In the `File Source` block, double click to open the properties. In the File option browse `/proj/mww2019/gnuradio-ofdm-example/file_to_transmit.txt`.
+5. The transmitter is now ready to transmit with default configuration.
+
+### Brief description of the transmitter blocks
+
+1. **File Source** : Contains the file we want to transmit (image/text/..)
+Now we have streams of bytes as output without any boundary that defines the start/end of the packet.
+
+2. **Stream to tagged stream** : Is the block that defines the packet boundary. It converts a regular stream to tagged stream. All this block does is add a length tag 'packet_len' with a value 30 (or as you provide). Which means after every 30 items there will be a tag called 'packet_len'.
+
+3. **Stream CRC32** : The first byte of the packet has a tag 'packet_len' with value 30 which means the number of bytes in the packet. The output is the same as input with a trailing CRC32 (4 bytes) of the packet. The tag is also now reset to the new length.
+This is now the payload that we want to transmit. At this step the flow splits up. The top path is for header generator and the bottom is the payload itself.
+
+4. **Protocol Formatter** : Takes in the tagged stream packet and creates a header. This is configurable. In flowgraph, the format object points to an object 'hdr_format'  that we pass to the block. So the block has the conceptual idea on what it does but how it is done is implemented somewhere else. So its something that we do in python code. We generate a OFDM packet header, giving some information on what I want to do. So the right side, it calculates & generates the header and outputs it on this channel. The other channel is used to transport the payload.
+
+5. **Repack bits** : Prepares for modulation (8 bits to 1 bit) for BPSK and (8 bits to 2 bits) for QPSK.
+6. **Virtual Sink** : When paired with a Virtual Source block, this is essentially the same as drawing a wire between two blocks. This block can be useful for tidying up a complex flowgraph.
+7. **Chunks to symbols** : Maps bits to complex symbols. Both the paths can have different modulation scheme. Here we have done BPSK for header and QPSK for payload. After this we have complex symbols.
+8. **Tagged Stream MUX** : Multiplexer : Which still understand packet boundaries. Packets are output sequentially from each input stream. As the input might have different length. The output signal has a new length tag which is the sum of all individual length tags.
+
+9. **OFDM Carrier allocator** : Allocates the sub-carriers/pilot carriers that will be occupied by data or pilot symbols. Add sync words.
+10. **IFFT** : Converts frequency into time domain.
+11. **OFDM cyclic Prefixer** : Adds guard interval. 
+12. **Multiply constant** : reduces the amplitude so that it is within [-1 : +1] range to avoid clipping.
+13. **USRP Sink** : Connects to the antenna
+    
+## Open and edit flowgraph in GNU Radio Companion - receiver node
+1. Open receiver file
+```python
+bash -l
+gnuradio-companion /proj/mww2019/gnuradio-ofdm-example/RX_1.grc
+```
+2. Save the file in /users/username/
+3. In the `File Sink` block, double click to open the properties, and replace `sayazm` with your own username in file location.
+4. The receiver is now ready to receive and decode the signal.
+
+### Brief description of the receciver blocks
+
+1. **USRP Source** : Connects to the receiver antenna. Outputs complex samples to process.
+
+2. **Schmidl & Cox OFDM synchronization** : Used for timing synchronization to detect the start of the packet and frequency offset correction with the preambles (sync words).
+
+3. **Header/Payload Demux** : Demultilexes the header and payload. It takes in the received signal in the incoming port and drops until a trigger (high signal- non zero, Schmidl & Cox OFDM synchronization finds out the position for packet start) value is received. Once it is triggered the sample are passed to the outgoing port 0. As the length of the header is always knwon/fixed it pipes in the fixed number of header into the first sub-flow to demodulate the header. Once the header is demodulated it feeds back the payload information (eg. length of the payload) so that the payload can be demodulated in the second sub-flow.
+
+4. **FFT** : Convert time to frequency domain.
+
+5. **OFDM Channel Estimation** : Calculates channel state with sync words. 
+
+6. **OFDM Frame Equalizer** : Reverses the effect of channel on the received symbol.
+
+7. **OFDM Serializer** : Inverse block of carrier allocator. It discard the pilot symbols and output the data symbols.
+
+8. **Constellation Decoder** : Decodes constillation points into bits.
+
+9. **Packet Header Parser** : Inverse of packet header generator in transmitter. It posts header metadata as a message to the Header Payload demux block.
+
+## Execute the flowgraph
+
+1. Execute the `receiver` file first by clicking Execute/F6 button on the toolbar. 
+2. Execute the `transmit` file.
+2. The signal can be viewed in Time/Frequency domain if QT GUI blocks are added after USRP Source at receiver.
+3. Hit Kill button or F7 to stop the transmitter/receiver flow after few seconds.
+4. Open a new terminal for the receive node and open the the received file.
+```python
+vim /users/username/rx.txt
+```
+5. Basic Parameters that you can modify to check performance: Gain (Tx/Rx), Sampling rate, Bandwidth
+
+## Calculate Packet Error Rate
+
+The `Packet header parser` outputs the metadata of the header. We can use a `Message Debug` block to save the output to a file.
+
+1. Use the search option from the toolbar to find `Message debug block` from the right tree pannel.
+2. Drag and drop the block in the working panel.
+3. Connect the ouput port of Packet Header parser block to the print port of Message Debug block.
+4. Click on `Generate the flow graph` button on the toolbar to save the flow as python script. 
+
+5. Run python script generated from the .grc file in receiver. Directing the output to be saved in a text file. Replace the username with your own username
+```python
+/users/username/OFDM_TX_RX_1.py >> header.txt
+```
+6. Execute the transmit file
+
+7. Make a copy of the python script PER.py to your user directory
+```python
+cp /proj/mww2019/gnuradio-ofdm-example/PER.py /users/..
+```
+
+8. Run python script to calculate PER
+```python
+python3 PER.py
+```
+
+"""
+
+import geni.portal as portal
+import geni.rspec.pg as rspec
+import geni.rspec.emulab.pnext as pn
+import geni.rspec.igext as ig
+
+
+x310_node_disk_image = \
+        "urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD"
+b210_node_disk_image = \
+        "urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD"
+
+setup_command = "/local/repository/startup.sh"
+
+
+def x310_node_pair(idx, x310_radio, node_type, installs):
+    radio_link = request.Link("radio-link-%d"%(idx))
+    radio_link.bandwidth = 10*1000*1000
+
+    node = request.RawPC("%s-comp"%(x310_radio.radio_name))
+    node.hardware_type = node_type
+    node.disk_image = x310_node_disk_image
+
+    service_command = " ".join([setup_command] + installs)
+    node.addService(rspec.Execute(shell="bash", command=service_command))
+
+    node_radio_if = node.addInterface("usrp_if")
+    node_radio_if.addAddress(rspec.IPv4Address("192.168.40.1",
+                                               "255.255.255.0"))
+    radio_link.addInterface(node_radio_if)
+
+    radio = request.RawPC("%s-x310"%(x310_radio.radio_name))
+    radio.component_id = x310_radio.radio_name
+    radio_link.addNode(radio)
+
+
+def b210_nuc_pair(idx, b210_node, installs):
+    b210_nuc_pair_node = request.RawPC("b210-%s-%s"%(b210_node.aggregate_id,b210_node.component_id))
+    agg_full_name = "urn:publicid:IDN+%s.powderwireless.net+authority+cm"%(b210_node.aggregate_id)
+    b210_nuc_pair_node.component_manager_id = agg_full_name
+    b210_nuc_pair_node.component_id = b210_node.component_id
+
+    b210_nuc_pair_node.disk_image = b210_node_disk_image
+
+    service_command = " ".join([setup_command] + installs)
+    b210_nuc_pair_node.addService(
+        rspec.Execute(shell="bash", command=service_command))
+
+
+
+portal.context.defineParameter("x310_pair_nodetype",
+                               "Type of compute node paired with the X310 Radios",
+                               portal.ParameterType.STRING, "d740")
+
+rooftop_names = [
+    ("cbrssdr1-bes",
+     "Behavioral: cbrssdr"),
+    ("cbrssdr1-browning",
+     "Browning: cbrssdr"),
+    ("cbrssdr1-dentistry",
+     "Dentistry: cbrssdr"),
+    ("cbrssdr1-fm",
+     "Friendship Manor: cbrssdr"),
+    ("cbrssdr1-honors",
+     "Honors: cbrssdr"),
+    ("cbrssdr1-meb",
+     "MEB: cbrssdr"),
+    ("cbrssdr1-smt",
+     "SMT: cbrssdr"),
+    ("cbrssdr1-ustar",
+     "USTAR: cbrssdr"),
+    ("cellsdr1-bes",
+     "Behavioral: cellsdr"),
+    ("cellsdr1-browning",
+     "Browning: cellsdr"),
+    ("cellsdr1-dentistry",
+     "Dentistry: cellsdr"),
+    ("cellsdr1-fm",
+     "Friendship Manor: cellsdr"),
+    ("cellsdr1-honors",
+     "Honors: cellsdr"),
+    ("cellsdr1-meb",
+     "MEB: cellsdr"),
+    ("cellsdr1-smt",
+     "SMT: cellsdr"),
+    ("cellsdr1-ustar",
+     "USTAR: cellsdr")
+]
+
+portal.context.defineStructParameter("x310_radios", "X310 Radios", [],
+                                     multiValue=True,
+                                     itemDefaultValue=
+                                     {},
+                                     min=0, max=None,
+                                     members=[
+                                        portal.Parameter(
+                                             "radio_name",
+                                             "Rooftop base-station X310",
+                                             portal.ParameterType.STRING,
+                                             rooftop_names[0],
+                                             rooftop_names)
+                                             
+                                     ])
+
+
+fixed_endpoint_aggregates = [
+    ("web",
+     "Warnock Engineering Building"),
+    ("ebc",
+     "Eccles Broadcast Center"),
+    ("bookstore",
+     "Bookstore"),
+    ("humanities",
+     "Humanities"),
+    ("law73",
+     "Law (building 73)"),
+    ("madsen",
+     "Madsen Clinic"),
+    ("sagepoint",
+     "Sage Point"),
+    ("moran",
+     "Moran Eye Center"),
+]
+
+portal.context.defineStructParameter("b210_nodes", "B210 Radios", [],
+                                     multiValue=True,
+                                     itemDefaultValue=
+                                     {"component_id": "nuc2"},
+                                     min=0, max=None,
+                                     members=[
+                                         portal.Parameter(
+                                             "component_id",
+                                             "Component ID (like nuc2)",
+                                             portal.ParameterType.STRING, ""),
+                                         portal.Parameter(
+                                             "aggregate_id",
+                                             "Fixed Endpoint B210",
+                                             portal.ParameterType.STRING,
+                                             fixed_endpoint_aggregates[0],
+                                             fixed_endpoint_aggregates)
+                                     ],
+                                    )
+
+portal.context.defineParameter("install_srslte",
+                               "Should srsLTE Radio be installed?",
+                               portal.ParameterType.BOOLEAN, True)
+portal.context.defineParameter("install_gnuradio",
+                               "Should GNU Radio (where uhd_fft, uhd_siggen, "
+                               "etc come from be installed?",
+                               portal.ParameterType.BOOLEAN, True)
+
+params = portal.context.bindParameters()
+
+request = portal.context.makeRequestRSpec()
+
+installs = []
+if params.install_srslte:
+    installs.append("srslte")
+
+if params.install_gnuradio:
+    installs.append("gnuradio")
+
+for i, x310_radio in enumerate(params.x310_radios):
+    x310_node_pair(i, x310_radio, params.x310_pair_nodetype, installs)
+
+for i, b210_node in enumerate(params.b210_nodes):
+    b210_nuc_pair(i, b210_node, installs)
+
+
+portal.context.printRequestRSpec()
