@@ -57,7 +57,7 @@ gnuradio-companion /local/repository/gnuradio/TX.grc
 4. In the `File Source` block, double click to open the properties. In the File option browse `/local/repository/gnuradio/file_to_transmit.txt`.
 5. The transmitter is now ready to transmit with default configuration.
 
-### Brief description of the transmitter blocks
+##### Brief description of the transmitter blocks
 
 1. **File Source** : Contains the file we want to transmit (image/text/..)
 Now we have streams of bytes as output without any boundary that defines the start/end of the packet.
@@ -91,7 +91,7 @@ gnuradio-companion /local/repository/gnuradio/RX.grc
 3. In the `File Sink` block, double click to open the properties, and replace `sayazm` with a file, e.g., `rx.txt`, in your own file space.
 4. The receiver is now ready to receive and decode the signal.
 
-### Brief description of the receciver blocks
+##### Brief description of the receciver blocks
 
 1. **USRP Source** : Connects to the receiver antenna. Outputs complex samples to process.
 
@@ -111,7 +111,7 @@ gnuradio-companion /local/repository/gnuradio/RX.grc
 
 9. **Packet Header Parser** : Inverse of packet header generator in transmitter. It posts header metadata as a message to the Header Payload demux block.
 
-## Execute the flowgraph
+#### Execute the flowgraph
 
 1. Execute the `receiver` file first by clicking Execute/F6 button on the toolbar. 
 2. Execute the `transmiter` file.
@@ -123,7 +123,7 @@ vim /users/username/rx.txt
 ```
 5. Basic Parameters that you can modify to check performance: Gain (Tx/Rx), Sampling rate, Bandwidth
 
-## Calculate Packet Error Rate
+#### Calculate Packet Error Rate
 
 The `Packet header parser` outputs the metadata of the header. We can use a `Message Debug` block to save the output to a file.
 
