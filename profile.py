@@ -25,10 +25,6 @@ The instructions below shows how GNU Radio software can be used
 with SDRs connected to the CBRS antennas to transmit and receive
 a file with QPSK over OFDM.
 
-cbrssdr1-browning cbrssdr1-bes
-cbrssdr1-meb cbrssdr1-ustar
-cbrssdr1-honors cbrssdr1-smt
-
 Good node pair options to use for this are:
 
   * **Behavioral: cbrssdr** and **Browning: cbrssdr**
@@ -37,25 +33,28 @@ Good node pair options to use for this are:
 
 Instructions:
 
-## SSH to the nodes
+#### Overview
 
-1. Once the profile is created, go to `List View` option to get the node address.
+We will use one of the nodes in your experiment as the transmitter and
+the other as the receiver.
+
+#### SSH to the nodes
+
+1. Once the profile is instantiated, go to `List View` option to get the node address.
 2. With a remote SSH client login to the nodes. (Must have SSH public key uploaded).
-3. In this experiment your group will be assigned one of the node pairs listed above. You will use one of the nodes as the transmitter and the other as the receiver.
-4. While SSH make sure the X11 forwarding option is enable.
+3. While SSH make sure the X11 forwarding option is enable.
 
-## Open and edit flowgraph in GNU Radio Companion - transmitter node
-
+#### On the transmitter node: Open and edit flowgraph in GNU Radio Companion
 
 GNU Radio provides the building blocks for OFDM modulated signal. We will use these blocks for this experiment.
 
 1. Open transmitter file 
-```python
-bash -l
-gnuradio-companion /proj/mww2019/gnuradio-ofdm-example/TX1.grc
 ```
-3. Save the file in your user directory /users/username/
-4. In the `File Source` block, double click to open the properties. In the File option browse `/proj/mww2019/gnuradio-ofdm-example/file_to_transmit.txt`.
+bash -l
+gnuradio-companion /local/repository/gnuradio/TX.grc
+```
+3. Save the file in your user directory: /users/username/
+4. In the `File Source` block, double click to open the properties. In the File option browse `/local/repository/gnuradio/file_to_transmit.txt`.
 5. The transmitter is now ready to transmit with default configuration.
 
 ### Brief description of the transmitter blocks
@@ -81,14 +80,15 @@ This is now the payload that we want to transmit. At this step the flow splits u
 12. **Multiply constant** : reduces the amplitude so that it is within [-1 : +1] range to avoid clipping.
 13. **USRP Sink** : Connects to the antenna
     
-## Open and edit flowgraph in GNU Radio Companion - receiver node
+#### Receiver node: Open and edit flowgraph in GNU Radio Companion
+
 1. Open receiver file
-```python
+```
 bash -l
-gnuradio-companion /proj/mww2019/gnuradio-ofdm-example/RX_1.grc
+gnuradio-companion /local/repository/gnuradio/RX.grc
 ```
 2. Save the file in /users/username/
-3. In the `File Sink` block, double click to open the properties, and replace `sayazm` with your own username in file location.
+3. In the `File Sink` block, double click to open the properties, and replace `sayazm` with a file, e.g., `rx.txt`, in your own file space.
 4. The receiver is now ready to receive and decode the signal.
 
 ### Brief description of the receciver blocks
@@ -114,11 +114,11 @@ gnuradio-companion /proj/mww2019/gnuradio-ofdm-example/RX_1.grc
 ## Execute the flowgraph
 
 1. Execute the `receiver` file first by clicking Execute/F6 button on the toolbar. 
-2. Execute the `transmit` file.
+2. Execute the `transmiter` file.
 2. The signal can be viewed in Time/Frequency domain if QT GUI blocks are added after USRP Source at receiver.
 3. Hit Kill button or F7 to stop the transmitter/receiver flow after few seconds.
 4. Open a new terminal for the receive node and open the the received file.
-```python
+```
 vim /users/username/rx.txt
 ```
 5. Basic Parameters that you can modify to check performance: Gain (Tx/Rx), Sampling rate, Bandwidth
@@ -133,8 +133,8 @@ The `Packet header parser` outputs the metadata of the header. We can use a `Mes
 4. Click on `Generate the flow graph` button on the toolbar to save the flow as python script. 
 
 5. Run python script generated from the .grc file in receiver. Directing the output to be saved in a text file. Replace the username with your own username
-```python
-/users/username/OFDM_TX_RX_1.py >> header.txt
+```
+python /users/username/OFDM_TX_RX_1.py >> header.txt
 ```
 6. Execute the transmit file
 
