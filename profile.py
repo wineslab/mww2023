@@ -166,10 +166,10 @@ setup_command = "/local/repository/startup.sh"
 
 def x310_node_pair(idx, x310_radio, node_type, installs):
     radio_link = request.Link("radio-link-%d"%(idx))
-    if node_type == "d840":
-        radio_link.bandwidth = 40000000
-    else:
-        radio_link.bandwidth = 10*1000*1000
+#    if node_type == "d840":
+#        radio_link.bandwidth = 40000000
+#    else:
+#        radio_link.bandwidth = 10*1000*1000
 
     node = request.RawPC("%s-comp"%(x310_radio.radio_name))
     node.hardware_type = node_type
