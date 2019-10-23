@@ -144,7 +144,7 @@ cp /proj/mww2019/gnuradio-ofdm-example/PER.py /users/..
 ```
 
 8. Run python script to calculate PER
-```python
+```
 python3 PER.py
 ```
 
