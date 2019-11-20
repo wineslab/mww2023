@@ -4,22 +4,16 @@
 This profile allows the allocation of resources for over-the-air
 operation on the POWDER platform. Specifically, the profile has
 options to request the allocation of SDR radios in rooftop 
-base-stations and fixed-endpoints (i.e., nodes deployed at
-human height).
+base-stations.
 
 Map of deployment is here:
 https://www.powderwireless.net/map
 
-The base-station SDRs are X310s and connected to an antenna
-covering the cellular band (1695 - 2690 MHz), i.e., cellsdr,
-or to an antenna covering the CBRS band (3400 - 3800 MHz), i.e.,
-cbrssdr. Each X310 is paired with a compute node (by default
+This profile works with the CBRS band (3400 - 3800 MHz) NI/Ettus X310
+base-station radios in POWDER.  The naming scheme for these radios is
+cbrssdr1-&lt;location$gt;, where 'location' is one of the rooftop names
+shown in the above map. Each X310 is paired with a compute node (by default
 a Dell d740).
-
-The fixed-endpoint SDRs are B210s each of which is paired with 
-an Intel NUC small form factor compute node. Both B210s are connected
-to broadband antennas: nuc1 is connected in an RX only configuration,
-while nuc2 is connected in a TX/RX configuration.
 
 The instructions below shows how GNU Radio software can be used
 with SDRs connected to the CBRS antennas to transmit and receive
@@ -156,22 +150,21 @@ import geni.rspec.emulab.pnext as pn
 import geni.rspec.igext as ig
 
 
+# Global Variables
 x310_node_disk_image = \
         "urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD"
-b210_node_disk_image = \
-        "urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD"
-
 setup_command = "/local/repository/startup.sh"
+installs = ["gnuradio"]
 
+# Top-level request object.
+request = portal.context.makeRequestRSpec()
 
+# Helper function that allocates a PC + X310 radio pair, with Ethernet
+# link between them.
 def x310_node_pair(idx, x310_radio, node_type, installs):
-    radio_link = request.Link("radio-link-%d"%(idx))
-#    if node_type == "d840":
-#        radio_link.bandwidth = 40000000
-#    else:
-#        radio_link.bandwidth = 10*1000*1000
+    radio_link = request.Link("radio-link-%d" % idx)
 
-    node = request.RawPC("%s-comp"%(x310_radio.radio_name))
+    node = request.RawPC("%s-comp" % x310_radio.radio_name)
     node.hardware_type = node_type
     node.disk_image = x310_node_disk_image
 
@@ -183,68 +176,41 @@ def x310_node_pair(idx, x310_radio, node_type, installs):
                                                "255.255.255.0"))
     radio_link.addInterface(node_radio_if)
 
-    radio = request.RawPC("%s-x310"%(x310_radio.radio_name))
+    radio = request.RawPC("%s-x310" % x310_radio.radio_name)
     radio.component_id = x310_radio.radio_name
     radio_link.addNode(radio)
 
-
-def b210_nuc_pair(idx, b210_node, installs):
-    b210_nuc_pair_node = request.RawPC("b210-%s-%s"%(b210_node.aggregate_id,b210_node.component_id))
-    agg_full_name = "urn:publicid:IDN+%s.powderwireless.net+authority+cm"%(b210_node.aggregate_id)
-    b210_nuc_pair_node.component_manager_id = agg_full_name
-    b210_nuc_pair_node.component_id = b210_node.component_id
-
-    b210_nuc_pair_node.disk_image = b210_node_disk_image
-
-    service_command = " ".join([setup_command] + installs)
-    b210_nuc_pair_node.addService(
-        rspec.Execute(shell="bash", command=service_command))
-
-
-
+# Node type parameter for PCs to be paired with X310 radios.
+# Restricted to those that are known to work well with them.
 portal.context.defineParameter("x310_pair_nodetype",
                                "Type of compute node paired with the X310 Radios",
-                               portal.ParameterType.STRING, "d740")
+                               portal.ParameterType.NODETYPE, "d740",
+                               ["d740","d430"])
 
+# List of CBRS rooftop X310 radios.
 rooftop_names = [
     ("cbrssdr1-bes",
-     "Behavioral: cbrssdr"),
+     "Behavioral"),
     ("cbrssdr1-browning",
-     "Browning: cbrssdr"),
+     "Browning"),
     ("cbrssdr1-dentistry",
-     "Dentistry: cbrssdr"),
+     "Dentistry"),
     ("cbrssdr1-fm",
-     "Friendship Manor: cbrssdr"),
+     "Friendship Manor"),
     ("cbrssdr1-honors",
-     "Honors: cbrssdr"),
+     "Honors"),
     ("cbrssdr1-meb",
-     "MEB: cbrssdr"),
+     "MEB"),
     ("cbrssdr1-smt",
-     "SMT: cbrssdr"),
+     "SMT"),
     ("cbrssdr1-ustar",
-     "USTAR: cbrssdr"),
-    ("cellsdr1-bes",
-     "Behavioral: cellsdr"),
-    ("cellsdr1-browning",
-     "Browning: cellsdr"),
-    ("cellsdr1-dentistry",
-     "Dentistry: cellsdr"),
-    ("cellsdr1-fm",
-     "Friendship Manor: cellsdr"),
-    ("cellsdr1-honors",
-     "Honors: cellsdr"),
-    ("cellsdr1-meb",
-     "MEB: cellsdr"),
-    ("cellsdr1-smt",
-     "SMT: cellsdr"),
-    ("cellsdr1-ustar",
-     "USTAR: cellsdr")
+     "USTAR"),
 ]
 
-portal.context.defineStructParameter("x310_radios", "X310 Radios", [],
+# Multi-value list of x310+PC pairs to add to experiment.
+portal.context.defineStructParameter("x310_radios", "X310 CBRS Radios", [],
                                      multiValue=True,
-                                     itemDefaultValue=
-                                     {},
+                                     itemDefaultValue={},
                                      min=0, max=None,
                                      members=[
                                         portal.Parameter(
@@ -256,69 +222,9 @@ portal.context.defineStructParameter("x310_radios", "X310 Radios", [],
                                              
                                      ])
 
-
-fixed_endpoint_aggregates = [
-    ("web",
-     "Warnock Engineering Building"),
-    ("ebc",
-     "Eccles Broadcast Center"),
-    ("bookstore",
-     "Bookstore"),
-    ("humanities",
-     "Humanities"),
-    ("law73",
-     "Law (building 73)"),
-    ("madsen",
-     "Madsen Clinic"),
-    ("sagepoint",
-     "Sage Point"),
-    ("moran",
-     "Moran Eye Center"),
-]
-
-portal.context.defineStructParameter("b210_nodes", "B210 Radios", [],
-                                     multiValue=True,
-                                     itemDefaultValue=
-                                     {"component_id": "nuc2"},
-                                     min=0, max=None,
-                                     members=[
-                                         portal.Parameter(
-                                             "component_id",
-                                             "Component ID (like nuc2)",
-                                             portal.ParameterType.STRING, ""),
-                                         portal.Parameter(
-                                             "aggregate_id",
-                                             "Fixed Endpoint B210",
-                                             portal.ParameterType.STRING,
-                                             fixed_endpoint_aggregates[0],
-                                             fixed_endpoint_aggregates)
-                                     ],
-                                    )
-
-portal.context.defineParameter("install_srslte",
-                               "Should srsLTE Radio be installed?",
-                               portal.ParameterType.BOOLEAN, True)
-portal.context.defineParameter("install_gnuradio",
-                               "Should GNU Radio (where uhd_fft, uhd_siggen, "
-                               "etc come from be installed?",
-                               portal.ParameterType.BOOLEAN, True)
-
 params = portal.context.bindParameters()
-
-request = portal.context.makeRequestRSpec()
-
-installs = []
-if params.install_srslte:
-    installs.append("srslte")
-
-if params.install_gnuradio:
-    installs.append("gnuradio")
 
 for i, x310_radio in enumerate(params.x310_radios):
     x310_node_pair(i, x310_radio, params.x310_pair_nodetype, installs)
-
-for i, b210_node in enumerate(params.b210_nodes):
-    b210_nuc_pair(i, b210_node, installs)
-
 
 portal.context.printRequestRSpec()
