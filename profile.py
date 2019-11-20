@@ -184,7 +184,7 @@ def x310_node_pair(idx, x310_radio, node_type, installs):
 # Restricted to those that are known to work well with them.
 portal.context.defineParameter("x310_pair_nodetype",
                                "Type of compute node paired with the X310 Radios",
-                               portal.ParameterType.NODETYPE, "d740",
+                               portal.ParameterType.STRING, "d740",
                                ["d740","d430"])
 
 # List of CBRS rooftop X310 radios.
@@ -219,7 +219,7 @@ portal.context.defineStructParameter(
             "Rooftop base-station X310",
             portal.ParameterType.STRING,
             rooftop_names[0],
-            rooftop_names)  
+            rooftop_names)
     ])
 
 params = portal.context.bindParameters()
