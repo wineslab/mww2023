@@ -215,25 +215,19 @@ portal.context.defineStructParameter(
     "freq_ranges", "Frequency ranges for over-the-air operation.", [],
     multiValue=True,
     min=1,
-    itemDefaultValue={},
     members=[
-        portal.StructParameter(
-            "freq_range",
-            "Frequency Range",
-            members=[
-                portal.Parameter(
-                    "freq_min",
-                    "Frequency Min",
-                    portal.ParameterType.STRING,
-                    "3550.0"
-                ),
-                portal.Parameter(
-                    "freq_max",
-                    "Frequency Max",
-                    portal.ParameterType.STRING,
-                    "3560.0"
-                ),
-            ])
+        portal.Parameter(
+            "freq_min",
+            "Frequency Min",
+            portal.ParameterType.STRING,
+            "3550.0"
+        ),
+        portal.Parameter(
+            "freq_max",
+            "Frequency Max",
+            portal.ParameterType.STRING,
+            "3560.0"
+        ),
     ])
     
 # Multi-value list of x310+PC pairs to add to experiment.
