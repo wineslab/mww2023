@@ -182,10 +182,13 @@ def x310_node_pair(idx, x310_radio_name, node_type, installs):
 
 # Node type parameter for PCs to be paired with X310 radios.
 # Restricted to those that are known to work well with them.
-portal.context.defineParameter("x310_pair_nodetype",
-                               "Type of compute node paired with the X310 Radios",
-                               portal.ParameterType.STRING, "d740",
-                               ["d740","d430"])
+portal.context.defineParameter(
+    "nodetype",
+    "Compute node type",
+    portal.ParameterType.STRING, "d740",
+    ["d740","d430"],
+    "Type of compute node to be paired with the X310 Radios",
+)
 
 # List of CBRS rooftop X310 radios.
 rooftop_names = [
@@ -207,9 +210,35 @@ rooftop_names = [
      "USTAR"),
 ]
 
+# Frequency/spectrum parameters
+portal.context.defineStructParameter(
+    "freq_ranges", "Frequency ranges for over-the-air operation.", [],
+    multiValue=True,
+    min=1,
+    itemDefaultValue={},
+    members=[
+        portal.StructParameter(
+            "freq_range",
+            "Frequency Range",
+            members=[
+                portal.Parameter(
+                    "freq_min",
+                    "Frequency Min",
+                    portal.ParameterType.STRING,
+                    "3550.0"
+                ),
+                portal.Parameter(
+                    "freq_max",
+                    "Frequency Max",
+                    portal.ParameterType.STRING,
+                    "3560.0"
+                ),
+            ])
+    ])
+    
 # Multi-value list of x310+PC pairs to add to experiment.
 portal.context.defineStructParameter(
-    "x310_radios", "X310 CBRS Radios",
+    "radios", "X310 CBRS Radios",
     multiValue=False,
     members=[
         portal.Parameter(
@@ -228,7 +257,7 @@ portal.context.defineStructParameter(
 
 params = portal.context.bindParameters()
 
-x310_node_pair(1, params.x310_radios.radio_name1, params.x310_pair_nodetype, installs)
-x310_node_pair(2, params.x310_radios.radio_name2, params.x310_pair_nodetype, installs)
+x310_node_pair(1, params.radios.radio_name1, params.nodetype, installs)
+x310_node_pair(2, params.radios.radio_name2, params.nodetype, installs)
 
 portal.context.printRequestRSpec()
