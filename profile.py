@@ -144,9 +144,11 @@ python3 PER.py
 
 """
 
+# Library imports
 import geni.portal as portal
 import geni.rspec.pg as rspec
 import geni.rspec.emulab.pnext as pn
+import geni.rspec.emulab.spectrum as spectrum
 import geni.rspec.igext as ig
 
 
@@ -212,7 +214,7 @@ rooftop_names = [
 
 # Frequency/spectrum parameters
 portal.context.defineStructParameter(
-    "freq_ranges", "Ranges", [],
+    "freq_ranges", "Range", [],
     multiValue=True,
     min=1,
     multiValueTitle="Frequency ranges for over-the-air operation.",
@@ -220,14 +222,16 @@ portal.context.defineStructParameter(
         portal.Parameter(
             "freq_min",
             "Frequency Min",
-            portal.ParameterType.STRING,
-            "3550.0"
+            portal.ParameterType.BANDWIDTH,
+            3550.0,
+            longDescription="Values are rounded to the nearest kilohertz."
         ),
         portal.Parameter(
             "freq_max",
             "Frequency Max",
-            portal.ParameterType.STRING,
-            "3560.0"
+            portal.ParameterType.BANDWIDTH,
+            3560.0,
+            longDescription="Values are rounded to the nearest kilohertz."
         ),
     ])
     
@@ -250,9 +254,27 @@ portal.context.defineStructParameter(
             rooftop_names)
     ])
 
+# Bind and verify parameters
 params = portal.context.bindParameters()
 
+for frange in params.freq_ranges:
+    if frange.freq_min < 3400 or frange.freq_min > 3800 \
+       or frange.freq_max < 3400 or frange.freq_max > 3800:
+        perr = portal.ParameterError("Frequencies must be between 3400 and 3800 MHz", ['freq_min', 'freq_max'])
+        portal.context.reportError(perr)
+    if frange.freq_max - frange.freq_min < 1:
+        perr = portal.ParameterError("Minimum and maximum frequencies must be separated by at least 1 MHz", ['freq_min', 'freq_max'])
+        portal.context.reportError(perr)
+
+portal.context.verifyParameters()
+
+# Request frequency range(s)
+for frange in params.freq_ranges:
+    request.requestSpectrum(frange.freq_min, frange.freq_max, 100)
+
+# Request PC + X310 resource pairs.
 x310_node_pair(1, params.radios.radio_name1, params.nodetype, installs)
 x310_node_pair(2, params.radios.radio_name2, params.nodetype, installs)
 
+# Emit!
 portal.context.printRequestRSpec()
