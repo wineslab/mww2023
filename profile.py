@@ -212,10 +212,10 @@ rooftop_names = [
 
 # Frequency/spectrum parameters
 portal.context.defineStructParameter(
-    "freq_ranges", "Frequency ranges for over-the-air operation.", [],
+    "freq_ranges", "Ranges", [],
     multiValue=True,
     min=1,
-    multiValueTitle="Ranges",
+    multiValueTitle="Frequency ranges for over-the-air operation.",
     members=[
         portal.Parameter(
             "freq_min",
