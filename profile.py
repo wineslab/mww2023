@@ -208,19 +208,19 @@ rooftop_names = [
 ]
 
 # Multi-value list of x310+PC pairs to add to experiment.
-portal.context.defineStructParameter("x310_radios", "X310 CBRS Radios", [],
-                                     multiValue=True,
-                                     itemDefaultValue={},
-                                     min=0, max=None,
-                                     members=[
-                                        portal.Parameter(
-                                             "radio_name",
-                                             "Rooftop base-station X310",
-                                             portal.ParameterType.STRING,
-                                             rooftop_names[0],
-                                             rooftop_names)
-                                             
-                                     ])
+portal.context.defineStructParameter(
+    "x310_radios", "X310 CBRS Radios", [],
+    multiValue=True,
+    itemDefaultValue={},
+    min=0, max=None,
+    members=[
+        portal.Parameter(
+            "radio_name",
+            "Rooftop base-station X310",
+            portal.ParameterType.STRING,
+            rooftop_names[0],
+            rooftop_names)  
+    ])
 
 params = portal.context.bindParameters()
 
