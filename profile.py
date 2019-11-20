@@ -215,6 +215,7 @@ portal.context.defineStructParameter(
     "freq_ranges", "Frequency ranges for over-the-air operation.", [],
     multiValue=True,
     min=1,
+    multiValueTitle="Ranges",
     members=[
         portal.Parameter(
             "freq_min",
