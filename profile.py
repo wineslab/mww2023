@@ -161,10 +161,10 @@ request = portal.context.makeRequestRSpec()
 
 # Helper function that allocates a PC + X310 radio pair, with Ethernet
 # link between them.
-def x310_node_pair(idx, x310_radio, node_type, installs):
+def x310_node_pair(idx, x310_radio_name, node_type, installs):
     radio_link = request.Link("radio-link-%d" % idx)
 
-    node = request.RawPC("%s-comp" % x310_radio.radio_name)
+    node = request.RawPC("%s-comp" % x310_radio_name)
     node.hardware_type = node_type
     node.disk_image = x310_node_disk_image
 
@@ -176,8 +176,8 @@ def x310_node_pair(idx, x310_radio, node_type, installs):
                                                "255.255.255.0"))
     radio_link.addInterface(node_radio_if)
 
-    radio = request.RawPC("%s-x310" % x310_radio.radio_name)
-    radio.component_id = x310_radio.radio_name
+    radio = request.RawPC("%s-x310" % x310_radio_name)
+    radio.component_id = x310_radio_name
     radio_link.addNode(radio)
 
 # Node type parameter for PCs to be paired with X310 radios.
@@ -228,7 +228,7 @@ portal.context.defineStructParameter(
 
 params = portal.context.bindParameters()
 
-for i, x310_radio in enumerate(params.x310_radios):
-    x310_node_pair(i, x310_radio, params.x310_pair_nodetype, installs)
+x310_node_pair(1, params.x310_radios.radio_name1, params.x310_pair_nodetype, installs)
+x310_node_pair(2, params.x310_radios.radio_name2, params.x310_pair_nodetype, installs)
 
 portal.context.printRequestRSpec()
