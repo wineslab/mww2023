@@ -257,13 +257,13 @@ portal.context.defineStructParameter(
 # Bind and verify parameters
 params = portal.context.bindParameters()
 
-for frange in params.freq_ranges:
+for i, frange in enumerate(params.freq_ranges):
     if frange.freq_min < 3400 or frange.freq_min > 3800 \
        or frange.freq_max < 3400 or frange.freq_max > 3800:
-        perr = portal.ParameterError("Frequencies must be between 3400 and 3800 MHz", ['freq_min', 'freq_max'])
+        perr = portal.ParameterError("Frequencies must be between 3400 and 3800 MHz", ["freq_ranges[%d].freq_min" % i, "freq_ranges[%d].freq_max" % i])
         portal.context.reportError(perr)
     if frange.freq_max - frange.freq_min < 1:
-        perr = portal.ParameterError("Minimum and maximum frequencies must be separated by at least 1 MHz", ['freq_min', 'freq_max'])
+        perr = portal.ParameterError("Minimum and maximum frequencies must be separated by at least 1 MHz", ["freq_ranges[%d].freq_min" % i, "freq_ranges[%d].freq_max" % i])
         portal.context.reportError(perr)
 
 portal.context.verifyParameters()
