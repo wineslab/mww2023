@@ -6,7 +6,7 @@ for thing in $*
 do
     case $thing in
         gnuradio)
-            sudo DEBIAN_FRONTEND=noninteractive apt-get install -y gnuradio
+            sudo DEBIAN_FRONTEND=noninteractive apt-get install -y gnuradio python3-gi gobject-introspection gir1.2-gtk-3.0 python3-cairo python3-gi-cairo
             ;;
 
         srslte)
