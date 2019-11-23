@@ -302,7 +302,7 @@ blocks:
     alias: ''
     append: 'False'
     comment: ''
-    file: /users/sayazm/rx.txt
+    file: /tmp/rx.txt
     type: byte
     unbuffered: 'True'
     vlen: '1'
