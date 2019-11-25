@@ -69,8 +69,6 @@ rooftop_names = [
      "Friendship Manor"),
     ("cbrssdr1-honors",
      "Honors"),
-    ("cbrssdr1-meb",
-     "MEB"),
     ("cbrssdr1-smt",
      "SMT"),
     ("cbrssdr1-ustar",
