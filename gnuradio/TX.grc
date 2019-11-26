@@ -598,7 +598,7 @@ blocks:
     bw7: '0'
     bw8: '0'
     bw9: '0'
-    center_freq0: 3.5e9
+    center_freq0: 3.555e9
     center_freq1: '0'
     center_freq10: '0'
     center_freq11: '0'

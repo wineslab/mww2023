@@ -105,7 +105,7 @@ class OFDM_TX_RX_1(gr.top_block, Qt.QWidget):
             ),
             '',
         )
-        self.uhd_usrp_sink_0.set_center_freq(3.5e9, 0)
+        self.uhd_usrp_sink_0.set_center_freq(3.555e9, 0)
         self.uhd_usrp_sink_0.set_gain(31, 0)
         self.uhd_usrp_sink_0.set_antenna('TX/RX', 0)
         self.uhd_usrp_sink_0.set_bandwidth(0.5e6, 0)
