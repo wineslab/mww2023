@@ -34,8 +34,7 @@ def x310_node_pair(idx, x310_radio_name, node_type):
     node.hardware_type = node_type
     node.disk_image = x310_node_disk_image
 
-    #service_command = " ".join([setup_command] + installs)
-    #node.addService(rspec.Execute(shell="bash", command=service_command))
+    node.addService(rspec.Execute(shell="bash", command=setup_command))
 
     node_radio_if = node.addInterface("usrp_if")
     node_radio_if.addAddress(rspec.IPv4Address("192.168.40.1",
