@@ -114,7 +114,7 @@ portal.context.verifyParameters()
 
 # Request frequency range(s)
 for frange in params.freq_ranges:
-    request.requestSpectrum(frange.freq_min, frange.freq_max, 100)
+    request.requestSpectrum(frange.freq_min, frange.freq_max, 0)
 
 # Request PC + X310 resource pairs.
 i = 1
