@@ -20,21 +20,22 @@ import geni.rspec.igext as ig
 # Global Variables
 x310_node_disk_image = \
         "urn:publicid:IDN+emulab.net+image+PowderTeam:U18-GR-PBUF"
-setup_command = "/local/repository/startup.sh"
+setup_command = "/local/repository/bin/startup.sh"
 
 # Top-level request object.
 request = portal.context.makeRequestRSpec()
 
 # Helper function that allocates a PC + X310 radio pair, with Ethernet
 # link between them.
-def x310_node_pair(idx, x310_radio_name, node_type):
+def x310_node_pair(idx, x310_radio_name, node_type, orchhost):
     radio_link = request.Link("radio-link-%d" % idx)
 
     node = request.RawPC("%s-comp" % x310_radio_name)
     node.hardware_type = node_type
     node.disk_image = x310_node_disk_image
 
-    node.addService(rspec.Execute(shell="bash", command=setup_command))
+    node.addService(rspec.Execute(shell="bash",
+                                  command=setup_command + " %s" % orchhost))
 
     node_radio_if = node.addInterface("usrp_if")
     node_radio_if.addAddress(rspec.IPv4Address("192.168.40.1",
