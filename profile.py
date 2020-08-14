@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 """
-Allocate ALL of the rooftop CBRS radios (with GNU Radio and Ayaz' OFDM stuff).
+Allocate some number of X310 radios (+ compute) for doing measurements.
 
 Instructions:
 
@@ -28,15 +28,15 @@ request = portal.context.makeRequestRSpec()
 
 # Helper function that allocates a PC + X310 radio pair, with Ethernet
 # link between them.
-def x310_node_pair(idx, x310_radio_name, node_type, installs):
+def x310_node_pair(idx, x310_radio_name, node_type):
     radio_link = request.Link("radio-link-%d" % idx)
 
     node = request.RawPC("%s-comp" % x310_radio_name)
     node.hardware_type = node_type
     node.disk_image = x310_node_disk_image
 
-    service_command = " ".join([setup_command] + installs)
-    node.addService(rspec.Execute(shell="bash", command=service_command))
+    #service_command = " ".join([setup_command] + installs)
+    #node.addService(rspec.Execute(shell="bash", command=service_command))
 
     node_radio_if = node.addInterface("usrp_if")
     node_radio_if.addAddress(rspec.IPv4Address("192.168.40.1",
@@ -74,6 +74,22 @@ rooftop_names = [
     ("cbrssdr1-ustar",
      "USTAR"),
 ]
+
+# Set of X310 radios to allocate
+portal.context.defineStructParameter(
+    "radio_sites", "Radio Sites", [],
+    multiValue=True,
+    min=1,
+    multiValueTitle="X310 radios to allocate.",
+    members=[
+        portal.Parameter(
+            "radio",
+            "Radio Site",
+            portal.ParameterType.STRING,
+            rooftop_names[0], rooftop_names,
+            longDescription="X310 radio will be allocated from selected site."
+        ),
+    ])
 
 # Frequency/spectrum parameters
 portal.context.defineStructParameter(
@@ -117,9 +133,9 @@ for frange in params.freq_ranges:
     request.requestSpectrum(frange.freq_min, frange.freq_max, 0)
 
 # Request PC + X310 resource pairs.
-i = 1
-for rname,dummy in rooftop_names:
-    x310_node_pair(i, rname, params.nodetype, installs)
+i = 0
+for rsite in params.radio_sites:
+    x310_node_pair(i, rsite.radio, params.nodetype, installs)
     i += 1
 
 # Emit!
