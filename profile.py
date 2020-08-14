@@ -20,6 +20,7 @@ import geni.rspec.igext as ig
 # Global Variables
 x310_node_disk_image = \
         "urn:publicid:IDN+emulab.net+image+PowderTeam:U18-GR-PBUF"
+orch_image = x310_node_disk_image
 setup_command = "/local/repository/bin/startup.sh"
 
 # Top-level request object.
@@ -54,6 +55,15 @@ portal.context.defineParameter(
     portal.ParameterType.STRING, "d740",
     ["d740","d430"],
     "Type of compute node to be paired with the X310 Radios",
+)
+
+# Node type for the orchestrator.
+portal.context.defineParameter(
+    "orchtype",
+    "Orchestrator node type",
+    portal.ParameterType.STRING, "",
+    ["", "d430","d740"],
+    "Type of compute node for the orchestrator (unset == 'any available')",
 )
 
 # List of CBRS rooftop X310 radios.
@@ -127,15 +137,20 @@ for i, frange in enumerate(params.freq_ranges):
 
 portal.context.verifyParameters()
 
-# Request frequency range(s)
-for frange in params.freq_ranges:
-    request.requestSpectrum(frange.freq_min, frange.freq_max, 0)
+# Allocate orchestrator node
+orch = request.RawPC("orch")
+orch.disk_image = orch_image
+orch.hardware_type = params.orchtype
 
 # Request PC + X310 resource pairs.
 i = 0
 for rsite in params.radio_sites:
-    x310_node_pair(i, rsite.radio, params.nodetype)
+    x310_node_pair(i, rsite.radio, params.nodetype, orch.name)
     i += 1
+
+# Request frequency range(s)
+for frange in params.freq_ranges:
+    request.requestSpectrum(frange.freq_min, frange.freq_max, 0)
 
 # Emit!
 portal.context.printRequestRSpec()
