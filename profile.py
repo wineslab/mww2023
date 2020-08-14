@@ -21,7 +21,6 @@ import geni.rspec.igext as ig
 x310_node_disk_image = \
         "urn:publicid:IDN+emulab.net+image+PowderTeam:U18-GR-PBUF"
 setup_command = "/local/repository/startup.sh"
-installs = ["gnuradio"]
 
 # Top-level request object.
 request = portal.context.makeRequestRSpec()
@@ -135,7 +134,7 @@ for frange in params.freq_ranges:
 # Request PC + X310 resource pairs.
 i = 0
 for rsite in params.radio_sites:
-    x310_node_pair(i, rsite.radio, params.nodetype, installs)
+    x310_node_pair(i, rsite.radio, params.nodetype)
     i += 1
 
 # Emit!
