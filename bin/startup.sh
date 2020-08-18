@@ -16,6 +16,6 @@ cd $REPODIR
 git submodule update --init --remote || \
     { echo "Failed to update git submodules!" && exit 1; }
 
-$MEASSRC/meascli.py -s $ORCHHOST
+#$MEASSRC/meascli.py -s $ORCHHOST
 
 exit 0
