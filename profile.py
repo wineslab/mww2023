@@ -82,6 +82,8 @@ rooftop_names = [
      "SMT"),
     ("cbrssdr1-ustar",
      "USTAR"),
+    ("cbrssdr1-hospital",
+     "Hospital"),
 ]
 
 # Set of X310 radios to allocate
