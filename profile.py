@@ -21,7 +21,7 @@ import geni.rspec.igext as ig
 x310_node_disk_image = \
         "urn:publicid:IDN+emulab.net+image+PowderTeam:U18-GR-PBUF"
 orch_image = x310_node_disk_image
-setup_command = "/local/repository/bin/startup.sh"
+#setup_command = "/local/repository/bin/startup.sh"
 
 # Top-level request object.
 request = portal.context.makeRequestRSpec()
@@ -35,8 +35,8 @@ def x310_node_pair(idx, x310_radio_name, node_type, orchhost):
     node.hardware_type = node_type
     node.disk_image = x310_node_disk_image
 
-    node.addService(rspec.Execute(shell="bash",
-                                  command=setup_command + " %s" % orchhost))
+    #node.addService(rspec.Execute(shell="bash",
+    #                              command=setup_command + " %s" % orchhost))
 
     node_radio_if = node.addInterface("usrp_if")
     node_radio_if.addAddress(rspec.IPv4Address("192.168.40.1",
