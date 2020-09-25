@@ -68,6 +68,8 @@ portal.context.defineParameter(
 
 # List of CBRS rooftop X310 radios.
 rooftop_names = [
+    ("cbrssdr1-meb",
+     "MEB"),
     ("cbrssdr1-bes",
      "Behavioral"),
     ("cbrssdr1-browning",
