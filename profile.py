@@ -25,7 +25,8 @@ meas_disk_image = \
 orch_image = meas_disk_image
 x310_node_image = meas_disk_image
 nuc_image = meas_disk_image
-#setup_command = "/local/repository/bin/startup.sh"
+clisetup_cmd = "/local/repository/bin/cli-startup.sh"
+orchsetup_cmd = "/local/repository/bin/orch-startup.sh"
 
 # Top-level request object.
 request = portal.context.makeRequestRSpec()
@@ -39,8 +40,8 @@ def x310_node_pair(x310_radio_name, node_type, orchhost):
     node.hardware_type = node_type
     node.disk_image = x310_node_image
 
-    #node.addService(rspec.Execute(shell="bash",
-    #                              command=setup_command + " %s" % orchhost))
+    node.addService(rspec.Execute(shell="bash",
+                                  command=clisetup_cmd + " %s" % orchhost))
 
     node_radio_if = node.addInterface("usrp_if")
     node_radio_if.addAddress(rspec.IPv4Address("192.168.40.1",
@@ -281,6 +282,7 @@ portal.context.verifyParameters()
 orch = request.RawPC("orch")
 orch.disk_image = orch_image
 orch.hardware_type = params.orchtype
+orch.addService(rspec.Execute(shell="bash", command=orchsetup_cmd))
 
 # Request PC + CBRS X310 resource pairs.
 for rsite in params.cbrs_radio_sites:

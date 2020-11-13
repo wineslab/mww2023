@@ -4,7 +4,7 @@ ORCHNAME=$1
 
 EMUBOOT=/var/emulab/boot
 REPODIR=/local/repository
-MEASSRC=/local/repository/thesis/src
+SHOUTSRC=/local/repository/shout
 
 HNAME=`hostname`
 HARR=(${HNAME//./ })
@@ -16,6 +16,6 @@ cd $REPODIR
 git submodule update --init --remote || \
     { echo "Failed to update git submodules!" && exit 1; }
 
-#$MEASSRC/meascli.py -s $ORCHHOST
+$SHOUTSRC/meascli.py -d -s $ORCHHOST
 
 exit 0
