@@ -192,7 +192,7 @@ portal.context.defineStructParameter(
 portal.context.defineStructParameter(
     "cbrs_freq_ranges", "CBRS Frequency Ranges", [],
     multiValue=True,
-    min=1,
+    min=0,
     multiValueTitle="Frequency ranges for CBRS operation.",
     members=[
         portal.Parameter(
@@ -214,7 +214,7 @@ portal.context.defineStructParameter(
 portal.context.defineStructParameter(
     "b7_freq_ranges", "Band 7 Frequency Ranges", [],
     multiValue=True,
-    min=1,
+    min=0,
     multiValueTitle="Frequency ranges for Band 7 cellular operation.",
     members=[
         portal.Parameter(
