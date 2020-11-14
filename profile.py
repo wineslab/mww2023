@@ -228,7 +228,7 @@ portal.context.defineStructParameter(
             "ul_freq_max",
             "Uplink Frequency Max",
             portal.ParameterType.BANDWIDTH,
-            2570.0,
+            2510.0,
             longDescription="Values are rounded to the nearest kilohertz."
         ),
         portal.Parameter(
@@ -242,7 +242,7 @@ portal.context.defineStructParameter(
             "dl_freq_max",
             "Downlink Frequency Max",
             portal.ParameterType.BANDWIDTH,
-            2690.0,
+            2630.0,
             longDescription="Values are rounded to the nearest kilohertz."
         ),
     ])
@@ -302,6 +302,7 @@ for fesite in params.fe_radio_sites:
     nuc.component_manager_id = fesite.site
     nuc.component_id = "nuc2"
     nuc.disk_image = nuc_image
+    nuc.addService(rspec.Execute(shell="bash", command=clisetup_cmd))
     
 # Request frequency range(s)
 for frange in params.cbrs_freq_ranges:
