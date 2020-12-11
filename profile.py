@@ -183,7 +183,7 @@ portal.context.defineStructParameter(
             "FE Site",
             portal.ParameterType.STRING,
             fe_sites[0], fe_sites,
-            longDescription="A `nuc2` device will be selected at the site."
+            longDescription="A `nuc1` device will be selected at the site."
         ),
     ])
 
@@ -292,7 +292,7 @@ for rsite in params.cbrs_radio_sites:
 for rsite in params.cell_radio_sites:
     x310_node_pair(rsite.radio, params.nodetype, orch.name)
 
-# Request nuc2+B210 radio resources at FE sites.
+# Request nuc1+B210 radio resources at FE sites.
 for fesite in params.fe_radio_sites:
     nuc = ""
     for urn,sname in fe_sites:
@@ -300,7 +300,7 @@ for fesite in params.fe_radio_sites:
             nuc = request.RawPC("%s-b210" % sname)
             break
     nuc.component_manager_id = fesite.site
-    nuc.component_id = "nuc2"
+    nuc.component_id = "nuc1"
     nuc.disk_image = nuc_image
     nuc.addService(rspec.Execute(shell="bash", command=clisetup_cmd))
     
