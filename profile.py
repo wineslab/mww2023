@@ -171,12 +171,12 @@ portal.context.defineStructParameter(
         ),
     ])
 
-# Set of Fixed Endpoint devices to allocate
+# Set of Fixed Endpoint devices to allocate (nuc1)
 portal.context.defineStructParameter(
-    "fe_radio_sites", "Fixed Endpoint Sites", [],
+    "fe_radio_sites_nuc1", "Fixed Endpoint Sites", [],
     multiValue=True,
     min=0,
-    multiValueTitle="Fixed Endpoint NUC+B210 radios to allocate.",
+    multiValueTitle="Fixed Endpoint NUC1+B210 radios to allocate.",
     members=[
         portal.Parameter(
             "site",
@@ -184,6 +184,22 @@ portal.context.defineStructParameter(
             portal.ParameterType.STRING,
             fe_sites[0], fe_sites,
             longDescription="A `nuc1` device will be selected at the site."
+        ),
+    ])
+
+# Set of Fixed Endpoint devices to allocate (nuc2)
+portal.context.defineStructParameter(
+    "fe_radio_sites_nuc2", "Fixed Endpoint Sites", [],
+    multiValue=True,
+    min=0,
+    multiValueTitle="Fixed Endpoint NUC2+B210 radios to allocate.",
+    members=[
+        portal.Parameter(
+            "site",
+            "FE Site",
+            portal.ParameterType.STRING,
+            fe_sites[0], fe_sites,
+            longDescription="A `nuc2` device will be selected at the site."
         ),
     ])
 
@@ -293,7 +309,7 @@ for rsite in params.cell_radio_sites:
     x310_node_pair(rsite.radio, params.nodetype, orch.name)
 
 # Request nuc1+B210 radio resources at FE sites.
-for fesite in params.fe_radio_sites:
+for fesite in params.fe_radio_sites_nuc1:
     nuc = ""
     for urn,sname in fe_sites:
         if urn == fesite.site:
@@ -301,6 +317,18 @@ for fesite in params.fe_radio_sites:
             break
     nuc.component_manager_id = fesite.site
     nuc.component_id = "nuc1"
+    nuc.disk_image = nuc_image
+    nuc.addService(rspec.Execute(shell="bash", command=clisetup_cmd))
+
+# Request nuc2+B210 radio resources at FE sites.
+for fesite in params.fe_radio_sites_nuc2:
+    nuc = ""
+    for urn,sname in fe_sites:
+        if urn == fesite.site:
+            nuc = request.RawPC("%s-b210" % sname)
+            break
+    nuc.component_manager_id = fesite.site
+    nuc.component_id = "nuc2"
     nuc.disk_image = nuc_image
     nuc.addService(rspec.Execute(shell="bash", command=clisetup_cmd))
     
