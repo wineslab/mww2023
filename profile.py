@@ -1,9 +1,8 @@
 #!/usr/bin/python
 
 """
-Allocate some number of X310 radios (+ compute) for doing measurements. 
-Can allocate both CBRS and Cellular band X310 Radios as well as FE
-NUC+B210 resources.
+Allocate some number of X310 radios (+ compute), FE NUC1+B210, and FE NUC2+B210, for doing measurements. 
+Work for both CBRS and Cellular band resources.
 
 Instructions:
 
