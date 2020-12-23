@@ -39,7 +39,7 @@ def x310_node_pair(x310_radio_name, node_type, orchhost):
     node.hardware_type = node_type
     node.disk_image = x310_node_image
 
-    node.addService(rspec.Execute(shell="bash",
+    #node.addService(rspec.Execute(shell="bash",
                                   command=clisetup_cmd + " %s" % orchhost))
 
     node_radio_if = node.addInterface("usrp_if")
@@ -297,7 +297,7 @@ portal.context.verifyParameters()
 orch = request.RawPC("orch")
 orch.disk_image = orch_image
 orch.hardware_type = params.orchtype
-orch.addService(rspec.Execute(shell="bash", command=orchsetup_cmd))
+#orch.addService(rspec.Execute(shell="bash", command=orchsetup_cmd))
 
 # Request PC + CBRS X310 resource pairs.
 for rsite in params.cbrs_radio_sites:
@@ -317,7 +317,7 @@ for fesite in params.fe_radio_sites_nuc1:
     nuc.component_manager_id = fesite.site
     nuc.component_id = "nuc1"
     nuc.disk_image = nuc_image
-    nuc.addService(rspec.Execute(shell="bash", command=clisetup_cmd))
+    #nuc.addService(rspec.Execute(shell="bash", command=clisetup_cmd))
 
 # Request nuc2+B210 radio resources at FE sites.
 for fesite in params.fe_radio_sites_nuc2:
@@ -329,7 +329,7 @@ for fesite in params.fe_radio_sites_nuc2:
     nuc.component_manager_id = fesite.site
     nuc.component_id = "nuc2"
     nuc.disk_image = nuc_image
-    nuc.addService(rspec.Execute(shell="bash", command=clisetup_cmd))
+    #nuc.addService(rspec.Execute(shell="bash", command=clisetup_cmd))
     
 # Request frequency range(s)
 for frange in params.cbrs_freq_ranges:
