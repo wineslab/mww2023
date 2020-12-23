@@ -39,8 +39,7 @@ def x310_node_pair(x310_radio_name, node_type, orchhost):
     node.hardware_type = node_type
     node.disk_image = x310_node_image
 
-    #node.addService(rspec.Execute(shell="bash",
-                                  command=clisetup_cmd + " %s" % orchhost))
+    #node.addService(rspec.Execute(shell="bash",command=clisetup_cmd + " %s" % orchhost))
 
     node_radio_if = node.addInterface("usrp_if")
     node_radio_if.addAddress(rspec.IPv4Address("192.168.40.1",
