@@ -6,7 +6,6 @@ Work for both CBRS and Cellular band resources.
 
 Instructions:
 
-Do all the things.
 
 """
 
