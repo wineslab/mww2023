@@ -225,34 +225,42 @@ portal.context.defineStructParameter(
     ])
 
 portal.context.defineStructParameter(
-    "b7_freq_ranges", "Band 7 Frequency Ranges", [],
+    "b7_ul_freq_ranges", "Band 7 Uplink Frequency Ranges", [],
     multiValue=True,
     min=0,
     multiValueTitle="Frequency ranges for Band 7 cellular operation.",
     members=[
         portal.Parameter(
-            "ul_freq_min",
+            "freq_min",
             "Uplink Frequency Min",
             portal.ParameterType.BANDWIDTH,
             2500.0,
             longDescription="Values are rounded to the nearest kilohertz."
         ),
         portal.Parameter(
-            "ul_freq_max",
+            "freq_max",
             "Uplink Frequency Max",
             portal.ParameterType.BANDWIDTH,
             2510.0,
             longDescription="Values are rounded to the nearest kilohertz."
         ),
+    ])
+
+portal.context.defineStructParameter(
+    "b7_dl_freq_ranges", "Band 7 Downlink Frequency Ranges", [],
+    multiValue=True,
+    min=0,
+    multiValueTitle="Frequency ranges for Band 7 cellular operation.",
+    members=[
         portal.Parameter(
-            "dl_freq_min",
+            "freq_min",
             "Downlink Frequency Min",
             portal.ParameterType.BANDWIDTH,
             2620.0,
             longDescription="Values are rounded to the nearest kilohertz."
         ),
         portal.Parameter(
-            "dl_freq_max",
+            "freq_max",
             "Downlink Frequency Max",
             portal.ParameterType.BANDWIDTH,
             2630.0,
@@ -272,20 +280,23 @@ for i, frange in enumerate(params.cbrs_freq_ranges):
         perr = portal.ParameterError("Minimum and maximum frequencies must be separated by at least 1 MHz", ["cbrs_freq_ranges[%d].freq_min" % i, "cbrs_freq_ranges[%d].freq_max" % i])
         portal.context.reportError(perr)
 
-for i, frange in enumerate(params.b7_freq_ranges):
-    if frange.ul_freq_min < 2500 or frange.ul_freq_min > 2570 \
-       or frange.ul_freq_max < 2500 or frange.ul_freq_max > 2570:
-        perr = portal.ParameterError("Band 7 uplink frequencies must be between 2500 and 2570 MHz", ["b7_freq_ranges[%d].ul_freq_min" % i, "b7_freq_ranges[%d].ul_freq_max" % i])
+for i, frange in enumerate(params.b7_ul_freq_ranges):
+    if frange.freq_min < 2500 or frange.freq_min > 2570 \
+       or frange.freq_max < 2500 or frange.freq_max > 2570:
+        perr = portal.ParameterError("Band 7 uplink frequencies must be between 2500 and 2570 MHz", ["b7_ul_freq_ranges[%d].freq_min" % i, "b7_ul_freq_ranges[%d].freq_max" % i])
         portal.context.reportError(perr)
-    if frange.ul_freq_max - frange.ul_freq_min < 1:
-        perr = portal.ParameterError("Minimum and maximum frequencies must be separated by at least 1 MHz", ["b7_freq_ranges[%d].ul_freq_min" % i, "b7_freq_ranges[%d].ul_freq_max" % i])
+    if frange.freq_max - frange.freq_min < 1:
+        perr = portal.ParameterError("Minimum and maximum frequencies must be separated by at least 1 MHz", ["b7_ul_freq_ranges[%d].freq_min" % i, "b7_ul_freq_ranges[%d].freq_max" % i])
         portal.context.reportError(perr)
-    if frange.dl_freq_min < 2620 or frange.dl_freq_min > 2690 \
-       or frange.dl_freq_max < 2620 or frange.dl_freq_max > 2690:
-        perr = portal.ParameterError("Band 7 downlink frequencies must be between 2620 and 2690 MHz", ["b7_freq_ranges[%d].dl_freq_min" % i, "b7_freq_ranges[%d].dl_freq_max" % i])
+    
+
+for i, frange in enumerate(params.b7_dl_freq_ranges):
+    if frange.freq_min < 2620 or frange.freq_min > 2690 \
+       or frange.freq_max < 2620 or frange.freq_max > 2690:
+        perr = portal.ParameterError("Band 7 downlink frequencies must be between 2620 and 2690 MHz", ["b7_dl_freq_ranges[%d].freq_min" % i, "b7_dl_freq_ranges[%d].freq_max" % i])
         portal.context.reportError(perr)
-    if frange.dl_freq_max - frange.dl_freq_min < 1:
-        perr = portal.ParameterError("Minimum and maximum frequencies must be separated by at least 1 MHz", ["b7_freq_ranges[%d].dl_freq_min" % i, "b7_freq_ranges[%d].dl_freq_max" % i])
+    if frange.freq_max - frange.freq_min < 1:
+        perr = portal.ParameterError("Minimum and maximum frequencies must be separated by at least 1 MHz", ["b7_dl_freq_ranges[%d].freq_min" % i, "b7_dl_freq_ranges[%d].freq_max" % i])
         portal.context.reportError(perr)
 
 # Now verify.
@@ -295,7 +306,7 @@ portal.context.verifyParameters()
 orch = request.RawPC("orch")
 orch.disk_image = orch_image
 orch.hardware_type = params.orchtype
-#orch.addService(rspec.Execute(shell="bash", command=orchsetup_cmd))
+orch.addService(rspec.Execute(shell="bash", command=orchsetup_cmd))
 
 # Request PC + CBRS X310 resource pairs.
 for rsite in params.cbrs_radio_sites:
@@ -333,9 +344,11 @@ for fesite in params.fe_radio_sites_nuc2:
 for frange in params.cbrs_freq_ranges:
     request.requestSpectrum(frange.freq_min, frange.freq_max, 0)
 
-for frange in params.b7_freq_ranges:
-    request.requestSpectrum(frange.ul_freq_min, frange.ul_freq_max, 0)
-    request.requestSpectrum(frange.dl_freq_min, frange.dl_freq_max, 0)
+for frange in params.b7_ul_freq_ranges:
+    request.requestSpectrum(frange.freq_min, frange.freq_max, 0)
+
+for frange in params.b7_dl_freq_ranges:
+    request.requestSpectrum(frange.freq_min, frange.freq_max, 0)
     
 # Emit!
 portal.context.printRequestRSpec()
