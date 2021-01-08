@@ -162,6 +162,45 @@ portal.context.defineStructParameter(
         ),
     ])
 
+# Set of Fixed Endpoint devices to allocate (nuc1)
+portal.context.defineStructParameter(
+    "fe_radio_sites_nuc1", "Fixed Endpoint Sites", [],
+    multiValue=True,
+    min=0,
+    multiValueTitle="Fixed Endpoint NUC1+B210 radios to allocate for CBRS.",
+    members=[
+        portal.Parameter(
+            "site",
+            "FE Site",
+            portal.ParameterType.STRING,
+            fe_sites[0], fe_sites,
+            longDescription="A `nuc1` device will be selected at the site."
+        ),
+    ])
+
+# Frequency/spectrum parameters
+portal.context.defineStructParameter(
+    "cbrs_freq_ranges", "CBRS Frequency Ranges", [],
+    multiValue=True,
+    min=0,
+    multiValueTitle="Frequency ranges for CBRS operation.",
+    members=[
+        portal.Parameter(
+            "freq_min",
+            "Frequency Min",
+            portal.ParameterType.BANDWIDTH,
+            3550.0,
+            longDescription="Values are rounded to the nearest kilohertz."
+        ),
+        portal.Parameter(
+            "freq_max",
+            "Frequency Max",
+            portal.ParameterType.BANDWIDTH,
+            3560.0,
+            longDescription="Values are rounded to the nearest kilohertz."
+        ),
+    ])
+
 # Set of Cellular X310 radios to allocate
 portal.context.defineStructParameter(
     "cell_radio_sites", "Cellular Radio Sites", [],
@@ -178,21 +217,7 @@ portal.context.defineStructParameter(
         ),
     ])
 
-# Set of Fixed Endpoint devices to allocate (nuc1)
-portal.context.defineStructParameter(
-    "fe_radio_sites_nuc1", "Fixed Endpoint Sites", [],
-    multiValue=True,
-    min=0,
-    multiValueTitle="Fixed Endpoint NUC1+B210 radios to allocate for CBRS.",
-    members=[
-        portal.Parameter(
-            "site",
-            "FE Site",
-            portal.ParameterType.STRING,
-            fe_sites[0], fe_sites,
-            longDescription="A `nuc1` device will be selected at the site."
-        ),
-    ])
+
 
 # Set of Fixed Endpoint devices to allocate (nuc2)
 portal.context.defineStructParameter(
@@ -226,25 +251,25 @@ portal.context.defineStructParameter(
         ),
     ])
 
-# Frequency/spectrum parameters
+
 portal.context.defineStructParameter(
-    "cbrs_freq_ranges", "CBRS Frequency Ranges", [],
+    "b7_dl_freq_ranges", "Band 7 Downlink Frequency Ranges", [],
     multiValue=True,
     min=0,
-    multiValueTitle="Frequency ranges for CBRS operation.",
+    multiValueTitle="Frequency ranges for Band 7 Downlink cellular operation.",
     members=[
         portal.Parameter(
             "freq_min",
-            "Frequency Min",
+            "Downlink Frequency Min",
             portal.ParameterType.BANDWIDTH,
-            3550.0,
+            2620.0,
             longDescription="Values are rounded to the nearest kilohertz."
         ),
         portal.Parameter(
             "freq_max",
-            "Frequency Max",
+            "Downlink Frequency Max",
             portal.ParameterType.BANDWIDTH,
-            3560.0,
+            2630.0,
             longDescription="Values are rounded to the nearest kilohertz."
         ),
     ])
@@ -271,27 +296,6 @@ portal.context.defineStructParameter(
         ),
     ])
 
-portal.context.defineStructParameter(
-    "b7_dl_freq_ranges", "Band 7 Downlink Frequency Ranges", [],
-    multiValue=True,
-    min=0,
-    multiValueTitle="Frequency ranges for Band 7 Downlink cellular operation.",
-    members=[
-        portal.Parameter(
-            "freq_min",
-            "Downlink Frequency Min",
-            portal.ParameterType.BANDWIDTH,
-            2620.0,
-            longDescription="Values are rounded to the nearest kilohertz."
-        ),
-        portal.Parameter(
-            "freq_max",
-            "Downlink Frequency Max",
-            portal.ParameterType.BANDWIDTH,
-            2630.0,
-            longDescription="Values are rounded to the nearest kilohertz."
-        ),
-    ])
 
 # Bind and verify parameters
 params = portal.context.bindParameters()
