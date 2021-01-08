@@ -136,6 +136,15 @@ fe_sites = [
      "WEB"),
 ]
 
+# A list of mobile endpoint sites.
+me_sites = [
+    ("urn:publicid:IDN+bus-4964.powderwireless.net+authority+cm",
+     "Bus4964"),
+    ("urn:publicid:IDN+bus-6185.powderwireless.net+authority+cm",
+     "Bus6185"),
+]
+
+
 # Set of CBRS X310 radios to allocate
 portal.context.defineStructParameter(
     "cbrs_radio_sites", "CBRS Radio Sites", [],
@@ -200,6 +209,21 @@ portal.context.defineStructParameter(
         ),
     ])
 
+# Set of Mobile Endpoint devices to allocate
+portal.context.defineStructParameter(
+    "me_radio_sites", "Mobile Endpoint Sites", [],
+    multiValue=True,
+    min=0,
+    multiValueTitle="Mobile Endpoint Supermicro+B210 radios to allocate.",
+    members=[
+        portal.Parameter(
+            "site",
+            "ME Site",
+            portal.ParameterType.STRING,
+            me_sites[0], me_sites,
+            longDescription="An `ed1` device will be selected at the site."
+        ),
+    ])
 
 # Frequency/spectrum parameters
 portal.context.defineStructParameter(
@@ -339,6 +363,20 @@ for fesite in params.fe_radio_sites_nuc2:
     nuc.component_id = "nuc2"
     nuc.disk_image = nuc_image
     #nuc.addService(rspec.Execute(shell="bash", command=clisetup_cmd))
+
+
+# Request ed1+B210 radio resources at ME sites.
+for mesite in params.me_radio_sites:
+    node = ""
+    for urn,sname in me_sites:
+        if urn == mesite.site:
+            node = request.RawPC("%s-b210" % sname)
+            break
+    node.component_manager_id = mesite.site
+    node.component_id = "ed1"
+    node.disk_image = sm_image
+    node.addService(rspec.Execute(shell="bash", command=clisetup_cmd))
+
     
 # Request frequency range(s)
 for frange in params.cbrs_freq_ranges:
