@@ -23,6 +23,7 @@ meas_disk_image = \
 orch_image = meas_disk_image
 x310_node_image = meas_disk_image
 nuc_image = meas_disk_image
+sm_image = meas_disk_image
 clisetup_cmd = "/local/repository/bin/cli-startup.sh"
 orchsetup_cmd = "/local/repository/bin/orch-startup.sh"
 
