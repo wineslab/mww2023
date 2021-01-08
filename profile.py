@@ -183,7 +183,7 @@ portal.context.defineStructParameter(
     "fe_radio_sites_nuc1", "Fixed Endpoint Sites", [],
     multiValue=True,
     min=0,
-    multiValueTitle="Fixed Endpoint NUC1+B210 radios to allocate.",
+    multiValueTitle="Fixed Endpoint NUC1+B210 radios to allocate for CBRS.",
     members=[
         portal.Parameter(
             "site",
@@ -199,7 +199,7 @@ portal.context.defineStructParameter(
     "fe_radio_sites_nuc2", "Fixed Endpoint Sites", [],
     multiValue=True,
     min=0,
-    multiValueTitle="Fixed Endpoint NUC2+B210 radios to allocate.",
+    multiValueTitle="Fixed Endpoint NUC2+B210 radios to allocate for cellular.",
     members=[
         portal.Parameter(
             "site",
@@ -253,7 +253,7 @@ portal.context.defineStructParameter(
     "b7_ul_freq_ranges", "Band 7 Uplink Frequency Ranges", [],
     multiValue=True,
     min=0,
-    multiValueTitle="Frequency ranges for Band 7 cellular operation.",
+    multiValueTitle="Frequency ranges for Band 7 Uplink cellular operation.",
     members=[
         portal.Parameter(
             "freq_min",
@@ -275,7 +275,7 @@ portal.context.defineStructParameter(
     "b7_dl_freq_ranges", "Band 7 Downlink Frequency Ranges", [],
     multiValue=True,
     min=0,
-    multiValueTitle="Frequency ranges for Band 7 cellular operation.",
+    multiValueTitle="Frequency ranges for Band 7 Downlink cellular operation.",
     members=[
         portal.Parameter(
             "freq_min",
