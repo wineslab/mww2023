@@ -32,7 +32,7 @@ request = portal.context.makeRequestRSpec()
 
 # Helper function that allocates a PC + X310 radio pair, with Ethernet
 # link between them.
-def x310_node_pair(x310_radio_name, node_type, orchhost):
+def x310_node_pair(x310_radio_name, node_type):
     radio_link = request.Link("%s-link" % x310_radio_name)
 
     node = request.RawPC("%s-comp" % x310_radio_name)
@@ -65,7 +65,7 @@ portal.context.defineParameter(
     "orchtype",
     "Orchestrator node type",
     portal.ParameterType.STRING, "",
-    ["", "d430","d740"],
+    ["None", "d430","d740"],
     "Type of compute node for the orchestrator (unset == 'any available')",
 )
 
@@ -332,18 +332,19 @@ for i, frange in enumerate(params.b7_dl_freq_ranges):
 portal.context.verifyParameters()
 
 # Allocate orchestrator node
-orch = request.RawPC("orch")
-orch.disk_image = orch_image
-orch.hardware_type = params.orchtype
-orch.addService(rspec.Execute(shell="bash", command=orchsetup_cmd))
+if params.orchtype != "None":
+    orch = request.RawPC("orch")
+    orch.disk_image = orch_image
+    orch.hardware_type = params.orchtype
+    orch.addService(rspec.Execute(shell="bash", command=orchsetup_cmd))
 
 # Request PC + CBRS X310 resource pairs.
 for rsite in params.cbrs_radio_sites:
-    x310_node_pair(rsite.radio, params.nodetype, orch.name)
+    x310_node_pair(rsite.radio, params.nodetype)
 
 # Request PC + Cellular X310 resource pairs.
 for rsite in params.cell_radio_sites:
-    x310_node_pair(rsite.radio, params.nodetype, orch.name)
+    x310_node_pair(rsite.radio, params.nodetype)
 
 # Request nuc1+B210 radio resources at FE sites.
 for fesite in params.fe_radio_sites_nuc1:
