@@ -64,7 +64,7 @@ portal.context.defineParameter(
 portal.context.defineParameter(
     "orchtype",
     "Orchestrator node type",
-    portal.ParameterType.STRING, "",
+    portal.ParameterType.STRING, "None",
     ["None", "d430","d740"],
     "Type of compute node for the orchestrator (unset == 'any available')",
 )
