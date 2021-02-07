@@ -11,9 +11,9 @@
      "repeat": 2,
      "wait": 30,
 
-     "bands": [41],
+     "bands": [71],
      
      "timeout": 60,
-     "clients": ["guesthouse-b210", "garage-b210", "humanities-b210"]
+     "clients": ["sagepoint-b210"]
  }
 ]
