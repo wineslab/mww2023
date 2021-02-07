@@ -1,0 +1,19 @@
+[
+ {
+     "cmd": "lte_meas",
+     "sync": true,
+     "get_samples": true,
+     
+     "nsamps": 2048,
+     "rate": 5e6,
+     "gain": 60,
+     "freq_step": 5e6,
+     "repeat": 2,
+     "wait": 30,
+
+     "bands": [41],
+     
+     "timeout": 60,
+     "clients": ["guesthouse-b210", "garage-b210", "humanities-b210"]
+ }
+]

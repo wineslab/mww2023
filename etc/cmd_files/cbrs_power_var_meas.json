@@ -1,0 +1,26 @@
+[
+ {
+     "cmd": "measure_power_variations",
+     "sync": true,
+     "get_samples": true,
+     "nsamps": 1024,
+     
+     "txrate": 5e6,
+     "txfreq": 3565e6,
+     "txgain_start": 28.0,
+     "txgain_end": 30.5,
+     "txgain_step": 1,
+     "tx_duration": 600,
+
+     "rxrate": 10e6,
+     "rxfreq": 3565e6,
+     "rxgain_start": 50.0,
+     "rxgain_end": 55.5,
+     "rxgain_step": 1,
+     "rxrepeat": 2,
+     
+     "timeout": 60,
+     "txclients": ["cbrssdr1-hospital-comp"],
+     "rxclients": ["cbrssdr1-ustar-comp"]
+ }
+]
