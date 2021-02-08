@@ -4,16 +4,14 @@
      "sync": true,
      "get_samples": true,
      
-     "nsamps": 2048,
+     "nsamps": 5000,
      "rate": 5e6,
      "gain": 60,
      "freq_step": 5e6,
-     "repeat": 2,
-     "wait": 30,
-
-     "bands": [71],
-     
+     "repeat": 200,
+     "wait": 5,
+     "bands": [],
      "timeout": 60,
-     "clients": ["sagepoint-b210"]
+     "client_list": ["web-b210"]
  }
 ]
