@@ -8,10 +8,10 @@
      "rate": 5e6,
      "gain": 60,
      "freq_step": 5e6,
-     "repeat": 200,
-     "wait": 5,
-     "bands": [],
-     "timeout": 60,
-     "client_list": ["web-b210"]
+     "repeat": 30,
+     "wait_ms": 100,
+     "bands": [2,5,12,13,17,25,26,66],      
+     "timeout": 30,
+     "client_list": ["sagepoint-b210", "madsen-b210"]
  }
 ]

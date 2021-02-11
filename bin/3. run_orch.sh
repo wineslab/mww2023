@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ip="155.98.37.205"
+ip="155.98.37.202"
 #cmd="cbrs_tx_sine"
 #cmd="cbrs_tx_sine_rx"
 #cmd="cbrs_tx_sine_rx_rev"

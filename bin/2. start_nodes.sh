@@ -1,5 +1,5 @@
 #!/bin/bash
-ip="155.98.37.205"
+ip="155.98.37.202"
 txrx=false
 
 now=$(date +"%m_%d_%Y_%I_%M_%S")
