@@ -353,7 +353,7 @@ for fesite in params.fe_radio_sites_nuc1:
     nuc = ""
     for urn,sname in fe_sites:
         if urn == fesite.site:
-            nuc = request.RawPC("%s-b210" % sname)
+            nuc = request.RawPC("%s-nuc1-b210" % sname)
             break
     nuc.component_manager_id = fesite.site
     nuc.component_id = "nuc1"
@@ -365,7 +365,7 @@ for fesite in params.fe_radio_sites_nuc2:
     nuc = ""
     for urn,sname in fe_sites:
         if urn == fesite.site:
-            nuc = request.RawPC("%s-b210" % sname)
+            nuc = request.RawPC("%s-nuc2-b210" % sname)
             break
     nuc.component_manager_id = fesite.site
     nuc.component_id = "nuc2"

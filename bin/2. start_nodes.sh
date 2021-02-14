@@ -1,9 +1,10 @@
 #!/bin/bash
-ip="155.98.37.202"
+ip="155.98.37.215"
 txrx=false
 
 now=$(date +"%m_%d_%Y_%I_%M_%S")
 out="/var/emulab/save/run_$now"
+#out="/var/emulab/save/band7_dl_nuc1_test"
 mkdir "$out"
 cd /local/repository/shout
 

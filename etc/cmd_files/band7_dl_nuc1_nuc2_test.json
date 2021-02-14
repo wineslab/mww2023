@@ -1,0 +1,13 @@
+[
+    {
+        "cmd": "freq_meas",
+        "freq": 2625e6,
+        "rate": 10e6,
+        "nsamps": 1024,
+        "gain": 60,
+        "repeat": 30,
+        "wait": 10,
+        "timeout": 30,
+        "client_list": ["garage-b210", "law73-b210"]
+    }
+]
