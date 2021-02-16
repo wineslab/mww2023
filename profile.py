@@ -143,8 +143,8 @@ me_sites = [
      "Bus4407"),
     ("urn:publicid:IDN+bus-6185.powderwireless.net+authority+cm",
      "Bus6185"),
-    ("urn:publicid:IDN+bus-4964.powderwireless.net+authority+cm",
-     "Bus4964"),
+    ("urn:publicid:IDN+bus-4409.powderwireless.net+authority+cm",
+     "Bus4409"),
 ]
 
 
