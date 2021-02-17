@@ -1,17 +1,17 @@
 [
  {
-     "cmd": "lte_meas",
+     "cmd": "measure_lte",
      "sync": true,
      "get_samples": true,
      
-     "nsamps": 5000,
-     "rate": 5e6,
+     "nsamps": 8000,
+     "rate": 16e6,
      "gain": 60,
-     "freq_step": 5e6,
-     "repeat": 30,
-     "wait_ms": 100,
-     "bands": [2,5,12,13,17,25,26,66],      
+     "freq_step": 16e6,
+     "repeat": 400,
+     "wait_ms": 10000,
+     "bands": [12],      
      "timeout": 30,
-     "client_list": ["sagepoint-b210", "madsen-b210"]
+     "client_list": ["bus6185-b210"]
  }
 ]

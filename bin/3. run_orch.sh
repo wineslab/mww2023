@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ip="155.98.37.210"
+ip="155.98.37.214"
 #cmd="cbrs_tx_sine"
 #cmd="cbrs_tx_sine_rx"
 #cmd="cbrs_tx_sine_rx_rev"
@@ -9,9 +9,10 @@ ip="155.98.37.210"
 #cmd="cell_power_var_meas"
 #cmd="cell_power_var_meas_test"
 #cmd="cell_power_var_meas_sine"
-#cmd="find_lte"
+cmd="find_lte"
 #cmd="band7_dl_nuc1_nuc2_test"
-cmd="cbrs_tx_rx"
+#cmd="cbrs_tx_rx"
+#cmd="bus_rx"
 
 
 
