@@ -69,6 +69,15 @@ portal.context.defineParameter(
     "Type of compute node for the orchestrator (unset == 'any available')",
 )
 
+# Node type for the GPS client.
+portal.context.defineParameter(
+    "gpsclienttype",
+    "GPS client node type",
+    portal.ParameterType.STRING, "None",
+    ["None", "d430","d740"],
+    "Type of compute node for the GPS client (unset == 'any available')",
+)
+
 # List of CBRS rooftop X310 radios.
 cbrs_radios = [
     ("cbrssdr1-bes",
@@ -338,6 +347,13 @@ if params.orchtype != "None":
     orch = request.RawPC("orch")
     orch.disk_image = orch_image
     orch.hardware_type = params.orchtype
+    orch.addService(rspec.Execute(shell="bash", command=orchsetup_cmd))
+
+# Allocate GPS client node
+if params.gpsclienttype != "None":
+    orch = request.RawPC("gps")
+    orch.disk_image = orch_image
+    orch.hardware_type = params.gpsclienttype
     orch.addService(rspec.Execute(shell="bash", command=orchsetup_cmd))
 
 # Request PC + CBRS X310 resource pairs.
