@@ -6,23 +6,23 @@
      "nsamps": 2048,
      
      "txrate": 2e6,
-     "txfreq": 2625e6,
+     "txfreq": 2636e6,
      "txgain_start": 30.0,
-     "txgain_end": 31.0,
-     "txgain_step": 1,
+     "txgain_end": 15.0,
+     "txgain_step": -40,
      "tx_file": "/local/repository/etc/signal_files/qam_0.8.complex",
      "txwait": 30,
 
      "rxrate": 2e6,
-     "rxfreq": 2625e6,
+     "rxfreq": 2636e6,
      "rxgain_start": 60.0,
      "rxgain_end": 62.5,
-     "rxgain_step": 10,
-     "rxrepeat": 5,
+     "rxgain_step": 200,
+     "rxrepeat": 200,
      "rxwait": 10,
      
      "timeout": 60,
-     "txclients": ["cellsdr1-browning-comp"],
-     "rxclients": ["bus4409-b210", "bus4407-b210", "law73-nuc2-b210", "humanities-nuc2-b210"]
+     "txclients": ["cellsdr1-hospital-comp"],
+     "rxclients": ["bus4409-b210", "ebc-nuc2-b210"]
  }
 ]
