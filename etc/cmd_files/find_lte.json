@@ -4,14 +4,14 @@
      "sync": true,
      "get_samples": true,
      
-     "nsamps": 8000,
-     "rate": 16e6,
+     "nsamps": 5000,
+     "rate": 10e6,
      "gain": 60,
-     "freq_step": 16e6,
+     "freq_step": 10e6,
      "repeat": 400,
      "wait_ms": 10000,
-     "bands": [12],      
+     "bands": [1000],      
      "timeout": 30,
-     "client_list": ["bus6185-b210"]
+     "client_list": ["bus4409-b210", "bus4407-b210"]
  }
 ]

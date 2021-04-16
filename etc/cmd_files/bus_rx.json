@@ -5,12 +5,12 @@
         "get_samples": true,
         "nsamps": 2048,
 
-        "repeat": 100,
-        "freq": 2625e6,
+        "repeat": 400,
+        "freq": 2635e6,
         "gain": 60,
         "rate": 2e6,
-        "client_list": ["bus6185-b210"],
-        "wait": 10,
+        "client_list": ["bus4407-b210", "bus4409-b210"],
+        "wait": 5,
 
         "timeout": 60
     }

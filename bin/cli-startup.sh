@@ -20,6 +20,4 @@ sudo ntpdate -u ops.emulab.net && \
     sudo ntpdate -u ops.emulab.net || \
 	echo "Failed to update clock via NTP!"
 
-$SHOUTSRC/meascli.py -d -s $ORCHHOST
-
 exit 0

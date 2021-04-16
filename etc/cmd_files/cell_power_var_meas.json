@@ -1,28 +1,28 @@
 [
  {
-     "cmd": "measure_power_variations",
+     "cmd": "measure_rx_power_w_tx",
      "sync": true,
      "get_samples": true,
-     "nsamps": 1024,
+     "nsamps": 4096,
      
      "txrate": 2e6,
-     "txfreq": 2625e6,
+     "txfreq": 2647e6,
      "txgain_start": 19.0,
      "txgain_end": 20.0,
-     "txgain_step": 1,
-     "tx_file": "/local/Signal_files/qam_0.8.complex",
+     "txgain_step": 9,
+     "tx_file": "/local/repository/etc/signal_files/psk_0.6.complex",
      "txwait": 30,
 
-     "rxrate": 2e6,
-     "rxfreq": 2625e6,
+     "rxrate": 20e6,
+     "rxfreq": 2647e6,
      "rxgain_start": 60.0,
      "rxgain_end": 62.5,
      "rxgain_step": 10,
-     "rxrepeat": 100,
-     "rxwait": 30,
+     "rxrepeat": 50,
+     "rxwait": 5,
      
      "timeout": 60,
-     "txclients": ["cellsdr1-honors-comp"],
-     "rxclients": ["guesthouse-b210", "garage-b210", "humanities-b210"]
+     "txclients": ["cellsdr1-bes-comp"],
+     "rxclients": ["law73-nuc2-b210", "bookstore-nuc2-b210", "humanities-nuc2-b210"]
  }
 ]
