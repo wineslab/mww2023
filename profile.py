@@ -154,6 +154,14 @@ me_sites = [
      "Bus6185"),
     ("urn:publicid:IDN+bus-4409.powderwireless.net+authority+cm",
      "Bus4409"),
+    ("urn:publicid:IDN+bus-4409.powderwireless.net+authority+cm",
+     "Bus4410"),
+    ("urn:publicid:IDN+bus-4409.powderwireless.net+authority+cm",
+     "Bus4417"),
+    ("urn:publicid:IDN+bus-4409.powderwireless.net+authority+cm",
+     "Bus4208"),
+    ("urn:publicid:IDN+bus-4409.powderwireless.net+authority+cm",
+     "Bus4329"),
 ]
 
 
