@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 """
-Allocate some number of X310 radios (+ compute), FE NUC1+B210, and FE NUC2+B210, for doing measurements. 
+Allocates X310 radios (+ compute), FE NUC1+B210, FE NUC2+B210, and compute node (for shout's orchestrator) for doing measurements. 
 Work for both CBRS and Cellular band resources.
 
 Instructions:
@@ -69,14 +69,6 @@ portal.context.defineParameter(
     "Type of compute node for the orchestrator (unset == 'any available')",
 )
 
-# Node type for the GPS client.
-portal.context.defineParameter(
-    "gpsclienttype",
-    "GPS client node type",
-    portal.ParameterType.STRING, "None",
-    ["None", "d430","d740"],
-    "Type of compute node for the GPS client (unset == 'any available')",
-)
 
 # List of CBRS rooftop X310 radios.
 cbrs_radios = [
@@ -150,8 +142,6 @@ fe_sites = [
 me_sites = [
     ("urn:publicid:IDN+bus-4407.powderwireless.net+authority+cm",
      "Bus4407"),
-    ("urn:publicid:IDN+bus-6185.powderwireless.net+authority+cm",
-     "Bus6185"),
     ("urn:publicid:IDN+bus-4409.powderwireless.net+authority+cm",
      "Bus4409"),
     ("urn:publicid:IDN+bus-4410.powderwireless.net+authority+cm",
@@ -162,31 +152,25 @@ me_sites = [
      "Bus4208"),
     ("urn:publicid:IDN+bus-4329.powderwireless.net+authority+cm",
      "Bus4329"),
+    ("urn:publicid:IDN+bus-6185.powderwireless.net+authority+cm",
+     "Bus6185"),
 ]
 
-
-# Set of CBRS X310 radios to allocate
-portal.context.defineStructParameter(
-    "cbrs_radio_sites", "CBRS Radio Sites", [],
-    multiValue=True,
-    min=0,
-    multiValueTitle="CBRS X310 radios to allocate.",
-    members=[
-        portal.Parameter(
-            "radio",
-            "CBRS Radio Site",
-            portal.ParameterType.STRING,
-            cbrs_radios[0], cbrs_radios,
-            longDescription="CBRS X310 radio will be allocated from selected site."
-        ),
-    ])
+freq_ranges = {
+	"ISM-900": [914.87,	915.13],
+	"ISM-2400": [2400.00, 2483.50],
+	"BAND7-U": [2500.00, 2570.00], 
+	"BAND7-D": [2620.00, 2690.00],
+	"CBRS": [3550.00, 3700.00], 
+	"ISM-5800": [5725.00, 5850.00]
+}
 
 # Set of Fixed Endpoint devices to allocate (nuc1)
 portal.context.defineStructParameter(
     "fe_radio_sites_nuc1", "Fixed Endpoint Sites", [],
     multiValue=True,
     min=0,
-    multiValueTitle="Fixed Endpoint NUC1+B210 radios to allocate for CBRS.",
+    multiValueTitle="Fixed Endpoint NUC1+B210 radios to allocate.",
     members=[
         portal.Parameter(
             "site",
@@ -196,46 +180,6 @@ portal.context.defineStructParameter(
             longDescription="A `nuc1` device will be selected at the site."
         ),
     ])
-
-# Frequency/spectrum parameters
-portal.context.defineStructParameter(
-    "cbrs_freq_ranges", "CBRS Frequency Ranges", [],
-    multiValue=True,
-    min=0,
-    multiValueTitle="Frequency ranges for CBRS operation.",
-    members=[
-        portal.Parameter(
-            "freq_min",
-            "Frequency Min",
-            portal.ParameterType.BANDWIDTH,
-            3550.0,
-            longDescription="Values are rounded to the nearest kilohertz."
-        ),
-        portal.Parameter(
-            "freq_max",
-            "Frequency Max",
-            portal.ParameterType.BANDWIDTH,
-            3560.0,
-            longDescription="Values are rounded to the nearest kilohertz."
-        ),
-    ])
-
-# Set of Cellular X310 radios to allocate
-portal.context.defineStructParameter(
-    "cell_radio_sites", "Cellular Radio Sites", [],
-    multiValue=True,
-    min=0,
-    multiValueTitle="Cellular X310 radios to allocate.",
-    members=[
-        portal.Parameter(
-            "radio",
-            "Cellular Radio Site",
-            portal.ParameterType.STRING,
-            cell_radios[0], cell_radios,
-            longDescription="Cellular X310 radio will be allocated from selected site."
-        ),
-    ])
-
 
 
 # Set of Fixed Endpoint devices to allocate (nuc2)
@@ -254,6 +198,7 @@ portal.context.defineStructParameter(
         ),
     ])
 
+
 # Set of Mobile Endpoint devices to allocate
 portal.context.defineStructParameter(
     "me_radio_sites", "Mobile Endpoint Sites", [],
@@ -271,6 +216,42 @@ portal.context.defineStructParameter(
     ])
 
 
+# Set of Cellular X310 radios to allocate
+portal.context.defineStructParameter(
+    "cell_radio_sites", "Cellular Radio Sites", [],
+    multiValue=True,
+    min=0,
+    multiValueTitle="Cellular X310 radios to allocate.",
+    members=[
+        portal.Parameter(
+            "radio",
+            "Cellular Radio Site",
+            portal.ParameterType.STRING,
+            cell_radios[0], cell_radios,
+            longDescription="Cellular X310 radio will be allocated from selected site."
+        ),
+    ])
+
+
+# Set of CBRS X310 radios to allocate
+portal.context.defineStructParameter(
+    "cbrs_radio_sites", "CBRS Radio Sites", [],
+    multiValue=True,
+    min=0,
+    multiValueTitle="CBRS X310 radios to allocate.",
+    members=[
+        portal.Parameter(
+            "radio",
+            "CBRS Radio Site",
+            portal.ParameterType.STRING,
+            cbrs_radios[0], cbrs_radios,
+            longDescription="CBRS X310 radio will be allocated from selected site."
+        ),
+    ])
+
+
+
+# Frequency/spectrum parameters
 portal.context.defineStructParameter(
     "b7_dl_freq_ranges", "Band 7 Downlink Frequency Ranges", [],
     multiValue=True,
@@ -281,14 +262,14 @@ portal.context.defineStructParameter(
             "freq_min",
             "Downlink Frequency Min",
             portal.ParameterType.BANDWIDTH,
-            2620.0,
+            freq_ranges["BAND7-D"][0],
             longDescription="Values are rounded to the nearest kilohertz."
         ),
         portal.Parameter(
             "freq_max",
             "Downlink Frequency Max",
             portal.ParameterType.BANDWIDTH,
-            2630.0,
+            freq_ranges["BAND7-D"][0]+10.0,
             longDescription="Values are rounded to the nearest kilohertz."
         ),
     ])
@@ -303,17 +284,63 @@ portal.context.defineStructParameter(
             "freq_min",
             "Uplink Frequency Min",
             portal.ParameterType.BANDWIDTH,
-            2500.0,
+            freq_ranges["BAND7-U"][0],
             longDescription="Values are rounded to the nearest kilohertz."
         ),
         portal.Parameter(
             "freq_max",
             "Uplink Frequency Max",
             portal.ParameterType.BANDWIDTH,
-            2510.0,
+            freq_ranges["BAND7-U"][0]+10.0,
             longDescription="Values are rounded to the nearest kilohertz."
         ),
     ])
+
+portal.context.defineStructParameter(
+    "cbrs_freq_ranges", "CBRS Frequency Ranges", [],
+    multiValue=True,
+    min=0,
+    multiValueTitle="Frequency ranges for CBRS operation.",
+    members=[
+        portal.Parameter(
+            "freq_min",
+            "Frequency Min",
+            portal.ParameterType.BANDWIDTH,
+            freq_ranges["CBRS"][0],
+            longDescription="Values are rounded to the nearest kilohertz."
+        ),
+        portal.Parameter(
+            "freq_max",
+            "Frequency Max",
+            portal.ParameterType.BANDWIDTH,
+            freq_ranges["CBRS"][0] + 10.0,
+            longDescription="Values are rounded to the nearest kilohertz."
+        ),
+    ])
+
+portal.context.defineStructParameter(
+    "ism900_freq_ranges", "ISM-900 Frequency Ranges", [],
+    multiValue=True,
+    min=0,
+    multiValueTitle="Frequency ranges for ISM-900 operation.",
+    members=[
+        portal.Parameter(
+            "freq_min",
+            "Frequency Min",
+            portal.ParameterType.BANDWIDTH,
+            freq_ranges["ISM-900"][0],
+            longDescription="Values are rounded to the nearest kilohertz."
+        ),
+        portal.Parameter(
+            "freq_max",
+            "Frequency Max",
+            portal.ParameterType.BANDWIDTH,
+            freq_ranges["ISM-900"][0] + 10.0,
+            longDescription="Values are rounded to the nearest kilohertz."
+        ),
+    ])
+
+
 
 
 # Bind and verify parameters
@@ -347,6 +374,15 @@ for i, frange in enumerate(params.b7_dl_freq_ranges):
         perr = portal.ParameterError("Minimum and maximum frequencies must be separated by at least 1 MHz", ["b7_dl_freq_ranges[%d].freq_min" % i, "b7_dl_freq_ranges[%d].freq_max" % i])
         portal.context.reportError(perr)
 
+for i, frange in enumerate(params.ism900_freq_ranges):
+    if frange.freq_min < freq_ranges["ISM-900"][0] or frange.freq_min > freq_ranges["ISM-900"][1] \
+       or frange.freq_max < freq_ranges["ISM-900"][0] or frange.freq_max > freq_ranges["ISM-900"][1]:
+        perr = portal.ParameterError("ISM-900 frequencies must be between %f and %f MHz" % (freq_ranges["ISM-900"][0], freq_ranges["ISM-900"][1]), ["b7_dl_freq_ranges[%d].freq_min" % i, "b7_dl_freq_ranges[%d].freq_max" % i])
+        portal.context.reportError(perr)
+    if frange.freq_max - frange.freq_min < 1:
+        perr = portal.ParameterError("Minimum and maximum frequencies must be separated by at least 1 MHz", ["b7_dl_freq_ranges[%d].freq_min" % i, "b7_dl_freq_ranges[%d].freq_max" % i])
+        portal.context.reportError(perr)
+
 # Now verify.
 portal.context.verifyParameters()
 
@@ -355,13 +391,6 @@ if params.orchtype != "None":
     orch = request.RawPC("orch")
     orch.disk_image = orch_image
     orch.hardware_type = params.orchtype
-    orch.addService(rspec.Execute(shell="bash", command=orchsetup_cmd))
-
-# Allocate GPS client node
-if params.gpsclienttype != "None":
-    orch = request.RawPC("gps")
-    orch.disk_image = orch_image
-    orch.hardware_type = params.gpsclienttype
     orch.addService(rspec.Execute(shell="bash", command=orchsetup_cmd))
 
 # Request PC + CBRS X310 resource pairs.
@@ -418,6 +447,9 @@ for frange in params.b7_ul_freq_ranges:
     request.requestSpectrum(frange.freq_min, frange.freq_max, 0)
 
 for frange in params.b7_dl_freq_ranges:
+    request.requestSpectrum(frange.freq_min, frange.freq_max, 0)
+
+for frange in params.ism900_freq_ranges:
     request.requestSpectrum(frange.freq_min, frange.freq_max, 0)
     
 # Emit!
