@@ -36,18 +36,7 @@ browser, you can click these commands to open a corresponding SSH
 session (they are hyperlinks).
 
 
-**3) Start the Shout Orchestrator process**
-
-In one of your `orch` SSH sessions, run:
-
-```
-sh orch-startup.sh
-```
-
-This will start the Shout orchestrator that all of the measurement
-clients, and command executor script will connect to.
-
-**4) Check radio firmware on x310 (rooftop site) radios**
+**3) Check radio firmware on x310 (rooftop site) radios**
 
 On each of the `cellsdr1-<site>-comp` and `cbrssdr1-<site>-comp` nodes, run `uhd_usrp_probe`.  If
 the output complains about a firmware mismatch, run: 
@@ -63,6 +52,20 @@ the column and select "power cycle selected".  Confirm to complete the
 operation and wait about 10 seconds for the devices to come back
 online.  Double check that the firmware has updated by running
 `uhd_usrp_probe` again.
+
+
+**4) Start the Shout Orchestrator process**
+
+In one of your `orch` SSH sessions, run:
+
+```
+sh orch-startup.sh
+```
+
+This will start the Shout orchestrator that all of the measurement
+clients, and command executor script will connect to.
+
+
 
 
 **5) Start measurement clients**
