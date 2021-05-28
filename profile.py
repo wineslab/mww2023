@@ -366,6 +366,7 @@ portal.context.defineStructParameter(
     ])
 
 
+"""
 # Frequency/spectrum parameters
 portal.context.defineStructParameter(
     "cbrs_freq_ranges", "CBRS Frequency Ranges", [],
@@ -390,7 +391,7 @@ portal.context.defineStructParameter(
     ])
 
 
-"""
+
 portal.context.defineStructParameter(
     "b7_dl_freq_ranges", "Band 7 Downlink Frequency Ranges", [],
     multiValue=True,
@@ -482,7 +483,7 @@ portal.context.defineStructParameter(
 
 """
 
-
+"""
 # Bind and verify parameters
 params = portal.context.bindParameters()
 
@@ -494,7 +495,7 @@ for i, frange in enumerate(params.cbrs_freq_ranges):
     if frange.freq_max - frange.freq_min < 1:
         perr = portal.ParameterError("Minimum and maximum frequencies must be separated by at least 1 MHz", ["cbrs_freq_ranges[%d].freq_min" % i, "cbrs_freq_ranges[%d].freq_max" % i])
         portal.context.reportError(perr)
-"""
+
 for i, frange in enumerate(params.b7_ul_freq_ranges):
     if frange.freq_min < 2500 or frange.freq_min > 2570 \
        or frange.freq_max < 2500 or frange.freq_max > 2570:
@@ -589,12 +590,12 @@ for mesite in params.me_radio_sites:
     node.disk_image = sm_image
     #node.addService(rspec.Execute(shell="bash", command=b210_setup_cmd))
 
-    
+"""    
 # Request frequency range(s)
 for frange in params.cbrs_freq_ranges:
     request.requestSpectrum(frange.freq_min, frange.freq_max, 0)
 
-"""
+
 for frange in params.b7_ul_freq_ranges:
     request.requestSpectrum(frange.freq_min, frange.freq_max, 0)
 

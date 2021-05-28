@@ -1,7 +1,6 @@
 #!/bin/bash
 
-cmd="rx"
-
+cmd="save_iq"
 
 today=$(date +"%m_%d_%Y")
 now=$(date +"%T")
@@ -15,8 +14,6 @@ cp  $cmd_file "$out/$cmd.json"
 
 cd /local/repository/shout
 python3 measiface.py -l "$out/log" -o "$out/" -c $cmd_file
-
-
 
 
 #ip="155.98.37.211"

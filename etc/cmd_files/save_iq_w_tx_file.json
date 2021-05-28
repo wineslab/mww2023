@@ -1,8 +1,8 @@
 [
  {
-     "cmd": "measure_rx_power_w_tx",
+     "cmd": "save_iq_w_tx_file",
      "sync": true,
-     "get_samples": true,
+     "compute_power": true,
      "nsamps": 20480,
      
      "txrate": 2e6,
