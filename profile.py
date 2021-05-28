@@ -73,9 +73,9 @@ x310_node_image = meas_disk_image
 nuc_image = meas_disk_image
 sm_image = meas_disk_image
 
-b210_setup_cmd = "/local/repository/bin/setup_b210.sh"
-x310_setup_cmd = "/local/repository/bin/setup_x310.sh"
-orch_setup_cmd = "/local/repository/bin/install_gps.sh"
+#b210_setup_cmd = "/local/repository/bin/setup_b210.sh"
+#x310_setup_cmd = "/local/repository/bin/setup_x310.sh"
+#orch_setup_cmd = "/local/repository/bin/install_gps.sh"
 
 # Top-level request object.
 request = portal.context.makeRequestRSpec()
@@ -89,7 +89,7 @@ def x310_node_pair(x310_radio_name, node_type):
     node.hardware_type = node_type
     node.disk_image = x310_node_image
 
-    node.addService(rspec.Execute(shell="bash",command=x310_setup_cmd))
+    #node.addService(rspec.Execute(shell="bash",command=x310_setup_cmd))
 
     node_radio_if = node.addInterface("usrp_if")
     node_radio_if.addAddress(rspec.IPv4Address("192.168.40.1",
@@ -502,7 +502,7 @@ if params.orchtype != "None":
     orch = request.RawPC("orch")
     orch.disk_image = orch_image
     orch.hardware_type = params.orchtype
-    orch.addService(rspec.Execute(shell="bash", command=orch_setup_cmd))
+    #orch.addService(rspec.Execute(shell="bash", command=orch_setup_cmd))
 
 # Request PC + CBRS X310 resource pairs.
 for rsite in params.cbrs_radio_sites:
@@ -522,7 +522,7 @@ for fesite in params.fe_radio_sites_nuc1:
     nuc.component_manager_id = fesite.site
     nuc.component_id = "nuc1"
     nuc.disk_image = nuc_image
-    nuc.addService(rspec.Execute(shell="bash", command=b210_setup_cmd))
+    #nuc.addService(rspec.Execute(shell="bash", command=b210_setup_cmd))
 
 # Request nuc2+B210 radio resources at FE sites.
 for fesite in params.fe_radio_sites_nuc2:
@@ -534,7 +534,7 @@ for fesite in params.fe_radio_sites_nuc2:
     nuc.component_manager_id = fesite.site
     nuc.component_id = "nuc2"
     nuc.disk_image = nuc_image
-    nuc.addService(rspec.Execute(shell="bash", command=b210_setup_cmd))
+    #nuc.addService(rspec.Execute(shell="bash", command=b210_setup_cmd))
 
 
 # Request ed1+B210 radio resources at ME sites.
@@ -547,7 +547,7 @@ for mesite in params.me_radio_sites:
     node.component_manager_id = mesite.site
     node.component_id = "ed1"
     node.disk_image = sm_image
-    node.addService(rspec.Execute(shell="bash", command=b210_setup_cmd))
+    #node.addService(rspec.Execute(shell="bash", command=b210_setup_cmd))
 
     
 # Request frequency range(s)
