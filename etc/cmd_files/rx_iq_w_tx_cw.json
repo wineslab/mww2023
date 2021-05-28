@@ -3,6 +3,7 @@
      "cmd": "rx_iq_w_tx",
      "sync": true,
      "nsamps": 20480,
+     "wotxrepeat": 10,
      
      "txrate": 2e6,
      "txfreq": 2650e6,
