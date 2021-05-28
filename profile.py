@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 """
-This profile is intended for doing any experiment using Shout. It can also be used for any GNURadio-based experiments.
+This profile is intended for doing any experiment using Shout. 
 
 This profile can allocate X310 radios (+ compute), FE NUC1+B210, FE NUC2+B210, ME, and compute node (for Shout's orchestrator). 
 
@@ -326,8 +326,31 @@ portal.context.defineStructParameter(
     ])
 
 
-
 # Frequency/spectrum parameters
+portal.context.defineStructParameter(
+    "cbrs_freq_ranges", "CBRS Frequency Ranges", [],
+    multiValue=True,
+    min=0,
+    multiValueTitle="Frequency ranges for CBRS operation.",
+    members=[
+        portal.Parameter(
+            "freq_min",
+            "Frequency Min",
+            portal.ParameterType.BANDWIDTH,
+            freq_ranges["CBRS"][0],
+            longDescription="Values are rounded to the nearest kilohertz."
+        ),
+        portal.Parameter(
+            "freq_max",
+            "Frequency Max",
+            portal.ParameterType.BANDWIDTH,
+            freq_ranges["CBRS"][0] + 10.0,
+            longDescription="Values are rounded to the nearest kilohertz."
+        ),
+    ])
+
+
+"""
 portal.context.defineStructParameter(
     "b7_dl_freq_ranges", "Band 7 Downlink Frequency Ranges", [],
     multiValue=True,
@@ -372,27 +395,7 @@ portal.context.defineStructParameter(
         ),
     ])
 
-portal.context.defineStructParameter(
-    "cbrs_freq_ranges", "CBRS Frequency Ranges", [],
-    multiValue=True,
-    min=0,
-    multiValueTitle="Frequency ranges for CBRS operation.",
-    members=[
-        portal.Parameter(
-            "freq_min",
-            "Frequency Min",
-            portal.ParameterType.BANDWIDTH,
-            freq_ranges["CBRS"][0],
-            longDescription="Values are rounded to the nearest kilohertz."
-        ),
-        portal.Parameter(
-            "freq_max",
-            "Frequency Max",
-            portal.ParameterType.BANDWIDTH,
-            freq_ranges["CBRS"][0] + 10.0,
-            longDescription="Values are rounded to the nearest kilohertz."
-        ),
-    ])
+
 
 portal.context.defineStructParameter(
     "ism900_freq_ranges", "ISM-900 Frequency Ranges", [],
@@ -437,7 +440,7 @@ portal.context.defineStructParameter(
         ),
     ])
 
-
+"""
 
 
 # Bind and verify parameters
