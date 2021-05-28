@@ -483,10 +483,11 @@ portal.context.defineStructParameter(
 
 """
 
-"""
+
 # Bind and verify parameters
 params = portal.context.bindParameters()
 
+"""
 for i, frange in enumerate(params.cbrs_freq_ranges):
     if frange.freq_min < 3400 or frange.freq_min > 3800 \
        or frange.freq_max < 3400 or frange.freq_max > 3800:
@@ -594,7 +595,6 @@ for mesite in params.me_radio_sites:
 # Request frequency range(s)
 for frange in params.cbrs_freq_ranges:
     request.requestSpectrum(frange.freq_min, frange.freq_max, 0)
-
 
 for frange in params.b7_ul_freq_ranges:
     request.requestSpectrum(frange.freq_min, frange.freq_max, 0)
