@@ -1,16 +1,11 @@
 #!/bin/bash
 
-ORCHNAME=$1
+ORCHNAME="orch"
 
 EMUBOOT=/var/emulab/boot
 REPODIR=/local/repository
 SHOUTSRC=/local/repository/shout
-
-HNAME=`hostname`
-HARR=(${HNAME//./ })
-DOMELTS=${HARR[@]:1}
-DOMAIN=${DOMELTS// /.}
-ORCHHOST="$ORCHNAME.$DOMAIN"
+CLILOG=/var/tmp/ccontroller.log
 
 cd $REPODIR
 git submodule update --init --remote || \
@@ -19,5 +14,12 @@ git submodule update --init --remote || \
 sudo ntpdate -u ops.emulab.net && \
     sudo ntpdate -u ops.emulab.net || \
 	echo "Failed to update clock via NTP!"
+
+sudo rm $CLILOG
+
+ORCHDOM=`$REPODIR/bin/getexpdom.py`
+ORCHHOST="$ORCHNAME.$ORCHDOM"
+
+$SHOUTSRC/meascli.py -s $ORCHHOST
 
 exit 0

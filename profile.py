@@ -1,11 +1,59 @@
 #!/usr/bin/python
 
 """
-Allocates X310 radios (+ compute), FE NUC1+B210, FE NUC2+B210, and compute node (for shout's orchestrator) for doing measurements. 
-Work for both CBRS and Cellular band resources.
+This profile is intended for doing any experiment using Shout. It can also be used for any GNURadio-based experiments.
+
+This profile can allocate X310 radios (+ compute), FE NUC1+B210, FE NUC2+B210, ME, and compute node (for Shout's orchestrator). 
 
 Instructions:
+**1) Instantiate this profile with appropriate parameters**
 
+At the "Parameterize" step, add radios that are needed for your planned experiment. Also, speceify the freqeuncy ranges if you are planning to use transmitter(s) in your experiment. 
+
+You can leave the other parameters in this profile at their defaults.
+
+Once you have these parameters selected, click through the rest of the
+profile and then click "Finish" to instantiate.  It will take 10
+to 15 minutes for the experiment to finish setting up.  Once it
+is "green", proceed to the next step.
+
+
+**2) Open SSH sessions**
+
+Use the following commands to start ssh and tmux sessions for the orchestor:
+
+ssh -Y <username>@<orch_node_hostname> cd /local/repository/bin tmux new-session -A -s main
+ssh -Y <username>@<orch_node_hostname> cd /local/repository/bin tmux new-session -A -s aux
+
+
+Use the following command to start a ssh and tmux session for each of the radio:
+ssh -Y <username>@<radio_hostname> cd /local/repository/bin tmux new-session -A -s main
+
+Reference SSH commands can be seen on the "List View" tab next to the
+compute node names.  If you have an `ssh://` handler setup on your
+browser, you can click these commands to open a corresponding SSH
+session (they are hyperlinks).
+
+
+**3) Start the Shout Orchestrator process**
+
+In one of your `orch` SSH sessions, run:
+
+```
+/local/repository/bin/orch-startup.sh
+```
+
+This will start the Shout orchestrator that all of the measurement
+clients, and command executor script will connect to.
+
+**4) Check radio firmware on x310 (rooftop site) radios**
+
+
+**5) Start measurement clients**
+
+**6) Execute a measurement run**
+
+**7) Check collected data**
 
 """
 
@@ -24,8 +72,10 @@ orch_image = meas_disk_image
 x310_node_image = meas_disk_image
 nuc_image = meas_disk_image
 sm_image = meas_disk_image
-clisetup_cmd = "/local/repository/bin/cli-startup.sh"
-orchsetup_cmd = "/local/repository/bin/orch-startup.sh"
+
+b210_setup_cmd = "/local/repository/bin/setup_b210.sh"
+x310_setup_cmd = "/local/repository/bin/setup_x310.sh"
+orch_setup_cmd = "/local/repository/bin/install_gps.sh"
 
 # Top-level request object.
 request = portal.context.makeRequestRSpec()
@@ -39,7 +89,7 @@ def x310_node_pair(x310_radio_name, node_type):
     node.hardware_type = node_type
     node.disk_image = x310_node_image
 
-    #node.addService(rspec.Execute(shell="bash",command=clisetup_cmd + " %s" % orchhost))
+    node.addService(rspec.Execute(shell="bash",command=x310_setup_cmd))
 
     node_radio_if = node.addInterface("usrp_if")
     node_radio_if.addAddress(rspec.IPv4Address("192.168.40.1",
@@ -64,7 +114,7 @@ portal.context.defineParameter(
 portal.context.defineParameter(
     "orchtype",
     "Orchestrator node type",
-    portal.ParameterType.STRING, "None",
+    portal.ParameterType.STRING, "d740",
     ["None", "d430","d740"],
     "Type of compute node for the orchestrator (unset == 'any available')",
 )
@@ -140,20 +190,46 @@ fe_sites = [
 
 # A list of mobile endpoint sites.
 me_sites = [
-    ("urn:publicid:IDN+bus-4407.powderwireless.net+authority+cm",
-     "Bus4407"),
-    ("urn:publicid:IDN+bus-4409.powderwireless.net+authority+cm",
-     "Bus4409"),
-    ("urn:publicid:IDN+bus-4410.powderwireless.net+authority+cm",
-     "Bus4410"),
-    ("urn:publicid:IDN+bus-4817.powderwireless.net+authority+cm",
-     "Bus4817"),
-    ("urn:publicid:IDN+bus-4208.powderwireless.net+authority+cm",
-     "Bus4208"),
-    ("urn:publicid:IDN+bus-4329.powderwireless.net+authority+cm",
-     "Bus4329"),
-    ("urn:publicid:IDN+bus-6185.powderwireless.net+authority+cm",
-     "Bus6185"),
+    ('urn:publicid:IDN+bus-4208.powderwireless.net+authority+cm',
+     "Bus 4208"),
+    ('urn:publicid:IDN+bus-4329.powderwireless.net+authority+cm',
+     "Bus 4329"),
+    ('urn:publicid:IDN+bus-4330.powderwireless.net+authority+cm',
+     "Bus 4330"),
+    ('urn:publicid:IDN+bus-4407.powderwireless.net+authority+cm',
+     "Bus 4407"),
+    ('urn:publicid:IDN+bus-4408.powderwireless.net+authority+cm',
+     "Bus 4408"),
+    ('urn:publicid:IDN+bus-4409.powderwireless.net+authority+cm',
+     "Bus 4409"),
+    ('urn:publicid:IDN+bus-4410.powderwireless.net+authority+cm',
+     "Bus 4410"),
+    ('urn:publicid:IDN+bus-4555.powderwireless.net+authority+cm',
+     "Bus 4555"),
+    ('urn:publicid:IDN+bus-4603.powderwireless.net+authority+cm',
+     "Bus 4603"),
+    ('urn:publicid:IDN+bus-4604.powderwireless.net+authority+cm',
+     "Bus 4604"),
+    ('urn:publicid:IDN+bus-4734.powderwireless.net+authority+cm',
+     "Bus 4734"),
+    ('urn:publicid:IDN+bus-4817.powderwireless.net+authority+cm',
+     "Bus 4817"),
+    ('urn:publicid:IDN+bus-4964.powderwireless.net+authority+cm',
+     "Bus 4964"),
+    ('urn:publicid:IDN+bus-5175.powderwireless.net+authority+cm',
+     "Bus 5175"),
+    ('urn:publicid:IDN+bus-6180.powderwireless.net+authority+cm',
+     "Bus 6180"),
+    ('urn:publicid:IDN+bus-6181.powderwireless.net+authority+cm',
+     "Bus 6181"),
+    ('urn:publicid:IDN+bus-6182.powderwireless.net+authority+cm',
+     "Bus 6182"),
+    ('urn:publicid:IDN+bus-6183.powderwireless.net+authority+cm',
+     "Bus 6183"),
+    ('urn:publicid:IDN+bus-6185.powderwireless.net+authority+cm',
+     "Bus 6185"),
+    ('urn:publicid:IDN+bus-6186.powderwireless.net+authority+cm',
+     "Bus 6186"),
 ]
 
 freq_ranges = {
@@ -375,7 +451,7 @@ for i, frange in enumerate(params.cbrs_freq_ranges):
     if frange.freq_max - frange.freq_min < 1:
         perr = portal.ParameterError("Minimum and maximum frequencies must be separated by at least 1 MHz", ["cbrs_freq_ranges[%d].freq_min" % i, "cbrs_freq_ranges[%d].freq_max" % i])
         portal.context.reportError(perr)
-
+"""
 for i, frange in enumerate(params.b7_ul_freq_ranges):
     if frange.freq_min < 2500 or frange.freq_min > 2570 \
        or frange.freq_max < 2500 or frange.freq_max > 2570:
@@ -412,6 +488,7 @@ for i, frange in enumerate(params.ism2400_freq_ranges):
     if frange.freq_max - frange.freq_min < 1:
         perr = portal.ParameterError("Minimum and maximum frequencies must be separated by at least 1 MHz", ["ism2400_freq_ranges[%d].freq_min" % i, "ism2400_freq_ranges[%d].freq_max" % i])
         portal.context.reportError(perr)
+"""
 
 
 # Now verify.
@@ -422,7 +499,7 @@ if params.orchtype != "None":
     orch = request.RawPC("orch")
     orch.disk_image = orch_image
     orch.hardware_type = params.orchtype
-    orch.addService(rspec.Execute(shell="bash", command=orchsetup_cmd))
+    orch.addService(rspec.Execute(shell="bash", command=orch_setup_cmd))
 
 # Request PC + CBRS X310 resource pairs.
 for rsite in params.cbrs_radio_sites:
@@ -442,7 +519,7 @@ for fesite in params.fe_radio_sites_nuc1:
     nuc.component_manager_id = fesite.site
     nuc.component_id = "nuc1"
     nuc.disk_image = nuc_image
-    #nuc.addService(rspec.Execute(shell="bash", command=clisetup_cmd))
+    nuc.addService(rspec.Execute(shell="bash", command=b210_setup_cmd))
 
 # Request nuc2+B210 radio resources at FE sites.
 for fesite in params.fe_radio_sites_nuc2:
@@ -454,7 +531,7 @@ for fesite in params.fe_radio_sites_nuc2:
     nuc.component_manager_id = fesite.site
     nuc.component_id = "nuc2"
     nuc.disk_image = nuc_image
-    #nuc.addService(rspec.Execute(shell="bash", command=clisetup_cmd))
+    nuc.addService(rspec.Execute(shell="bash", command=b210_setup_cmd))
 
 
 # Request ed1+B210 radio resources at ME sites.
@@ -467,13 +544,14 @@ for mesite in params.me_radio_sites:
     node.component_manager_id = mesite.site
     node.component_id = "ed1"
     node.disk_image = sm_image
-    node.addService(rspec.Execute(shell="bash", command=clisetup_cmd))
+    node.addService(rspec.Execute(shell="bash", command=b210_setup_cmd))
 
     
 # Request frequency range(s)
 for frange in params.cbrs_freq_ranges:
     request.requestSpectrum(frange.freq_min, frange.freq_max, 0)
 
+"""
 for frange in params.b7_ul_freq_ranges:
     request.requestSpectrum(frange.freq_min, frange.freq_max, 0)
 
@@ -485,6 +563,7 @@ for frange in params.ism900_freq_ranges:
 
 for frange in params.ism2400_freq_ranges:
     request.requestSpectrum(frange.freq_min, frange.freq_max, 0)
+"""
     
 # Emit!
 portal.context.printRequestRSpec()

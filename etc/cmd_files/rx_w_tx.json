@@ -1,0 +1,28 @@
+[
+ {
+     "cmd": "measure_rx_power_w_tx",
+     "sync": true,
+     "get_samples": true,
+     "nsamps": 20480,
+     
+     "txrate": 2e6,
+     "txfreq": 2650e6,
+     "txgain_start": 29.0,
+     "txgain_end": 30.0,
+     "txgain_step": 20,
+     "tx_file": "/local/repository/etc/signal_files/psk_0.6.complex",
+     "txwait": 30,
+
+     "rxrate": 10e6,
+     "rxfreq": 2650e6,
+     "rxgain_start": 25.0,
+     "rxgain_end": 26,
+     "rxgain_step": 20,
+     "rxrepeat": 5000,
+     "rxwait": 2,
+     
+     "timeout": 60,
+     "txclients": ["cellsdr1-ustar-comp"],
+     "rxclients": ["web-nuc2-b210", "moran-nuc2-b210"]
+ }
+]

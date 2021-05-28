@@ -3,13 +3,12 @@
         "cmd": "measure_rx_power",
         "sync": true,
         "get_samples": true,
-        "nsamps": 100000,
+        "nsamps": 10240,
 
-        "repeat": 10,
-        "freq": 2650e6,
-        "gain": 60,
+        "repeat": 1500,
+        "freq": 2655e6,
+        "gain": 25.0,
         "rate": 10e6,
-        "client_list": ["law73-nuc1-b210", "bookstore-nuc1-b210", "humanities-nuc1-b210", "garage-nuc1-b210"],
         "wait": 5,
         "timeout": 60
     }
