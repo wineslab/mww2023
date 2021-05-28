@@ -22,12 +22,13 @@ is "green", proceed to the next step.
 
 Use the following commands to start ssh and tmux sessions for the orchestor:
 
-ssh -Y <username>@<orch_node_hostname> cd /local/repository/bin tmux new-session -A -s main
-ssh -Y <username>@<orch_node_hostname> cd /local/repository/bin tmux new-session -A -s aux
+ssh -Y -p 22 -t <username>@<orch_node_hostname> 'cd /local/repository/bin && tmux new-session -A -s main &&  exec $SHELL'
+ssh -Y -p 22 -t <username>@<orch_node_hostname> 'cd /local/repository/bin && tmux new-session -A -s aux &&  exec $SHELL'
 
 
 Use the following command to start a ssh and tmux session for each of the radio:
-ssh -Y <username>@<radio_hostname> cd /local/repository/bin tmux new-session -A -s main
+ssh -Y -p 22 -t <username>@<radio_hostname> 'cd /local/repository/bin && tmux new-session -A -s main &&  exec $SHELL'
+
 
 Reference SSH commands can be seen on the "List View" tab next to the
 compute node names.  If you have an `ssh://` handler setup on your
@@ -40,7 +41,7 @@ session (they are hyperlinks).
 In one of your `orch` SSH sessions, run:
 
 ```
-/local/repository/bin/orch-startup.sh
+sh orch-startup.sh
 ```
 
 This will start the Shout orchestrator that all of the measurement
@@ -48,10 +49,47 @@ clients, and command executor script will connect to.
 
 **4) Check radio firmware on x310 (rooftop site) radios**
 
+On each of the `cellsdr1-<site>-comp` and `cbrssdr1-<site>-comp` nodes, run `uhd_usrp_probe`.  If
+the output complains about a firmware mismatch, run: 
+
+```
+sh setup_x310.sh
+```
+
+After the firmware update finishes, find the corresponding X310 radio devices in the "List View" on the
+POWDER web UI.  Click the checkbox for each device row where a
+firmware update was executed, then click the "gear" icon at the top of
+the column and select "power cycle selected".  Confirm to complete the
+operation and wait about 10 seconds for the devices to come back
+online.  Double check that the firmware has updated by running
+`uhd_usrp_probe` again.
+
 
 **5) Start measurement clients**
 
+In the SSH session for each of the nodes, run: 
+
+```
+sh cli-startup.sh
+```
+
+You
+should see these clients connect both in the output of the client, and
+in the output of the orchestrator.
+
+
 **6) Execute a measurement run**
+
+With all clients connected to the orchestrator, you can now perform a
+measurement collection run.  There are JSON command files located
+here: `/local/repository/etc/`.  Select one and adjust according to your experiment plan. Once the command
+file is properly adjusted, execute the following command in your other
+`orch` SSH session:
+
+```
+cd /local/repository/shout
+./measiface.py -c /local/repository/etc/cmd_files/<cmd_filename>.json
+```
 
 **7) Check collected data**
 
