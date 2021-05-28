@@ -59,7 +59,7 @@ online.  Double check that the firmware has updated by running
 In one of your `orch` SSH sessions, run:
 
 ```
-sh orch-startup.sh
+sh 1.start_orch.sh
 ```
 
 This will start the Shout orchestrator that all of the measurement
@@ -73,11 +73,10 @@ clients, and command executor script will connect to.
 In the SSH session for each of the nodes, run: 
 
 ```
-sh cli-startup.sh
+sh 2.start_client.sh
 ```
 
-You
-should see these clients connect both in the output of the client, and
+You should see these clients connect both in the output of the client, and
 in the output of the orchestrator.
 
 
@@ -85,13 +84,13 @@ in the output of the orchestrator.
 
 With all clients connected to the orchestrator, you can now perform a
 measurement collection run.  There are JSON command files located
-here: `/local/repository/etc/`.  Select one and adjust according to your experiment plan. Once the command
-file is properly adjusted, execute the following command in your other
+here: `/local/repository/etc/`.  Select one and adjust according to your experiment plan (details of cmds and cmd files are available in https://gitlab.flux.utah.edu/aniqua/shout). Once the command
+file is properly adjusted, update line # 3 of 3.run_cmd.sh to point to the correct cmd file. 
+Next, execute the following command in your other
 `orch` SSH session:
 
 ```
-cd /local/repository/shout
-./measiface.py -c /local/repository/etc/cmd_files/<cmd_filename>.json
+sh 3.run_cmd.sh
 ```
 
 **7) Check collected data**
