@@ -606,7 +606,7 @@ for rsite in params.cell_radio_sites:
 
 # Request PC + OTA Lab X310 resource pairs.
 for dev in params.ota_lab_x310s:
-    x310_node_pair(dev.radio, params.nodetype, orch.name)
+    x310_node_pair(dev.radio, params.nodetype)
 
 
 # Request nuc1+B210 radio resources at FE sites.
@@ -654,7 +654,7 @@ for dev in params.ota_lab_b210s:
     node.disk_image = sm_image
     #node.addService(rspec.Execute(shell="bash",
     #     
-  
+
 # Request frequency range(s)
 for frange in params.cbrs_freq_ranges:
     request.requestSpectrum(frange.freq_min, frange.freq_max, 0)
