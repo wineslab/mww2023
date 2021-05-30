@@ -272,6 +272,22 @@ me_sites = [
      "Bus 6186"),
 ]
 
+# List of OTA lab X310 radios.
+ota_x310_radios = [
+    "ota-x310-1",
+    "ota-x310-2",
+    "ota-x310-3",
+    "ota-x310-4",
+]
+
+# List of OTA lab NUC+B210 devices.
+ota_b210_devices = [
+    "ota-nuc1",
+    "ota-nuc2",
+    "ota-nuc3",
+]
+
+
 freq_ranges = {
 	"ISM-900": [914.87,	915.13],
 	"ISM-2400": [2400.00, 2483.50],
@@ -332,6 +348,8 @@ portal.context.defineStructParameter(
     ])
 
 
+
+
 # Set of Cellular X310 radios to allocate
 portal.context.defineStructParameter(
     "cell_radio_sites", "Cellular Radio Sites", [],
@@ -366,7 +384,39 @@ portal.context.defineStructParameter(
     ])
 
 
-"""
+# Set of OTA Lab X310 radios to allocate
+portal.context.defineStructParameter(
+    "ota_lab_x310s", "OTA Lab Radios", [],
+    multiValue=True,
+    min=0,
+    multiValueTitle="Over-the-air Lab X310 radios to allocate.",
+    members=[
+        portal.Parameter(
+            "radio",
+            "OTA Lab Radio",
+            portal.ParameterType.STRING,
+            ota_x310_radios[0], ota_x310_radios,
+            longDescription="An X310 radio in the OTA Lab along with associated compute node will be allocated."
+        ),
+    ])
+
+
+# Set of OTA Lab NUC+B210 devices to allocate
+portal.context.defineStructParameter(
+    "ota_lab_b210s", "OTA Lab B210 Devices", [],
+    multiValue=True,
+    min=0,
+    multiValueTitle="OTA Lab NUC+B210 radios to allocate.",
+    members=[
+        portal.Parameter(
+            "device",
+            "NUC+B210 device",
+            portal.ParameterType.STRING,
+            ota_b210_devices[0], ota_b210_devices,
+            longDescription="A NUC+B210 device in the OTA lab will be allocated."
+        ),
+    ])
+
 # Frequency/spectrum parameters
 portal.context.defineStructParameter(
     "cbrs_freq_ranges", "CBRS Frequency Ranges", [],
@@ -391,7 +441,7 @@ portal.context.defineStructParameter(
     ])
 
 
-
+"""
 portal.context.defineStructParameter(
     "b7_dl_freq_ranges", "Band 7 Downlink Frequency Ranges", [],
     multiValue=True,
@@ -487,7 +537,7 @@ portal.context.defineStructParameter(
 # Bind and verify parameters
 params = portal.context.bindParameters()
 
-"""
+
 for i, frange in enumerate(params.cbrs_freq_ranges):
     if frange.freq_min < 3400 or frange.freq_min > 3800 \
        or frange.freq_max < 3400 or frange.freq_max > 3800:
@@ -496,7 +546,7 @@ for i, frange in enumerate(params.cbrs_freq_ranges):
     if frange.freq_max - frange.freq_min < 1:
         perr = portal.ParameterError("Minimum and maximum frequencies must be separated by at least 1 MHz", ["cbrs_freq_ranges[%d].freq_min" % i, "cbrs_freq_ranges[%d].freq_max" % i])
         portal.context.reportError(perr)
-
+"""
 for i, frange in enumerate(params.b7_ul_freq_ranges):
     if frange.freq_min < 2500 or frange.freq_min > 2570 \
        or frange.freq_max < 2500 or frange.freq_max > 2570:
@@ -554,6 +604,11 @@ for rsite in params.cbrs_radio_sites:
 for rsite in params.cell_radio_sites:
     x310_node_pair(rsite.radio, params.nodetype)
 
+# Request PC + OTA Lab X310 resource pairs.
+for dev in params.ota_lab_x310s:
+    x310_node_pair(dev.radio, params.nodetype, orch.name)
+
+
 # Request nuc1+B210 radio resources at FE sites.
 for fesite in params.fe_radio_sites_nuc1:
     nuc = ""
@@ -591,11 +646,19 @@ for mesite in params.me_radio_sites:
     node.disk_image = sm_image
     #node.addService(rspec.Execute(shell="bash", command=b210_setup_cmd))
 
-"""    
+ 
+# Request NUC+B210 radio resources in the OTA Lab.
+for dev in params.ota_lab_b210s:
+    node = request.RawPC("%s-b210" % dev.device)
+    node.component_id = dev.device
+    node.disk_image = sm_image
+    #node.addService(rspec.Execute(shell="bash",
+    #     
+  
 # Request frequency range(s)
 for frange in params.cbrs_freq_ranges:
     request.requestSpectrum(frange.freq_min, frange.freq_max, 0)
-
+""" 
 for frange in params.b7_ul_freq_ranges:
     request.requestSpectrum(frange.freq_min, frange.freq_max, 0)
 
