@@ -10,6 +10,7 @@ Instructions:
 
 At the "Parameterize" step, add radios that are needed for your planned experiment. Also, speceify the freqeuncy ranges if you are planning to use transmitter(s) in your experiment. 
 
+
 You can leave the other parameters in this profile at their defaults.
 
 Once you have these parameters selected, click through the rest of the
