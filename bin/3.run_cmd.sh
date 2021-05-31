@@ -9,7 +9,7 @@ mkdir "$out"
 out="$folder/$today/$now"
 mkdir "$out"
 
-cmd_file="/local/repository/etc/cmd_files/$cmd.json"
+cmd_file="/local/repository/shout/cmd_files/$cmd.json"
 cp  $cmd_file "$out/$cmd.json"
 
 cd /local/repository/shout
