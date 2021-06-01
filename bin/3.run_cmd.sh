@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cmd="rx_iq"
+cmd="rx_iq_w_tx_file"
 
 folder="/local/" #"/var/emulab/save/"
 
@@ -19,7 +19,7 @@ cp  $cmd_file "$out/$cmd.json"
 
 cd "$out"
 wget https://gitlab.flux.utah.edu/powderrenewpublic/powder-deployment/-/blob/master/powder-deployment.csv
-
+wget https://gitlab.flux.utah.edu/powderrenewpublic/powder-deployment/-/blob/master/configuration.csv
 
 cd /local/repository/shout
 python3 measiface.py -l "$out/log" -o "$out/" -c $cmd_file
