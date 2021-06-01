@@ -640,7 +640,8 @@ for mesite in params.me_radio_sites:
     node = ""
     for urn,sname in me_sites:
         if urn == mesite.site:
-            node = request.RawPC("%s-b210" % sname)
+            #node = request.RawPC("%s-b210" % sname)
+            node = request.RawPC("%s" % sname)
             break
     node.component_manager_id = mesite.site
     node.component_id = "ed1"
