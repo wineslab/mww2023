@@ -1,10 +1,15 @@
 #!/bin/bash
 
-cmd="save_iq"
+cmd="rx_iq"
+
+folder="/local/" #"/var/emulab/save/"
+
+#cd /local/repository/
+#git submodule update --init --remote || { echo "Failed to update git submodules!" && exit 1; }
 
 today=$(date +"%m_%d_%Y")
 now=$(date +"%T")
-folder="/var/emulab/save/"
+out="$folder/$today"
 mkdir "$out"
 out="$folder/$today/$now"
 mkdir "$out"
@@ -12,24 +17,9 @@ mkdir "$out"
 cmd_file="/local/repository/shout/cmd_files/$cmd.json"
 cp  $cmd_file "$out/$cmd.json"
 
+cd "$out"
+wget https://gitlab.flux.utah.edu/powderrenewpublic/powder-deployment/-/blob/master/powder-deployment.csv
+
+
 cd /local/repository/shout
 python3 measiface.py -l "$out/log" -o "$out/" -c $cmd_file
-
-
-#ip="155.98.37.211"
-
-#cmd="cell_power_var_meas"
-#cmd="rx"
-
-
-#folder="/local/"
-#out="$folder/$today"
-#mkdir "$out"
-#out="$folder/$today/$now"
-#mkdir "$out"
-
-#cmd_file="/local/repository/etc/cmd_files/$cmd.json"
-#cp  $cmd_file "$out/$cmd.json"
-
-#cd /local/repository/shout
-#python3 measiface.py -p 2000 -l "$out/log" -s $ip -o "$out/" -c $cmd_file

@@ -6,18 +6,17 @@ REPODIR=/local/repository
 SHOUTSRC=/local/repository/shout
 
 # Install gpsd-clients
+REQUIRED_PKG="gpsd-clients"
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $REQUIRED_PKG|grep "install ok installed")
+echo Checking for $REQUIRED_PKG: $PKG_OK
+if [ "" = "$PKG_OK" ]; then
+  echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
+  sudo apt-get update
+  sudo apt-get --yes install $REQUIRED_PKG 
+fi
 
-#REQUIRED_PKG="gpsd-clients"
-#PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $REQUIRED_PKG|grep "install ok installed")
-#echo Checking for $REQUIRED_PKG: $PKG_OK
-#if [ "" = "$PKG_OK" ]; then
-#  echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
-#  sudo apt-get update
-#  sudo apt-get --yes install $REQUIRED_PKG 
-#fi
-
-sudo apt-get update
-sudo apt -y install gpsd-clients
+#sudo apt-get update
+#sudo apt -y install gpsd-clients
 
 cd $REPODIR
 git submodule update --init --remote || \

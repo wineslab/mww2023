@@ -8,9 +8,15 @@ REPODIR=/local/repository
 SHOUTSRC=/local/repository/shout
 CLILOG=/var/tmp/ccontroller.log
 
-# Install GRC
-sudo apt-get update
-sudo apt -y install python3-gi gobject-introspection gir1.2-gtk-3.0
+# Install dependencies for GRC
+REQUIRED_PKG="python3-gi"
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $REQUIRED_PKG|grep "install ok installed")
+echo Checking for $REQUIRED_PKG: $PKG_OK
+if [ "" = "$PKG_OK" ]; then
+  echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
+  sudo apt-get update
+  sudo apt -y install python3-gi gobject-introspection gir1.2-gtk-3.0
+fi
 
 cd $REPODIR
 git submodule update --init --remote || \
