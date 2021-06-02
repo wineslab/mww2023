@@ -1,8 +1,9 @@
 #!/bin/bash
 
-cmd="rx_iq_w_tx_file"
+cmd="save_iq"
 
-folder="/local/" #"/var/emulab/save/"
+#folder="/local/"
+folder="/var/emulab/save/"
 
 cd /local/repository/
 git submodule update --init --remote || { echo "Failed to update git submodules!" && exit 1; }
