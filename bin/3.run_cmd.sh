@@ -4,8 +4,8 @@ cmd="rx_iq_w_tx_file"
 
 folder="/local/" #"/var/emulab/save/"
 
-#cd /local/repository/
-#git submodule update --init --remote || { echo "Failed to update git submodules!" && exit 1; }
+cd /local/repository/
+git submodule update --init --remote || { echo "Failed to update git submodules!" && exit 1; }
 
 today=$(date +"%m_%d_%Y")
 now=$(date +"%T")
@@ -14,7 +14,7 @@ mkdir "$out"
 out="$folder/$today/$now"
 mkdir "$out"
 
-cmd_file="/local/repository/shout/cmd_files/$cmd.json"
+cmd_file="/local/repository/shout/cmdfiles/$cmd.json"
 cp  $cmd_file "$out/$cmd.json"
 
 cd "$out"

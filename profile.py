@@ -43,7 +43,7 @@ On each of the `cellsdr1-<site>-comp` and `cbrssdr1-<site>-comp` nodes, run `uhd
 the output complains about a firmware mismatch, run: 
 
 ```
-sh setup_x310.sh
+./setup_x310.sh
 ```
 
 After the firmware update finishes, find the corresponding X310 radio devices in the "List View" on the
@@ -60,7 +60,7 @@ online.  Double check that the firmware has updated by running
 In one of your `orch` SSH sessions, run:
 
 ```
-sh 1.start_orch.sh
+./1.start_orch.sh
 ```
 
 This will start the Shout orchestrator that all of the measurement
@@ -74,7 +74,7 @@ clients, and command executor script will connect to.
 In the SSH session for each of the nodes, run: 
 
 ```
-sh 2.start_client.sh
+./2.start_client.sh
 ```
 
 You should see these clients connect both in the output of the client, and
@@ -91,7 +91,7 @@ Next, execute the following command in your other
 `orch` SSH session:
 
 ```
-sh 3.run_cmd.sh
+./3.run_cmd.sh
 ```
 
 **7) Check collected data**
