@@ -84,8 +84,8 @@ in the output of the orchestrator.
 **6) Execute a measurement run**
 
 With all clients connected to the orchestrator, you can now perform a
-measurement collection run.  There are JSON command files located
-here: `/local/repository/etc/`.  Select one and adjust according to your experiment plan (details of cmds and cmd files are available in https://gitlab.flux.utah.edu/aniqua/shout). Once the command
+measurement collection run.  There are JSON cmd files located
+here: `https://gitlab.flux.utah.edu/aniqua/shout/cmdfiles`.  Select one and adjust according to your experiment plan. Once the command
 file is properly adjusted, update line # 3 of 3.run_cmd.sh to point to the correct cmd file. 
 Next, execute the following command in your other
 `orch` SSH session:
@@ -93,6 +93,8 @@ Next, execute the following command in your other
 ```
 ./3.run_cmd.sh
 ```
+
+Details of supported cmds are available in https://gitlab.flux.utah.edu/aniqua/shout/-/blob/master/README.md
 
 **7) Check collected data**
 
