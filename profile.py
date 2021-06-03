@@ -626,7 +626,7 @@ if params.phantomnet > 0:
         pn_node[i].hardware_type = "nuc5300"
         pn_node[i].disk_image = meas_disk_image
         rf_link_index[i] = 0
-        rf_link[i] = []*(params.phantomnet-1)
+        rf_link[i] = [None]*(params.phantomnet-1)
         for j in range(params.phantomnet-1):
             rf_link[i][j] = pn_node[i].addInterface( "n%drf%d" %(i,j))
     lc = 0       
