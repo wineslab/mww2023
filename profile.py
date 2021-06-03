@@ -91,17 +91,17 @@ Next, in your other `orch` SSH session, run:
 ```
 This will run the Shout command(s) as specified in the cmd file. This will create a measurement directory in `/var/emulab/save` named Shout\_meas\_<date>_<time> with the following items:
 
-    a) measurements.hdf5: Measurement dataset.
+a) measurements.hdf5: Measurement dataset.
 
-    b) <cmd>.json: Cmd file used for the measurement.
+b) <cmd>.json: Cmd file used for the measurement.
 
-    c) log: Log file saved by Shout's measiface.py
+c) log: Log file saved by Shout's measiface.py
 
-    d) configuration.csv: Current POWDER radio configuration file from https://gitlab.flux.utah.edu/powderrenewpublic/powder-deployment/-/blob/master/configuration.csv
+d) configuration.csv: Current POWDER radio configuration file from https://gitlab.flux.utah.edu/powderrenewpublic/powder-deployment/-/blob/master/configuration.csv
 
-    e) powder-deployment.csv: Current POWDER deployment file from https://gitlab.flux.utah.edu/powderrenewpublic/powder-deployment/-/blob/master/powder-deployment.csv
+e) powder-deployment.csv: Current POWDER deployment file from https://gitlab.flux.utah.edu/powderrenewpublic/powder-deployment/-/blob/master/powder-deployment.csv
 
-    f) bus<bus number>_locations.csv files: Location and speed information files, one for each of the buses used in the measurement. 
+f) bus<bus number>_locations.csv files: Location and speed information files, one for each of the buses used in the measurement. 
 
 Details of supported commands are available in https://gitlab.flux.utah.edu/aniqua/shout/-/blob/master/README.md. Example measurement directories are in https://gitlab.flux.utah.edu/aniqua/shout/-/tree/master/examples
 
