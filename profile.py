@@ -627,7 +627,9 @@ if params.phantomnet > 0:
         pn_node[i].disk_image = meas_disk_image
         rf_link_index[i] = 0
         rf_link[i] = [None]*(params.phantomnet-1)
+        print(rf_link[i])
         for j in range(params.phantomnet-1):
+            print(i, j, params.phantomnet-1)
             rf_link[i][j] = pn_node[i].addInterface( "n%drf%d" %(i,j))
     lc = 0       
     for i in range(params.phantomnet):
