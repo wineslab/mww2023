@@ -624,7 +624,7 @@ if params.phantomnet > 0:
     for i in range(params.phantomnet):
         pn_node[i] = request.RawPC( "node%d" %i)
         pn_node[i].hardware_type = "nuc5300"
-        pn_node[i].disk_image = IMAGE
+        pn_node[i].disk_image = meas_disk_image
         rf_link_index[i] = 0
         for j in range(params.phantomnet-1):
             rf_link[i][j] = pn_node[i].addInterface( "n%drf%d" %(i,j))
