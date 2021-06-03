@@ -627,16 +627,14 @@ if params.phantomnet > 0:
         pn_node[i].disk_image = meas_disk_image
         rf_link_index[i] = 0
         rf_link[i] = [None]*(params.phantomnet-1)
-        print(rf_link[i])
         for j in range(params.phantomnet-1):
-            print(i, j, params.phantomnet-1)
             rf_link[i][j] = pn_node[i].addInterface( "n%drf%d" %(i,j))
     lc = 0       
     for i in range(params.phantomnet):
         for j in range(i+1, params.phantomnet):
-            rflink = request.RFLink( "rflink%d" %lc)
-            rflink.addInterface(rf_links[i][rf_link_index[i]])
-            rflink.addInterface(rf_links[j][rf_link_index[j]])
+            rfl = request.RFLink( "rflink%d" %lc)
+            rfl.addInterface(rf_link[i][rf_link_index[i]])
+            rfl.addInterface(rf_link[j][rf_link_index[j]])
             rf_link_index[i] += 1
             rf_link_index[j] += 1
             lc += 1
