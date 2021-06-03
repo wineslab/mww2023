@@ -95,15 +95,17 @@ a) measurements.hdf5: Measurement dataset.
 
 b) <cmd>.json: Cmd file used for the measurement.
 
-c) log: Log file saved by Shout's measiface.py
+c) log: Log file saved by Shout's measiface.py.
 
-d) configuration.csv: Current POWDER radio configuration file from https://gitlab.flux.utah.edu/powderrenewpublic/powder-deployment/-/blob/master/configuration.csv
+d) configuration.csv: Current POWDER radio configuration file from https://gitlab.flux.utah.edu/powderrenewpublic/powder-deployment.
 
-e) powder-deployment.csv: Current POWDER deployment file from https://gitlab.flux.utah.edu/powderrenewpublic/powder-deployment/-/blob/master/powder-deployment.csv
+e) powder-deployment.csv: Current POWDER deployment file from https://gitlab.flux.utah.edu/powderrenewpublic/powder-deployment.
 
-f) bus<bus number>_locations.csv files: Location and speed information files, one for each of the buses used in the measurement. 
+f) bus<bus number>_locations.csv files: GPSd location and speed information files, one for each of the buses used in the measurement. 
 
-Details of supported commands are available in https://gitlab.flux.utah.edu/aniqua/shout/-/blob/master/README.md. Example measurement directories are in https://gitlab.flux.utah.edu/aniqua/shout/-/tree/master/examples
+Details of supported commands are available in https://gitlab.flux.utah.edu/aniqua/shout/-/blob/master/README.md.
+
+Example measurement directories are in https://gitlab.flux.utah.edu/aniqua/shout/-/tree/master/examples.
 
 
 """
@@ -114,6 +116,7 @@ import geni.rspec.pg as rspec
 import geni.rspec.emulab.pnext as pn
 import geni.rspec.emulab.spectrum as spectrum
 import geni.rspec.igext as ig
+from itertools import combinations
 
 
 # Global Variables
@@ -127,49 +130,6 @@ sm_image = meas_disk_image
 #b210_setup_cmd = "/local/repository/bin/setup_b210.sh"
 #x310_setup_cmd = "/local/repository/bin/setup_x310.sh"
 #orch_setup_cmd = "/local/repository/bin/install_gps.sh"
-
-# Top-level request object.
-request = portal.context.makeRequestRSpec()
-
-# Helper function that allocates a PC + X310 radio pair, with Ethernet
-# link between them.
-def x310_node_pair(x310_radio_name, node_type):
-    radio_link = request.Link("%s-link" % x310_radio_name)
-
-    node = request.RawPC("%s-comp" % x310_radio_name)
-    node.hardware_type = node_type
-    node.disk_image = x310_node_image
-
-    #node.addService(rspec.Execute(shell="bash",command=x310_setup_cmd))
-
-    node_radio_if = node.addInterface("usrp_if")
-    node_radio_if.addAddress(rspec.IPv4Address("192.168.40.1",
-                                               "255.255.255.0"))
-    radio_link.addInterface(node_radio_if)
-
-    radio = request.RawPC("%s-x310" % x310_radio_name)
-    radio.component_id = x310_radio_name
-    radio_link.addNode(radio)
-
-# Node type parameter for PCs to be paired with X310 radios.
-# Restricted to those that are known to work well with them.
-portal.context.defineParameter(
-    "nodetype",
-    "Compute node type",
-    portal.ParameterType.STRING, "d740",
-    ["d740","d430"],
-    "Type of compute node to be paired with the X310 Radios",
-)
-
-# Node type for the orchestrator.
-portal.context.defineParameter(
-    "orchtype",
-    "Orchestrator node type",
-    portal.ParameterType.STRING, "d740",
-    ["None", "d430","d740"],
-    "Type of compute node for the orchestrator (unset == 'any available')",
-)
-
 
 # List of CBRS rooftop X310 radios.
 cbrs_radios = [
@@ -300,46 +260,66 @@ ota_b210_devices = [
 
 
 freq_ranges = {
-	"ISM-900": [914.87,	915.13],
-	"ISM-2400": [2400.00, 2483.50],
-	"BAND7-U": [2500.00, 2570.00], 
-	"BAND7-D": [2620.00, 2690.00],
-	"CBRS": [3550.00, 3700.00], 
-	"ISM-5800": [5725.00, 5850.00]
+    "ISM-900": [914.87, 915.13],
+    "ISM-2400": [2400.00, 2483.50],
+    "BAND7-U": [2500.00, 2570.00], 
+    "BAND7-D": [2620.00, 2690.00],
+    "CBRS": [3550.00, 3700.00], 
+    "ISM-5800": [5725.00, 5850.00]
 }
 
-# Set of Fixed Endpoint devices to allocate (nuc1)
-portal.context.defineStructParameter(
-    "fe_radio_sites_nuc1", "Fixed Endpoint Sites", [],
-    multiValue=True,
-    min=0,
-    multiValueTitle="Fixed Endpoint NUC1+B210 radios to allocate.",
-    members=[
-        portal.Parameter(
-            "site",
-            "FE Site",
-            portal.ParameterType.STRING,
-            fe_sites[0], fe_sites,
-            longDescription="A `nuc1` device will be selected at the site."
-        ),
-    ])
 
+# Top-level request object.
+request = portal.context.makeRequestRSpec()
 
-# Set of Fixed Endpoint devices to allocate (nuc2)
-portal.context.defineStructParameter(
-    "fe_radio_sites_nuc2", "Fixed Endpoint Sites", [],
-    multiValue=True,
-    min=0,
-    multiValueTitle="Fixed Endpoint NUC2+B210 radios to allocate for cellular.",
-    members=[
-        portal.Parameter(
-            "site",
-            "FE Site",
-            portal.ParameterType.STRING,
-            fe_sites[0], fe_sites,
-            longDescription="A `nuc2` device will be selected at the site."
-        ),
-    ])
+# Helper function that allocates a PC + X310 radio pair, with Ethernet
+# link between them.
+def x310_node_pair(x310_radio_name, node_type):
+    radio_link = request.Link("%s-link" % x310_radio_name)
+
+    node = request.RawPC("%s-comp" % x310_radio_name)
+    node.hardware_type = node_type
+    node.disk_image = x310_node_image
+
+    #node.addService(rspec.Execute(shell="bash",command=x310_setup_cmd))
+
+    node_radio_if = node.addInterface("usrp_if")
+    node_radio_if.addAddress(rspec.IPv4Address("192.168.40.1",
+                                               "255.255.255.0"))
+    radio_link.addInterface(node_radio_if)
+
+    radio = request.RawPC("%s-x310" % x310_radio_name)
+    radio.component_id = x310_radio_name
+    radio_link.addNode(radio)
+
+# Node type parameter for PCs to be paired with X310 radios.
+# Restricted to those that are known to work well with them.
+portal.context.defineParameter(
+    "nodetype",
+    "Compute node type",
+    portal.ParameterType.STRING, "d740",
+    ["d740","d430"],
+    "Type of compute node to be paired with the X310 Radios",
+)
+
+# Node type for the orchestrator.
+portal.context.defineParameter(
+    "orchtype",
+    "Orchestrator node type",
+    portal.ParameterType.STRING, "d740",
+    ["None", "d430","d740"],
+    "Type of compute node for the orchestrator (unset == 'any available')",
+)
+
+# Node type for the orchestrator.
+portal.context.defineParameter(
+    "phantomnet",
+    "Numer of PhantomNet radios to allocate",
+    portal.ParameterType.INTEGER, 0,
+    [0, 2, 3],
+    "Numer of PhantomNet radios to allocate",
+)
+
 
 
 # Set of Mobile Endpoint devices to allocate
@@ -347,7 +327,7 @@ portal.context.defineStructParameter(
     "me_radio_sites", "Mobile Endpoint Sites", [],
     multiValue=True,
     min=0,
-    multiValueTitle="Mobile Endpoint Supermicro+B210 radios to allocate.",
+    multiValueTitle="Mobile Endpoint Supermicro+B210 radios.",
     members=[
         portal.Parameter(
             "site",
@@ -357,9 +337,6 @@ portal.context.defineStructParameter(
             longDescription="An `ed1` device will be selected at the site."
         ),
     ])
-
-
-
 
 # Set of Cellular X310 radios to allocate
 portal.context.defineStructParameter(
@@ -378,12 +355,28 @@ portal.context.defineStructParameter(
     ])
 
 
+# Set of Fixed Endpoint devices to allocate (nuc2)
+portal.context.defineStructParameter(
+    "fe_radio_sites_nuc2", "Fixed Endpoint Sites", [],
+    multiValue=True,
+    min=0,
+    multiValueTitle="Cellular Fixed Endpoint NUC2+B210 radios.",
+    members=[
+        portal.Parameter(
+            "site",
+            "FE Site",
+            portal.ParameterType.STRING,
+            fe_sites[0], fe_sites,
+            longDescription="A `nuc2` device will be selected at the site."
+        ),
+    ])
+
 # Set of CBRS X310 radios to allocate
 portal.context.defineStructParameter(
     "cbrs_radio_sites", "CBRS Radio Sites", [],
     multiValue=True,
     min=0,
-    multiValueTitle="CBRS X310 radios to allocate.",
+    multiValueTitle="CBRS X310 radios.",
     members=[
         portal.Parameter(
             "radio",
@@ -395,12 +388,28 @@ portal.context.defineStructParameter(
     ])
 
 
-# Set of OTA Lab X310 radios to allocate
+# Set of Fixed Endpoint devices to allocate (nuc1)
 portal.context.defineStructParameter(
-    "ota_lab_x310s", "OTA Lab Radios", [],
+    "fe_radio_sites_nuc1", "Fixed Endpoint Sites", [],
     multiValue=True,
     min=0,
-    multiValueTitle="Over-the-air Lab X310 radios to allocate.",
+    multiValueTitle="Fixed Endpoint NUC1+B210 radios.",
+    members=[
+        portal.Parameter(
+            "site",
+            "FE Site",
+            portal.ParameterType.STRING,
+            fe_sites[0], fe_sites,
+            longDescription="A `nuc1` device will be selected at the site."
+        ),
+    ])
+
+# Set of OTA Lab X310 radios to allocate
+portal.context.defineStructParameter(
+    "ota_lab_x310s", "OTA Lab X310 Radios", [],
+    multiValue=True,
+    min=0,
+    multiValueTitle="OTA Lab X310 radios.",
     members=[
         portal.Parameter(
             "radio",
@@ -414,10 +423,10 @@ portal.context.defineStructParameter(
 
 # Set of OTA Lab NUC+B210 devices to allocate
 portal.context.defineStructParameter(
-    "ota_lab_b210s", "OTA Lab B210 Devices", [],
+    "ota_lab_b210s", "OTA Lab B210 Radios", [],
     multiValue=True,
     min=0,
-    multiValueTitle="OTA Lab NUC+B210 radios to allocate.",
+    multiValueTitle="OTA Lab NUC+B210 radios.",
     members=[
         portal.Parameter(
             "device",
@@ -606,6 +615,28 @@ if params.orchtype != "None":
     orch.disk_image = orch_image
     orch.hardware_type = params.orchtype
     #orch.addService(rspec.Execute(shell="bash", command=orch_setup_cmd))
+
+# Allocate PhantomNet node
+if params.phantomnet > 0:
+    pn_node = dict()
+    rf_link = dict()
+    rf_link_index = dict()
+    for i in range(params.phantomnet):
+        pn_node[i] = request.RawPC( "node%d" %i)
+        pn_node[i].hardware_type = "nuc5300"
+        pn_node[i].disk_image = IMAGE
+        rf_link_index[i] = 0
+        for j in range(params.phantomnet-1):
+            rf_link[i][j] = pn_node[i].addInterface( "n%drf%d" %(i,j))
+    lc = 0       
+    for i in range(params.phantomnet):
+        for j in range(i+1, params.phantomnet):
+            rflink = request.RFLink( "rflink%d" %lc)
+            rflink.addInterface(rf_links[i][rf_link_index[i]])
+            rflink.addInterface(rf_links[j][rf_link_index[j]])
+            rf_link_index[i] += 1
+            rf_link_index[j] += 1
+            lc += 1
 
 # Request PC + CBRS X310 resource pairs.
 for rsite in params.cbrs_radio_sites:
