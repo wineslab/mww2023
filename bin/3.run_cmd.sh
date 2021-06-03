@@ -2,17 +2,16 @@
 
 cmd="save_iq"
 
-#folder="/local/"
-folder="/var/emulab/save/"
+#folder="/local"
+folder="/var/emulab/save"
 
-cd /local/repository/
-git submodule update --init --remote || { echo "Failed to update git submodules!" && exit 1; }
+#cd /local/repository/
+#git submodule update --init --remote || { echo "Failed to update git submodules!" && exit 1; }
 
-today=$(date +"%m_%d_%Y")
-now=$(date +"%T")
-out="$folder/$today"
-mkdir "$out"
-out="$folder/$today/$now"
+today=$(date +"%m-%d-%Y")
+now=$(date +" %H-%M-%S")
+out="$folder/Shout_meas_$today_$now"
+echo "$out"
 mkdir "$out"
 
 cmd_file="/local/repository/shout/cmdfiles/$cmd.json"

@@ -18,9 +18,8 @@ if [ "" = "$PKG_OK" ]; then
   sudo apt -y install python3-gi gobject-introspection gir1.2-gtk-3.0
 fi
 
-cd $REPODIR
-git submodule update --init --remote || \
-    { echo "Failed to update git submodules!" && exit 1; }
+#cd $REPODIR
+#git submodule update --init --remote || { echo "Failed to update git submodules!" && exit 1; }
 
 sudo ntpdate -u ops.emulab.net && \
     sudo ntpdate -u ops.emulab.net || \
@@ -34,18 +33,3 @@ ORCHHOST="$ORCHNAME.$ORCHDOM"
 $SHOUTSRC/meascli.py -s $ORCHHOST
 
 exit 0
-
-
-#ip="155.98.37.211"
-
-#today=$(date +"%m_%d_%Y")
-#now=$(date +"%T")
-
-#out="/var/emulab/save/$today"
-#mkdir "$out"
-#out="/var/emulab/save/$today/$now"
-#mkdir "$out"
-
-#cd /local/repository/shout
-#python3 meascli.py -p 2000 -s $ip -l "$out/log" 
-#python3 meascli.py -p 2000 -s $ip 

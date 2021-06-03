@@ -29,7 +29,3 @@ sudo ip route add 155.98.46.0/23 via 155.98.36.204
 $SHOUTSRC/orchestrator.py
 
 exit 0
-
-#ip -4 -brief address show
-#cd /local/repository/shout
-#python3 orchestrator.py -p 2000

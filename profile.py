@@ -22,19 +22,18 @@ is "green", proceed to the next step.
 **2) Open SSH sessions**
 
 Use the following commands to start ssh and tmux sessions for the orchestor:
-
+```
 ssh -Y -p 22 -t <username>@<orch_node_hostname> 'cd /local/repository/bin && tmux new-session -A -s main &&  exec $SHELL'
 ssh -Y -p 22 -t <username>@<orch_node_hostname> 'cd /local/repository/bin && tmux new-session -A -s aux &&  exec $SHELL'
-
+```
 
 Use the following command to start a ssh and tmux session for each of the radio:
+```
 ssh -Y -p 22 -t <username>@<radio_hostname> 'cd /local/repository/bin && tmux new-session -A -s main &&  exec $SHELL'
-
+```
 
 Reference SSH commands can be seen on the "List View" tab next to the
-compute node names.  If you have an `ssh://` handler setup on your
-browser, you can click these commands to open a corresponding SSH
-session (they are hyperlinks).
+compute node names.  
 
 
 **3) Check radio firmware on x310 (rooftop site) radios**
@@ -67,8 +66,6 @@ This will start the Shout orchestrator that all of the measurement
 clients, and command executor script will connect to.
 
 
-
-
 **5) Start measurement clients**
 
 In the SSH session for each of the nodes, run: 
@@ -87,14 +84,29 @@ With all clients connected to the orchestrator, you can now perform a
 measurement collection run.  There are JSON cmd files located
 here: `https://gitlab.flux.utah.edu/aniqua/shout/cmdfiles`.  Select one and adjust according to your experiment plan. Once the command
 file is properly adjusted, update line # 3 of 3.run_cmd.sh to point to the correct cmd file. 
-Next, execute the following command in your other
-`orch` SSH session:
+Next, in your other `orch` SSH session, run:
 
 ```
 ./3.run_cmd.sh
 ```
+This will run the Shout command(s) as specified in the cmd file. This will create a measurement directory in `/var/emulab/save` named Shout_meas_<date>_<time> with the following items:
+****a) measurements.hdf5
 
-Details of supported cmds are available in https://gitlab.flux.utah.edu/aniqua/shout/-/blob/master/README.md
+       Measurement dataset.
+
+****b) <cmd>.json
+
+       Cmd file used for this measurement.
+
+****c) log
+
+       Log file saved by Shout's measiface.py
+
+****d) log
+
+       Log file saved by Shout's measiface.py
+
+Details of supported commands are available in https://gitlab.flux.utah.edu/aniqua/shout/-/blob/master/README.md. Example measurement directories are in https://gitlab.flux.utah.edu/aniqua/shout/examples/
 
 **7) Check collected data**
 
