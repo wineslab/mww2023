@@ -316,7 +316,7 @@ portal.context.defineParameter(
     "phantomnet",
     "Numer of PhantomNet radios to allocate",
     portal.ParameterType.INTEGER, 0,
-    [0, 2, 3],
+    [0, 3, 4],
     "Numer of PhantomNet radios to allocate",
 )
 
@@ -620,24 +620,39 @@ if params.orchtype != "None":
 if params.phantomnet > 0:
     pn_node = dict()
     rf_link = dict()
-    rf_link_index = dict()
     for i in range(params.phantomnet):
         pn_node[i] = request.RawPC( "node%d" %i)
         pn_node[i].hardware_type = "nuc5300"
         pn_node[i].disk_image = meas_disk_image
-        rf_link_index[i] = 0
-        rf_link[i] = [None]*(params.phantomnet-1)
-        for j in range(params.phantomnet-1):
-            rf_link[i][j] = pn_node[i].addInterface( "n%drf%d" %(i,j))
-    lc = 0       
-    for i in range(params.phantomnet):
-        for j in range(i+1, params.phantomnet):
-            rfl = request.RFLink( "rflink%d" %lc)
-            rfl.addInterface(rf_link[i][rf_link_index[i]])
-            rfl.addInterface(rf_link[j][rf_link_index[j]])
-            rf_link_index[i] += 1
-            rf_link_index[j] += 1
-            lc += 1
+        rf_link[i][0] = pn_node[i].addInterface("n%drf0" %i)
+        rf_link[i][1] = pn_node[i].addInterface("n%drf1" %i)
+        
+    if params.phantomnet == 3:
+        rfl0 = request.RFLink( "rflink0")
+        rfl0.addInterface(rf_link[0][0])
+        rfl0.addInterface(rf_link[1][0])
+
+        rfl1 = request.RFLink( "rflink1")
+        rfl1.addInterface(rf_link[0][1])
+        rfl1.addInterface(rf_link[2][0])
+
+    elif params.phantomnet == 4:
+        rfl0 = request.RFLink( "rflink0")
+        rfl0.addInterface(rf_link[0][0])
+        rfl0.addInterface(rf_link[1][0])
+
+        rfl1 = request.RFLink( "rflink1")
+        rfl1.addInterface(rf_link[0][1])
+        rfl1.addInterface(rf_link[2][0])
+
+        rfl2 = request.RFLink( "rflink2")
+        rfl2.addInterface(rf_link[3][0])
+        rfl2.addInterface(rf_link[1][1])
+
+        rfl3 = request.RFLink( "rflink3")
+        rfl3.addInterface(rf_link[3][1])
+        rfl3.addInterface(rf_link[2][1])
+    
 
 # Request PC + CBRS X310 resource pairs.
 for rsite in params.cbrs_radio_sites:
