@@ -292,6 +292,10 @@ def x310_node_pair(x310_radio_name, node_type):
     radio.component_id = x310_radio_name
     radio_link.addNode(radio)
 
+
+
+
+
 # Node type parameter for PCs to be paired with X310 radios.
 # Restricted to those that are known to work well with them.
 portal.context.defineParameter(
@@ -307,17 +311,17 @@ portal.context.defineParameter(
     "orchtype",
     "Orchestrator node type",
     portal.ParameterType.STRING, "d740",
-    ["None", "d430","d740"],
+    ["None", "d430","d740", ""],
     "Type of compute node for the orchestrator (unset == 'any available')",
 )
 
 # Node type for the orchestrator.
 portal.context.defineParameter(
     "phantomnet",
-    "Numer of PhantomNet radios to allocate",
-    portal.ParameterType.INTEGER, 0,
-    [0, 3, 4],
-    "Numer of PhantomNet radios to allocate",
+    "PhantomNet radios and links to allocate",
+    portal.ParameterType.STRING, "None",
+    ["None", "nuc1-nuc2", "nuc2-nuc3", "nuc3-nuc4", "nuc1-nuc4", "nuc5-nuc6", "nuc1-nuc2-nuc3", "nuc1-nuc4-nuc3", "nuc1-nuc2-nuc3-nuc4-nuc1"],
+    "PhantomNet radios and links to allocate",
 )
 
 
@@ -617,43 +621,102 @@ if params.orchtype != "None":
     #orch.addService(rspec.Execute(shell="bash", command=orch_setup_cmd))
 
 # Allocate PhantomNet node
-if params.phantomnet > 0:
-    pn_node = dict()
-    rf_link = dict()
-    for i in range(params.phantomnet):
-        pn_node[i] = request.RawPC( "node%d" %i)
-        pn_node[i].hardware_type = "nuc5300"
-        pn_node[i].disk_image = meas_disk_image
+if params.phantomnet != None:
 
-        rf_link[i] = [None]*2
-        rf_link[i][0] = pn_node[i].addInterface("n%drf0" %i)
-        rf_link[i][1] = pn_node[i].addInterface("n%drf1" %i)
+    nodes = params.phantomnet.split('-')
+    n = len(nodes)
+    if n == 2:
+        node0 = request.RawPC( "node0" )
+        node0.hardware_type = "nuc5300"
+        node0.component_id = nodes[0]
+        node0.disk_image = meas_disk_image
+        node0if = node0.addInterface( "n0rf0" )
+
+        node1 = request.RawPC( "node1" )
+        node1.hardware_type = "nuc5300"
+        node1.component_id = nodes[1]
+        node1.disk_image = meas_disk_image
+        node1if = node1.addInterface( "n1rf0" )  
+
+        rflink = request.RFLink( "rflink0" )
+        rflink.addInterface( node0if )
+        rflink.addInterface( node1if )
+
+    elif n == 3:
+        node0 = request.RawPC( "node0" )
+        node0.hardware_type = "nuc5300"
+        node0.component_id = nodes[0]
+        node0.disk_image = meas_disk_image
+        node0if = node0.addInterface( "n0rf0" )
+
+        node1 = request.RawPC( "node1" )
+        node1.hardware_type = "nuc5300"
+        node1.component_id = nodes[1]
+        node1.disk_image = meas_disk_image
+        node1if0 = node1.addInterface( "n1rf0" )  
+        node1if1 = node1.addInterface( "n1rf1" )
+
+        node2 = request.RawPC( "node2" )
+        node2.hardware_type = "nuc5300"
+        node2.component_id = nodes[2]
+        node2.disk_image = meas_disk_image
+        node2if = node2.addInterface( "n2rf0" )
+
+        rflink0 = request.RFLink( "rflink0" )
+        rflink0.addInterface( node0if )
+        rflink0.addInterface( node1if0 )
+
+        rflink1 = request.RFLink( "rflink1" )
+        rflink1.addInterface( node1if1 )
+        rflink1.addInterface( node2if )
+
+    elif n > 3:
+        nodes = params.phantomnet.split(',')[0].split('-')
+        node0 = request.RawPC( "node0" )
+        node0.hardware_type = "nuc5300"
+        node0.component_id = nodes[0]
+        node0.disk_image = meas_disk_image
+        node0if0 = node0.addInterface( "n0rf0" )
+        node0if1 = node0.addInterface( "n0rf1" )
+
+        node1 = request.RawPC( "node1" )
+        node1.hardware_type = "nuc5300"
+        node1.component_id = nodes[1]
+        node1.disk_image = meas_disk_image
+        node1if0 = node1.addInterface( "n1rf0" )  
+        node1if1 = node1.addInterface( "n1rf1" )
+
+        node2 = request.RawPC( "node2" )
+        node2.hardware_type = "nuc5300"
+        node2.component_id = nodes[2]
+        node2.disk_image = meas_disk_image
+        node2if0 = node2.addInterface( "n2rf0" )
+        node2if1 = node2.addInterface( "n2rf1" )
+
+        node3 = request.RawPC( "node3" )
+        node3.hardware_type = "nuc5300"
+        node3.component_id = nodes[3]
+        node3.disk_image = meas_disk_image
+        node3if0 = node2.addInterface( "n3rf0" )
+        node3if1 = node2.addInterface( "n3rf1" )
+
+        rflink0 = request.RFLink( "rflink0" )
+        rflink0.addInterface( node0if0 )
+        rflink0.addInterface( node1if0 )
+
+        rflink1 = request.RFLink( "rflink1" )
+        rflink1.addInterface( node1if1 )
+        rflink1.addInterface( node2if0 )
+
+        rflink2 = request.RFLink( "rflink2" )
+        rflink2.addInterface( node2if1 )
+        rflink2.addInterface( node3if0 )
+
+        rflink3 = request.RFLink( "rflink3" )
+        rflink3.addInterface( node3if1 )
+        rflink3.addInterface( node0if1 )
+
         
-    if params.phantomnet == 3:
-        rfl0 = request.RFLink( "rflink0")
-        rfl0.addInterface(rf_link[0][0])
-        rfl0.addInterface(rf_link[1][0])
-
-        rfl1 = request.RFLink( "rflink1")
-        rfl1.addInterface(rf_link[0][1])
-        rfl1.addInterface(rf_link[2][0])
-
-    elif params.phantomnet == 4:
-        rfl0 = request.RFLink( "rflink0")
-        rfl0.addInterface(rf_link[0][0])
-        rfl0.addInterface(rf_link[1][0])
-
-        rfl1 = request.RFLink( "rflink1")
-        rfl1.addInterface(rf_link[0][1])
-        rfl1.addInterface(rf_link[2][0])
-
-        rfl2 = request.RFLink( "rflink2")
-        rfl2.addInterface(rf_link[3][0])
-        rfl2.addInterface(rf_link[1][1])
-
-        rfl3 = request.RFLink( "rflink3")
-        rfl3.addInterface(rf_link[3][1])
-        rfl3.addInterface(rf_link[2][1])
     
 
 # Request PC + CBRS X310 resource pairs.
