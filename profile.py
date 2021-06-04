@@ -672,28 +672,28 @@ if params.phantomnet != None:
 
     elif n > 3:
         nodes = params.phantomnet.split(',')[0].split('-')
-        node0 = request.RawPC( "node0" )
+        node0 = request.RawPC( nodes[0] )
         node0.hardware_type = "nuc5300"
         node0.component_id = nodes[0]
         node0.disk_image = meas_disk_image
         node0if0 = node0.addInterface( "n0rf0" )
         node0if1 = node0.addInterface( "n0rf1" )
 
-        node1 = request.RawPC( "node1" )
+        node1 = request.RawPC( nodes[1] )
         node1.hardware_type = "nuc5300"
         node1.component_id = nodes[1]
         node1.disk_image = meas_disk_image
         node1if0 = node1.addInterface( "n1rf0" )  
         node1if1 = node1.addInterface( "n1rf1" )
 
-        node2 = request.RawPC( "node2" )
+        node2 = request.RawPC( nodes[2] )
         node2.hardware_type = "nuc5300"
         node2.component_id = nodes[2]
         node2.disk_image = meas_disk_image
         node2if0 = node2.addInterface( "n2rf0" )
         node2if1 = node2.addInterface( "n2rf1" )
 
-        node3 = request.RawPC( "node3" )
+        node3 = request.RawPC( nodes[3] )
         node3.hardware_type = "nuc5300"
         node3.component_id = nodes[3]
         node3.disk_image = meas_disk_image
