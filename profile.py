@@ -23,13 +23,13 @@ is "green", proceed to the next step.
 
 Use the following commands to start ssh and tmux sessions for the orchestor:
 ```
-ssh -Y -p 22 -t <username>@<orch_node_hostname> 'cd /local/repository/bin && tmux new-session -A -s main &&  exec $SHELL'
-ssh -Y -p 22 -t <username>@<orch_node_hostname> 'cd /local/repository/bin && tmux new-session -A -s aux &&  exec $SHELL'
+ssh -Y -p 22 -t <username>@<orch_node_hostname> 'cd /local/repository/bin && tmux new-session -A -s shout1 &&  exec $SHELL'
+ssh -Y -p 22 -t <username>@<orch_node_hostname> 'cd /local/repository/bin && tmux new-session -A -s shout2 &&  exec $SHELL'
 ```
 
 Use the following command to start a ssh and tmux session for each of the radio:
 ```
-ssh -Y -p 22 -t <username>@<radio_hostname> 'cd /local/repository/bin && tmux new-session -A -s main &&  exec $SHELL'
+ssh -Y -p 22 -t <username>@<radio_hostname> 'cd /local/repository/bin && tmux new-session -A -s shout &&  exec $SHELL'
 ```
 
 Reference SSH commands can be seen on the "List View" tab next to the
