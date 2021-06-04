@@ -15,12 +15,8 @@ if [ "" = "$PKG_OK" ]; then
   sudo apt-get --yes install $REQUIRED_PKG 
 fi
 
-#sudo apt-get update
-#sudo apt -y install gpsd-clients
-
 cd $REPODIR
-git submodule update --init --remote || \
-    { echo "Failed to update git submodules!" && exit 1; }
+git submodule update --init --remote || { echo "Failed to update git submodules!" && exit 1; }
 
 #sudo ip route add 155.98.47.0/24 via 155.98.36.204
 sudo ip route add 155.98.46.0/23 via 155.98.36.204
