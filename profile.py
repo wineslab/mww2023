@@ -697,8 +697,8 @@ if params.phantomnet != None:
         node3.hardware_type = "nuc5300"
         node3.component_id = nodes[3]
         node3.disk_image = meas_disk_image
-        node3if0 = node2.addInterface( "n3rf0" )
-        node3if1 = node2.addInterface( "n3rf1" )
+        node3if0 = node3.addInterface( "n3rf0" )
+        node3if1 = node3.addInterface( "n3rf1" )
 
         rflink0 = request.RFLink( "rflink0" )
         rflink0.addInterface( node0if0 )
