@@ -266,6 +266,7 @@ ota_b210_devices = [
     "ota-nuc1",
     "ota-nuc2",
     "ota-nuc3",
+    "ota-nuc4",
 ]
 
 
