@@ -1,20 +1,20 @@
 #!/bin/bash
 
-cmd="save_iq"
+CMDDIR="/local/repository/etc/cmdfiles"
+CMD="save_iq"
+OUT="/var/emulab/save"
 
-#folder="/local"
-folder="/var/emulab/save"
 
 cd /local/repository/
 git submodule update --init --remote || { echo "Failed to update git submodules!" && exit 1; }
 
 today=$(date +"%m-%d-%Y")
 now=$(date +"%H-%M-%S")
-out="$folder"/Shout_meas_"$today"_"$now"
+out="$OUT"/Shout_meas_"$today"_"$now"
 mkdir "$out"
 
-cmd_file="/local/repository/shout/cmdfiles/$cmd.json"
-cp  $cmd_file "$out/$cmd.json"
+cmd_file="$CMDDIR/$CMD.json"
+cp  $cmd_file "$out/$CMD.json"
 
 cd "$out"
 wget https://gitlab.flux.utah.edu/powderrenewpublic/powder-deployment/-/blob/master/powder-deployment.csv

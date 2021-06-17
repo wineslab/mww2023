@@ -1,0 +1,19 @@
+[
+    {
+     "cmd": "pause",
+     "duration": 5
+    },
+    {
+        "cmd": "save_iq",
+        "sync": true,
+        "timeout": 60,
+
+        "nsamps": 1024,
+
+        "rxrate": 20e6,
+        "rxfreq": 2630e6,
+        "rxgain": {"start": 48.0, "end": 50.0, "step": 2.0},
+        "rxrepeat": 5,
+        "rxwait": {"min": 1, "max": 10, "res": "s"}
+    }
+]

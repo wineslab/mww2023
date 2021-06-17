@@ -83,13 +83,13 @@ in the output of the orchestrator.
 With all clients connected to the orchestrator, you can now perform a
 measurement collection run.  There are JSON cmd files located
 in: https://gitlab.flux.utah.edu/aniqua/shout/cmdfiles/.  Select one and adjust according to your experiment plan. Once the command
-file is properly adjusted, update line # 3 of 3.run_cmd.sh to point to the correct cmd file. 
+file is properly adjusted, update 3.run_cmd.sh to point to the correct cmd file and output location. 
 Next, in your other `orch` SSH session, run:
 
 ```
 ./3.run_cmd.sh
 ```
-This will run the Shout command(s) as specified in the cmd file. This will create a measurement directory in `/var/emulab/save` named Shout\_meas\_<date>_<time> with the following items:
+This will run the Shout command(s) as specified in the cmd file. This will create a measurement directory in OUT named Shout\_meas\_<date>_<time> with the following items:
 
 a) measurements.hdf5: Measurement dataset.
 
@@ -107,6 +107,14 @@ Details of supported commands are available in https://gitlab.flux.utah.edu/aniq
 
 Example measurement directories are in https://gitlab.flux.utah.edu/aniqua/shout/-/tree/master/examples.
 
+
+**6) Check saved dataset**
+
+You can run the following command to test saved measurements.hdf5:
+
+```
+python3 check-data.py --datadir <shout_meas_dir>
+```
 
 """
 
