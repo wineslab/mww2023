@@ -35,6 +35,8 @@ ssh -Y -p 22 -t <username>@<radio_hostname> 'cd /local/repository/bin && tmux ne
 Reference SSH commands can be seen on the "List View" tab next to the
 compute node names.  
 
+TMUX is helpful for doing multiple terminal sessions and allowing remote sessions to remain active even when the SSH connection to the nodes gets disconncted.
+
 
 **3) Check radio firmware on x310 (rooftop site) radios**
 
@@ -81,8 +83,8 @@ in the output of the orchestrator.
 **6) Execute a measurement run**
 
 With all clients connected to the orchestrator, you can now perform a
-measurement collection run.  There are JSON cmd files located
-in: https://gitlab.flux.utah.edu/aniqua/shout/cmdfiles/.  Select one and adjust according to your experiment plan. Once the command
+measurement collection run.  There are example JSON cmd files located
+in: https://gitlab.flux.utah.edu/aniqua/shout/-/tree/master/examples/cmdfiles and /local/repository/etc/cmdfiles.  Select one and adjust according to your experiment plan. Once the command
 file is properly adjusted, update 3.run_cmd.sh to point to the correct cmd file and output location. 
 Next, in your other `orch` SSH session, run:
 
