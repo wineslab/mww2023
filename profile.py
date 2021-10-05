@@ -115,6 +115,7 @@ Example measurement directories are in https://gitlab.flux.utah.edu/aniqua/shout
 You can run the following command to test saved measurements.hdf5:
 
 ```
+cd /local/repository/shout
 python3 check-data.py --datadir <shout_meas_dir>
 ```
 
@@ -279,6 +280,10 @@ freq_ranges = {
     "ISM-5800": [5725.00, 5850.00]
 }
 
+datasets = {
+    "SpectSet": "urn:publicid:IDN+emulab.net:nrdz+ltdataset+SpectSet"
+}
+
 
 # Top-level request object.
 request = portal.context.makeRequestRSpec()
@@ -304,6 +309,25 @@ def x310_node_pair(x310_radio_name, node_type):
     radio_link.addNode(radio)
 
 
+# Helper function to connect orch to a dataset
+def connect_to_dataset(node, dataset_name):
+    # We need a link to talk to the remote file system, so make an interface.
+    iface = node.addInterface()
+
+    # The remote file system is represented by special node.
+    fsnode = request.RemoteBlockstore("fsnode", "/mydata")
+
+    # This URN is displayed in the web interfaace for your dataset.
+    fsnode.dataset = datasets[dataset_name]
+    
+    # Now we add the link between the node and the special node
+    fslink = request.Link("fslink")
+    fslink.addInterface(iface)
+    fslink.addInterface(fsnode.interface)
+
+    # Special attributes for this link that we must use.
+    fslink.best_effort = True
+    fslink.vlan_tagging = True
 
 
 
@@ -325,6 +349,15 @@ portal.context.defineParameter(
     ["None", "d430","d740", ""],
     "Type of compute node for the orchestrator (unset == 'any available')",
 )
+
+portal.context.defineParameter(
+    "dataset",
+    "Dataset to connect",
+    portal.ParameterType.STRING, "SpectSet",
+    ["SpectSet","None"],
+    "Name of the remote dataset to connect with orch",
+)
+
 
 # Node type for the orchestrator.
 portal.context.defineParameter(
@@ -629,6 +662,8 @@ if params.orchtype != "None":
     orch = request.RawPC("orch")
     orch.disk_image = orch_image
     orch.hardware_type = params.orchtype
+    if params.dataset != "None": 
+        connect_to_dataset(orch, params.dataset)
     #orch.addService(rspec.Execute(shell="bash", command=orch_setup_cmd))
 
 # Allocate PhantomNet node
