@@ -315,7 +315,7 @@ def connect_to_dataset(node, dataset_name):
     iface = node.addInterface()
 
     # The remote file system is represented by special node.
-    fsnode = request.RemoteBlockstore("fsnode", "/mydata")
+    fsnode = request.RemoteBlockstore("fsnode", "/" + dataset_name)
 
     # This URN is displayed in the web interfaace for your dataset.
     fsnode.dataset = datasets[dataset_name]
