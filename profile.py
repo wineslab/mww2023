@@ -319,6 +319,32 @@ def connect_to_dataset(node, dataset_name):
 
     # This URN is displayed in the web interfaace for your dataset.
     fsnode.dataset = datasets[dataset_name]
+    #
+    # The "rwclone" attribute allows you to map a writable copy of the
+    # indicated SAN-based dataset. In this way, multiple nodes can map
+    # the same dataset simultaneously. In many situations, this is more
+    # useful than a "readonly" mapping. For example, a dataset
+    # containing a Linux source tree could be mapped into multiple
+    # nodes, each of which could do its own independent,
+    # non-conflicting configure and build in their respective copies.
+    # Currently, rwclones are "ephemeral" in that any changes made are
+    # lost when the experiment mapping the clone is terminated.
+    #
+    fsnode.rwclone = False
+
+    #
+    # The "readonly" attribute, like the rwclone attribute, allows you to
+    # map a dataset onto multiple nodes simultaneously. But with readonly,
+    # those mappings will only allow read access (duh!) and any filesystem
+    # (/mydata in this example) will thus be mounted read-only. Currently,
+    # readonly mappings are implemented as clones that are exported
+    # allowing just read access, so there are minimal efficiency reasons to
+    # use a readonly mapping rather than a clone. The main reason to use a
+    # readonly mapping is to avoid a situation in which you forget that
+    # changes to a clone dataset are ephemeral, and then lose some
+    # important changes when you terminate the experiment.
+    #
+    fsnode.readonly = False
     
     # Now we add the link between the node and the special node
     fslink = request.Link("fslink")
