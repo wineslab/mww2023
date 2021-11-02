@@ -270,6 +270,17 @@ ota_b210_devices = [
     "ota-nuc4",
 ]
 
+# List of PhantomNet devices and links
+pn_devices = [
+    "nuc1-nuc2",
+    "nuc2-nuc3",
+    "nuc3-nuc4",
+    "nuc1-nuc4",
+    "nuc5-nuc6",
+    "nuc1-nuc2-nuc3",
+    "nuc1-nuc4-nuc3",
+    "nuc1-nuc2-nuc3-nuc4-nuc1"
+]
 
 freq_ranges = {
     "ISM-900": [914.87, 915.13],
@@ -386,13 +397,13 @@ portal.context.defineParameter(
 
 
 # Node type for the orchestrator.
-portal.context.defineParameter(
+"""portal.context.defineParameter(
     "phantomnet",
     "PhantomNet radios and links to allocate",
     portal.ParameterType.STRING, "None",
     ["None", "nuc1-nuc2", "nuc2-nuc3", "nuc3-nuc4", "nuc1-nuc4", "nuc5-nuc6", "nuc1-nuc2-nuc3", "nuc1-nuc4-nuc3", "nuc1-nuc2-nuc3-nuc4-nuc1"],
     "PhantomNet radios and links to allocate",
-)
+)"""
 
 
 
@@ -510,6 +521,24 @@ portal.context.defineStructParameter(
             longDescription="A NUC+B210 device in the OTA lab will be allocated."
         ),
     ])
+
+
+# Set of PhantonNet radios to allocate
+portal.context.defineStructParameter(
+    "phantomnet", "PhantonNet Devices", [],
+    multiValue=False,
+    min=0,
+    #multiValueTitle="PhantomNet radios and links to allocate.",
+    members=[
+        portal.Parameter(
+            "device",
+            "PhantomNet device",
+            portal.ParameterType.STRING,
+            pn_devices[0], pn_devices,
+            longDescription="PhantomNet devices will be allocated and corresponding links will be created."
+        ),
+    ])
+
 
 # Frequency/spectrum parameters
 portal.context.defineStructParameter(
@@ -693,9 +722,10 @@ if params.orchtype != "None":
     #orch.addService(rspec.Execute(shell="bash", command=orch_setup_cmd))
 
 # Allocate PhantomNet node
-if params.phantomnet != None:
+#if params.phantomnet != None:
+for ph in params.phantomnet:
 
-    nodes = params.phantomnet.split('-')
+    nodes = ph.split('-')
     n = len(nodes)
     if n == 2:
         node0 = request.RawPC( "node0" )
