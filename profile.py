@@ -727,97 +727,96 @@ if params.orchtype != "None":
 for phantomnet in params.phantomnet:
 
     nodes = phantomnet.device.split('-')
-    n = len(nodes)
-    if n == 2:
-        node0 = request.RawPC( "node0" )
+    n_nodes = len(nodes)
+    if n_nodes == 2:
+        node0 = request.RawPC(nodes[0])
         node0.hardware_type = "nuc5300"
         node0.component_id = nodes[0]
         node0.disk_image = meas_disk_image
-        node0if = node0.addInterface( "n0rf0" )
+        node0if0 = node0.addInterface("n0rf0")
 
-        node1 = request.RawPC( "node1" )
+        node1 = request.RawPC(nodes[1])
         node1.hardware_type = "nuc5300"
         node1.component_id = nodes[1]
         node1.disk_image = meas_disk_image
-        node1if = node1.addInterface( "n1rf0" )  
+        node1if0 = node1.addInterface( "n1rf0")  
 
-        rflink = request.RFLink( "rflink0" )
-        rflink.addInterface( node0if )
-        rflink.addInterface( node1if )
-
-    elif n == 3:
-        node0 = request.RawPC( "node0" )
-        node0.hardware_type = "nuc5300"
-        node0.component_id = nodes[0]
-        node0.disk_image = meas_disk_image
-        node0if = node0.addInterface( "n0rf0" )
-
-        node1 = request.RawPC( "node1" )
-        node1.hardware_type = "nuc5300"
-        node1.component_id = nodes[1]
-        node1.disk_image = meas_disk_image
-        node1if0 = node1.addInterface( "n1rf0" )  
-        node1if1 = node1.addInterface( "n1rf1" )
-
-        node2 = request.RawPC( "node2" )
-        node2.hardware_type = "nuc5300"
-        node2.component_id = nodes[2]
-        node2.disk_image = meas_disk_image
-        node2if = node2.addInterface( "n2rf0" )
-
-        rflink0 = request.RFLink( "rflink0" )
-        rflink0.addInterface( node0if )
-        rflink0.addInterface( node1if0 )
-
-        rflink1 = request.RFLink( "rflink1" )
-        rflink1.addInterface( node1if1 )
-        rflink1.addInterface( node2if )
-
-    elif n > 3:
-        nodes = params.phantomnet.split(',')[0].split('-')
-        node0 = request.RawPC( nodes[0] )
-        node0.hardware_type = "nuc5300"
-        node0.component_id = nodes[0]
-        node0.disk_image = meas_disk_image
-        node0if0 = node0.addInterface( "n0rf0" )
-        node0if1 = node0.addInterface( "n0rf1" )
-
-        node1 = request.RawPC( nodes[1] )
-        node1.hardware_type = "nuc5300"
-        node1.component_id = nodes[1]
-        node1.disk_image = meas_disk_image
-        node1if0 = node1.addInterface( "n1rf0" )  
-        node1if1 = node1.addInterface( "n1rf1" )
-
-        node2 = request.RawPC( nodes[2] )
-        node2.hardware_type = "nuc5300"
-        node2.component_id = nodes[2]
-        node2.disk_image = meas_disk_image
-        node2if0 = node2.addInterface( "n2rf0" )
-        node2if1 = node2.addInterface( "n2rf1" )
-
-        node3 = request.RawPC( nodes[3] )
-        node3.hardware_type = "nuc5300"
-        node3.component_id = nodes[3]
-        node3.disk_image = meas_disk_image
-        node3if0 = node3.addInterface( "n3rf0" )
-        node3if1 = node3.addInterface( "n3rf1" )
-
-        rflink0 = request.RFLink( "rflink0" )
+        rflink0 = request.RFLink("rflink0")
         rflink0.addInterface( node0if0 )
         rflink0.addInterface( node1if0 )
 
-        rflink1 = request.RFLink( "rflink1" )
-        rflink1.addInterface( node1if1 )
-        rflink1.addInterface( node2if0 )
+    elif n_nodes == 3:
+        node0 = request.RawPC(nodes[0])
+        node0.hardware_type = "nuc5300"
+        node0.component_id = nodes[0]
+        node0.disk_image = meas_disk_image
+        node0if = node0.addInterface("n0rf0")
 
-        rflink2 = request.RFLink( "rflink2" )
-        rflink2.addInterface( node2if1 )
-        rflink2.addInterface( node3if0 )
+        node1 = request.RawPC(nodes[1])
+        node1.hardware_type = "nuc5300"
+        node1.component_id = nodes[1]
+        node1.disk_image = meas_disk_image
+        node1if0 = node1.addInterface("n1rf0")  
+        node1if1 = node1.addInterface("n1rf1")
 
-        rflink3 = request.RFLink( "rflink3" )
-        rflink3.addInterface( node3if1 )
-        rflink3.addInterface( node0if1 )
+        node2 = request.RawPC(nodes[2])
+        node2.hardware_type = "nuc5300"
+        node2.component_id = nodes[2]
+        node2.disk_image = meas_disk_image
+        node2if = node2.addInterface("n2rf0")
+
+        rflink0 = request.RFLink("rflink0")
+        rflink0.addInterface( node0if )
+        rflink0.addInterface( node1if0 )
+
+        rflink1 = request.RFLink("rflink1")
+        rflink1.addInterface(node1if1)
+        rflink1.addInterface(node2if)
+
+    elif n_nodes == 5:
+        node0 = request.RawPC(nodes[0])
+        node0.hardware_type = "nuc5300"
+        node0.component_id = nodes[0]
+        node0.disk_image = meas_disk_image
+        node0if0 = node0.addInterface("n0rf0")
+        node0if1 = node0.addInterface("n0rf1")
+
+        node1 = request.RawPC(nodes[1])
+        node1.hardware_type = "nuc5300"
+        node1.component_id = nodes[1]
+        node1.disk_image = meas_disk_image
+        node1if0 = node1.addInterface("n1rf0")  
+        node1if1 = node1.addInterface("n1rf1")
+
+        node2 = request.RawPC(nodes[2])
+        node2.hardware_type = "nuc5300"
+        node2.component_id = nodes[2]
+        node2.disk_image = meas_disk_image
+        node2if0 = node2.addInterface("n2rf0")
+        node2if1 = node2.addInterface("n2rf1")
+
+        node3 = request.RawPC(nodes[3])
+        node3.hardware_type = "nuc5300"
+        node3.component_id = nodes[3]
+        node3.disk_image = meas_disk_image
+        node3if0 = node3.addInterface("n3rf0")
+        node3if1 = node3.addInterface("n3rf1")
+
+        rflink0 = request.RFLink("rflink0")
+        rflink0.addInterface( node0if0 )
+        rflink0.addInterface( node1if0 )
+
+        rflink1 = request.RFLink("rflink1")
+        rflink1.addInterface(node1if1)
+        rflink1.addInterface(node2if0)
+
+        rflink2 = request.RFLink("rflink2")
+        rflink2.addInterface(node2if1)
+        rflink2.addInterface(node3if0)
+
+        rflink3 = request.RFLink("rflink3")
+        rflink3.addInterface(node3if1)
+        rflink3.addInterface(node0if1)
 
         
     
