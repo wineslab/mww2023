@@ -724,15 +724,18 @@ if params.orchtype != "None":
 
 # Request PhantomNet radios
 for dev in params.phantomnet:
+    node_names = dev.device.split('-')
+    n_nodes = len(node_names)
+    if node_names[0] == node_names[-1]: # for nuc1-nuc2-nuc3-nuc4-nuc1
+        node_names = node_names[:-1]
+    
     nodes = []
-    for node_name in dev.device.split('-'):
+    for node_name in node_names:
         node = request.RawPC(node_name)
         node.hardware_type = "nuc5300"
         node.component_id = node_name
         node.disk_image = meas_disk_image
         nodes.append(node)
-
-    n_nodes = len(nodes)
 
     if n_nodes == 2:
         node0if0 = nodes[0].addInterface("n0rf0")
