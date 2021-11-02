@@ -724,9 +724,9 @@ if params.orchtype != "None":
 
 # Allocate PhantomNet node
 #if params.phantomnet != None:
-for ph in params.phantomnet:
+for phantomnet in params.phantomnet:
 
-    nodes = ph.split('-')
+    nodes = phantomnet.device.split('-')
     n = len(nodes)
     if n == 2:
         node0 = request.RawPC( "node0" )
