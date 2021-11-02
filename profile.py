@@ -525,18 +525,18 @@ portal.context.defineStructParameter(
 
 # Set of PhantonNet radios to allocate
 portal.context.defineStructParameter(
-    "phantomnet", "PhantonNet Devices", [],
+    "phantomnet", "PhantonNet Radios", [],
     multiValue=True,
     min=0,
     max=1,
-    #multiValueTitle="PhantomNet radios and links to allocate.",
+    multiValueTitle="PhantomNet radios and links to allocate.",
     members=[
         portal.Parameter(
             "device",
-            "PhantomNet device",
+            "PhantomNet radios and links",
             portal.ParameterType.STRING,
             pn_devices[0], pn_devices,
-            longDescription="PhantomNet devices will be allocated and corresponding links will be created."
+            longDescription="PhantomNet radios will be allocated and corresponding links will be created."
         ),
     ])
 
@@ -722,48 +722,33 @@ if params.orchtype != "None":
         connect_to_dataset(orch, params.dataset)
     #orch.addService(rspec.Execute(shell="bash", command=orch_setup_cmd))
 
-# Allocate PhantomNet node
-#if params.phantomnet != None:
-for phantomnet in params.phantomnet:
+# Request PhantomNet radios
+for dev in params.phantomnet:
+    nodes = []
+    for node_name in dev.device.split('-'):
+        node = request.RawPC(node_name)
+        node.hardware_type = "nuc5300"
+        node.component_id = node_name
+        node.disk_image = meas_disk_image
+        nodes.append(node)
 
-    nodes = phantomnet.device.split('-')
     n_nodes = len(nodes)
-    if n_nodes == 2:
-        node0 = request.RawPC(nodes[0])
-        node0.hardware_type = "nuc5300"
-        node0.component_id = nodes[0]
-        node0.disk_image = meas_disk_image
-        node0if0 = node0.addInterface("n0rf0")
 
-        node1 = request.RawPC(nodes[1])
-        node1.hardware_type = "nuc5300"
-        node1.component_id = nodes[1]
-        node1.disk_image = meas_disk_image
-        node1if0 = node1.addInterface( "n1rf0")  
+    if n_nodes == 2:
+        node0if0 = nodes[0].addInterface("n0rf0")
+        node1if0 = nodes[1].addInterface("n1rf0")  
 
         rflink0 = request.RFLink("rflink0")
-        rflink0.addInterface( node0if0 )
-        rflink0.addInterface( node1if0 )
+        rflink0.addInterface(node0if0)
+        rflink0.addInterface(node1if0)
 
     elif n_nodes == 3:
-        node0 = request.RawPC(nodes[0])
-        node0.hardware_type = "nuc5300"
-        node0.component_id = nodes[0]
-        node0.disk_image = meas_disk_image
-        node0if = node0.addInterface("n0rf0")
+        node0if = nodes[0].addInterface("n0rf0")
 
-        node1 = request.RawPC(nodes[1])
-        node1.hardware_type = "nuc5300"
-        node1.component_id = nodes[1]
-        node1.disk_image = meas_disk_image
-        node1if0 = node1.addInterface("n1rf0")  
-        node1if1 = node1.addInterface("n1rf1")
+        node1if0 = nodes[1].addInterface("n1rf0")  
+        node1if1 = nodes[1].addInterface("n1rf1")
 
-        node2 = request.RawPC(nodes[2])
-        node2.hardware_type = "nuc5300"
-        node2.component_id = nodes[2]
-        node2.disk_image = meas_disk_image
-        node2if = node2.addInterface("n2rf0")
+        node2if = nodes[2].addInterface("n2rf0")
 
         rflink0 = request.RFLink("rflink0")
         rflink0.addInterface( node0if )
@@ -774,37 +759,21 @@ for phantomnet in params.phantomnet:
         rflink1.addInterface(node2if)
 
     elif n_nodes == 5:
-        node0 = request.RawPC(nodes[0])
-        node0.hardware_type = "nuc5300"
-        node0.component_id = nodes[0]
-        node0.disk_image = meas_disk_image
-        node0if0 = node0.addInterface("n0rf0")
-        node0if1 = node0.addInterface("n0rf1")
+        node0if0 = nodes[0].addInterface("n0rf0")
+        node0if1 = nodes[0].addInterface("n0rf1")
 
-        node1 = request.RawPC(nodes[1])
-        node1.hardware_type = "nuc5300"
-        node1.component_id = nodes[1]
-        node1.disk_image = meas_disk_image
-        node1if0 = node1.addInterface("n1rf0")  
-        node1if1 = node1.addInterface("n1rf1")
+        node1if0 = nodes[1].addInterface("n1rf0")  
+        node1if1 = nodes[1].addInterface("n1rf1")
 
-        node2 = request.RawPC(nodes[2])
-        node2.hardware_type = "nuc5300"
-        node2.component_id = nodes[2]
-        node2.disk_image = meas_disk_image
-        node2if0 = node2.addInterface("n2rf0")
-        node2if1 = node2.addInterface("n2rf1")
+        node2if0 = nodes[2].addInterface("n2rf0")
+        node2if1 = nodes[2].addInterface("n2rf1")
 
-        node3 = request.RawPC(nodes[3])
-        node3.hardware_type = "nuc5300"
-        node3.component_id = nodes[3]
-        node3.disk_image = meas_disk_image
-        node3if0 = node3.addInterface("n3rf0")
-        node3if1 = node3.addInterface("n3rf1")
+        node3if0 = nodes[3].addInterface("n3rf0")
+        node3if1 = nodes[3].addInterface("n3rf1")
 
         rflink0 = request.RFLink("rflink0")
-        rflink0.addInterface( node0if0 )
-        rflink0.addInterface( node1if0 )
+        rflink0.addInterface(node0if0)
+        rflink0.addInterface(node1if0)
 
         rflink1 = request.RFLink("rflink1")
         rflink1.addInterface(node1if1)
