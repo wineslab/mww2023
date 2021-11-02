@@ -526,8 +526,9 @@ portal.context.defineStructParameter(
 # Set of PhantonNet radios to allocate
 portal.context.defineStructParameter(
     "phantomnet", "PhantonNet Devices", [],
-    multiValue=False,
+    multiValue=True,
     min=0,
+    max=1,
     #multiValueTitle="PhantomNet radios and links to allocate.",
     members=[
         portal.Parameter(
