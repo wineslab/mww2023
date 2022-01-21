@@ -392,7 +392,7 @@ portal.context.defineParameter(
     "dataset",
     "Dataset to connect",
     portal.ParameterType.STRING, "SpectSet",
-    ["SpectSet","None"],
+    ["SpectSet","ADSBRecordings","None"],
     "Name of the remote dataset to connect with orch",
 )
 
