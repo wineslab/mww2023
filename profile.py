@@ -292,7 +292,8 @@ freq_ranges = {
 }
 
 datasets = {
-    "SpectSet": "urn:publicid:IDN+emulab.net:nrdz+ltdataset+SpectSet"
+    "SpectSet": "urn:publicid:IDN+emulab.net:nrdz+ltdataset+SpectSet",
+    "ADSBRecordings": "urn:publicid:IDN+emulab.net:powdersandbox+stdataset+ADSBrecordings"
 }
 
 
