@@ -127,6 +127,7 @@ import geni.rspec.pg as rspec
 import geni.rspec.emulab.pnext as pn
 import geni.rspec.emulab.spectrum as spectrum
 import geni.rspec.igext as ig
+import geni.rspec.emulab.route as route
 
 
 
