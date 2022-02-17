@@ -1,0 +1,32 @@
+[
+ {
+     "cmd": "save_iq_w_simul_tx",
+     "sync": true,
+     "timeout": 5,
+
+     "nsamps": 1024,
+
+     "wotxrepeat": 5,
+     "use_lo_offset": false,
+     
+     "txgain": {"start": 48.0, "end": 59.0, "step": 2.0},
+     "txgaindiff": 6,
+     "txsignals": ["/local/repository/shout/signal_library/OFDM4_scaled.iq"],
+     "txguard": 0.5e6,
+     "txbwmin": 0,
+     "txcount": 1,
+     "txsetupcount": 45,
+     "txoverlap": false,
+     "txwait": 20,
+     
+
+     "rxrate": 25e6,
+     "rxfreq": 3565e6,
+     "rxgain": {"fixed": 30.0},
+     "rxrepeat": 5,
+     "rxwait": {"min": 100, "max": 900, "res": "ms"},
+
+     "txclients": ["ota-nuc3-b210"],
+     "rxclients": ["ota-x310-1-comp"]
+ }
+]

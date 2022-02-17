@@ -4,9 +4,10 @@
 ORCHNAME="orch"
 
 EMUBOOT=/var/emulab/boot
+EMUSAVE=/var/emulab/save
 REPODIR=/local/repository
 SHOUTSRC=/local/repository/shout
-CLILOG=/var/tmp/ccontroller.log
+CLILOG=/var/tmp/controller.log
 
 # Install dependencies for GRC
 REQUIRED_PKG="python3-gi"
@@ -19,17 +20,18 @@ if [ "" = "$PKG_OK" ]; then
 fi
 
 cd $REPODIR
-git submodule update --init --remote || { echo "Failed to update git submodules!" && exit 1; }
+#git submodule update --init --remote || { echo "Failed to update git submodules!" && exit 1; }
 
+cd $EMUSAVE
 sudo ntpdate -u ops.emulab.net && \
     sudo ntpdate -u ops.emulab.net || \
-	echo "Failed to update clock via NTP!"
+	echo "Failed to update clock via NTP!"  &> ntpdate.txt  
 
 sudo rm $CLILOG
 
 ORCHDOM=`$REPODIR/bin/getexpdom.py`
 ORCHHOST="$ORCHNAME.$ORCHDOM"
-
-$SHOUTSRC/meascli.py -s $ORCHHOST
+echo "$ORCHHOST"
+$SHOUTSRC/meascli.py -s $ORCHHOST #--useoffset
 
 exit 0

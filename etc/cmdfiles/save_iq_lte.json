@@ -1,0 +1,15 @@
+[
+    {
+        "cmd": "save_iq",
+        "sync": true,
+        "timeout": 30,
+
+        "nsamps": 20000,
+
+        "rxrate": 15e6,
+        "rxfreq": 2352.5e6,
+        "rxgain": {"fixed": 40.0},
+        "rxrepeat": 1000,
+        "rxwait": {"min": 1, "max": 20, "res": "s"}
+    }
+]
