@@ -211,7 +211,7 @@ fe_sites = [
 ]
 
 # A list of mobile endpoint sites.
-me_sites = [
+me_sites = [ ("All", "All"),
     ('urn:publicid:IDN+bus-4208.powderwireless.net+authority+cm',
      "Bus4208"),
     ('urn:publicid:IDN+bus-4329.powderwireless.net+authority+cm',
@@ -270,7 +270,7 @@ ota_b210_devices = [
     "ota-nuc4",
 ]
 
-# List of PhantomNet devices and links
+# List of PhantomNet devices and links.
 pn_devices = [
     "nuc1-nuc2",
     "nuc2-nuc3",
@@ -833,15 +833,18 @@ for fesite in params.fe_radio_sites_nuc2:
 
 # Request ed1+B210 radio resources at ME sites.
 for mesite in params.me_radio_sites:
-    node = ""
-    for urn,sname in me_sites:
-        if urn == mesite.site:
-            node = request.RawPC("%s-b210" % sname)
-            break
-    node.component_manager_id = mesite.site
-    node.component_id = "ed1"
-    node.disk_image = sm_image
-    #node.addService(rspec.Execute(shell="bash", command=b210_setup_cmd))
+    if mesite.site == "All":
+        obj = request.requestAllRoutes()
+        obj.disk_image = nuc_image
+    else:
+        node = ""
+        for urn,sname in me_sites:
+            if urn == mesite.site:
+                node = request.RawPC("%s-b210" % sname)
+                node.component_manager_id = mesite.site
+                node.component_id = "ed1"
+                node.disk_image = nuc_image
+                break
 
  
 # Request NUC+B210 radio resources in the OTA Lab.
