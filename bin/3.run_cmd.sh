@@ -1,17 +1,19 @@
 #!/bin/bash
 
 CMDDIR="/local/repository/etc/cmdfiles"
-#OUT="/var/emulab/save/"
-OUT="/SpectSet/"
-
+OUT="/local/data/"
+mkdir -p $OUT
 
 cd /local/repository/
 #git submodule update --init --remote || { echo "Failed to update git submodules!" && exit 1; }
 
-for i in 1 2 3 4 5 6 7 8 9 10
+START=1
+REPEAT=500
+for i in $(eval echo "{$START..$REPEAT}")
 do
 	#for CMD in "save_iq_w_simult_tx_1" "save_iq_w_simult_tx_2" "save_iq_w_simult_tx_3"
-	for CMD in "save_iq_w_simult_tx_2" "save_iq_w_simult_tx_3"
+	#for CMD in "save_iq_w_simult_tx_2" "save_iq_w_simult_tx_3"
+	for CMD in "save_rssi"
 	do
 	
 		today=$(date +"%m-%d-%Y")
