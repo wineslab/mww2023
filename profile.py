@@ -695,8 +695,8 @@ for i, frange in enumerate(params.ism900_freq_ranges):
        or frange.freq_max < freq_ranges["ISM-900"][0] or frange.freq_max > freq_ranges["ISM-900"][1]:
         perr = portal.ParameterError("ISM-900 frequencies must be between %f and %f MHz" % (freq_ranges["ISM-900"][0], freq_ranges["ISM-900"][1]), ["ism900_freq_ranges[%d].freq_min" % i, "ism900_freq_ranges[%d].freq_max" % i])
         portal.context.reportError(perr)
-    if frange.freq_max - frange.freq_min < 1:
-        perr = portal.ParameterError("Minimum and maximum frequencies must be separated by at least 1 MHz", ["ism900_freq_ranges[%d].freq_min" % i, "ism900_freq_ranges[%d].freq_max" % i])
+    if frange.freq_max - frange.freq_min < .2:
+        perr = portal.ParameterError("Minimum and maximum frequencies must be separated by at least 200 KHz", ["ism900_freq_ranges[%d].freq_min" % i, "ism900_freq_ranges[%d].freq_max" % i])
         portal.context.reportError(perr)
 
 for i, frange in enumerate(params.ism2400_freq_ranges):
