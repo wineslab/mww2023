@@ -860,13 +860,12 @@ for frange in params.b7_ul_freq_ranges:
 
 for frange in params.b7_dl_freq_ranges:
     request.requestSpectrum(frange.freq_min, frange.freq_max, 0)
-
+"""
 for frange in params.ism900_freq_ranges:
     request.requestSpectrum(frange.freq_min, frange.freq_max, 0)
 
 for frange in params.ism2400_freq_ranges:
     request.requestSpectrum(frange.freq_min, frange.freq_max, 0)
-"""
     
 # Emit!
 portal.context.printRequestRSpec()
