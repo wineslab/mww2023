@@ -610,6 +610,7 @@ portal.context.defineStructParameter(
             longDescription="Values are rounded to the nearest kilohertz."
         ),
     ])
+"""
 
 
 
@@ -656,8 +657,6 @@ portal.context.defineStructParameter(
         ),
     ])
 
-"""
-
 
 # Bind and verify parameters
 params = portal.context.bindParameters()
@@ -690,7 +689,7 @@ for i, frange in enumerate(params.b7_dl_freq_ranges):
     if frange.freq_max - frange.freq_min < 1:
         perr = portal.ParameterError("Minimum and maximum frequencies must be separated by at least 1 MHz", ["b7_dl_freq_ranges[%d].freq_min" % i, "b7_dl_freq_ranges[%d].freq_max" % i])
         portal.context.reportError(perr)
-
+"""
 for i, frange in enumerate(params.ism900_freq_ranges):
     if frange.freq_min < freq_ranges["ISM-900"][0] or frange.freq_min > freq_ranges["ISM-900"][1] \
        or frange.freq_max < freq_ranges["ISM-900"][0] or frange.freq_max > freq_ranges["ISM-900"][1]:
@@ -708,7 +707,6 @@ for i, frange in enumerate(params.ism2400_freq_ranges):
     if frange.freq_max - frange.freq_min < 1:
         perr = portal.ParameterError("Minimum and maximum frequencies must be separated by at least 1 MHz", ["ism2400_freq_ranges[%d].freq_min" % i, "ism2400_freq_ranges[%d].freq_max" % i])
         portal.context.reportError(perr)
-"""
 
 
 # Now verify.
