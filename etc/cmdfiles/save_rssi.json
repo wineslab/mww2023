@@ -1,0 +1,75 @@
+[
+    {
+        "cmd": "save_rssi",
+        "sync": true,
+        "timeout": 5,
+
+        "nsamps": 1024,
+        "use_lo_offset": false,
+
+        "rxrate": 5e6,
+        "rxfreq": 719.5e6,
+        "rxgain": {"fixed": 50.0},
+        "rxrepeat": 100,
+        "rxwait": {"min": 1, "max": 3, "res": "s"},
+        "rxclients": ["bus-6185", "bus-6186", "bus-4817"]
+    },
+    {
+     "cmd": "pause",
+     "duration": 2
+    },
+    {
+        "cmd": "save_rssi",
+        "sync": true,
+        "timeout": 5,
+
+        "nsamps": 1024,
+        "use_lo_offset": false,
+
+        "rxrate": 7e6,
+        "rxfreq": 725.5e6,
+        "rxgain": {"fixed": 50.0},
+        "rxrepeat": 100,
+        "rxwait": {"min": 1, "max": 3, "res": "s"},
+        "rxclients": ["bus-6185", "bus-6186", "bus-4817"]
+    },
+    {
+     "cmd": "pause",
+     "duration": 2
+    },
+    {
+        "cmd": "save_rssi",
+        "sync": true,
+        "timeout": 5,
+
+        "nsamps": 1024,
+        "use_lo_offset": false,
+
+        "rxrate": 20e6,
+        "rxfreq": 2190e6,
+        "rxgain": {"fixed": 50.0},
+        "rxrepeat": 100,
+        "rxwait": {"min": 1, "max": 3, "res": "s"},
+        "rxclients": ["bus-6185", "bus-6186", "bus-4817"]
+    },
+    {
+     "cmd": "pause",
+     "duration": 2
+    },
+    {
+        "cmd": "save_rssi",
+        "sync": true,
+        "timeout": 5,
+
+        "nsamps": 1024,
+        "use_lo_offset": false,
+
+        "rxrate": 10e6,
+        "rxfreq": 2175e6,
+        "rxgain": {"fixed": 50.0},
+        "rxrepeat": 100,
+        "rxwait": {"min": 1, "max": 3, "res": "s"},
+        "rxclients": ["bus-6185", "bus-6186", "bus-4817"]
+    }
+
+]

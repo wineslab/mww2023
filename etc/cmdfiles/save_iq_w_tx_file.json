@@ -4,23 +4,23 @@
      "sync": true,
      "timeout": 30,
 
-     "nsamps": 2048,
+     "nsamps": 8192,
 
-     "wotxrepeat": 50,
+     "wotxrepeat": 100,
      
-     "txrate": 2e6,
-     "txfreq": 3655e6,
-     "txgain": {"start": 29.0, "end": 30.0, "step": 2.0},
+     "txrate": 1e6,
+     "txfreq": 3611.5e6,
+     "txgain": {"fixed": 28.0},
      "txsamps": {"file": "/local/repository/shout/signals/16PSK_sps2/iq"},
      "txwait": 30,
 
-     "rxrate": 2e6,
-     "rxfreq": 3655e6,
-     "rxgain": {"fixed": 50.0},
-     "rxrepeat": 300,
-     "rxwait": {"min": 1, "max": 5, "res": "s"},
+     "rxrate": 10e6,
+     "rxfreq": 3610e6,
+     "rxgain": {"fixed": 30.0},
+     "rxrepeat": 100,
+     "rxwait": {"min": 50, "max": 2000, "res": "ms"},
 
-     "txclients": ["nuc1", "nuc3"],
-     "rxclients": ["nuc2", "nuc4"]
+     "txclients": ["cbrssdr1-smt-comp", "cbrssdr1-hospital-comp", "cbrssdr1-honors-comp", "cbrssdr1-ustar-comp", "cbrssdr1-bes-comp"],
+     "rxclients": ["cbrssdr1-smt-comp", "cbrssdr1-hospital-comp", "cbrssdr1-honors-comp", "cbrssdr1-ustar-comp", "cbrssdr1-bes-comp"]
  }
 ]

@@ -1,19 +1,17 @@
 [
     {
-     "cmd": "pause",
-     "duration": 5
-    },
-    {
         "cmd": "save_iq",
         "sync": true,
-        "timeout": 60,
+        "timeout": 5,
 
         "nsamps": 1024,
+        "use_lo_offset": true,
 
-        "rxrate": 20e6,
-        "rxfreq": 2630e6,
-        "rxgain": {"start": 48.0, "end": 50.0, "step": 2.0},
-        "rxrepeat": 5,
-        "rxwait": {"min": 1, "max": 10, "res": "s"}
+        "rxrate": 25e6,
+        "rxfreq": 3586e6,
+        "rxgain": {"fixed": 30.0},
+        "rxrepeat": 5000,
+        "rxwait": {"min": 1, "max": 10, "res": "s"},
+        "rxclients": ["ota-x310-1-comp"]
     }
 ]

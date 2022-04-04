@@ -6,21 +6,21 @@
 
      "nsamps": 2048,
 
-     "wotxrepeat": 10,
+     "wotxrepeat": 2,
      
      "txrate": 2e6,
-     "txfreq": 2625e6,
+     "txfreq": 3600e6,
      "txgain": {"start": 28.0, "end": 30.0, "step": 2.0},
-     "txsamps": {"signal": "sine", "wfreq": 1e3, "wampl": 0.6},
+     "txsamps": {"signal": "sine", "wfreq": 1e3, "wampl": 0.8},
      "txwait": 30,
 
      "rxrate": 2e6,
-     "rxfreq": 2625e6,
+     "rxfreq": 3600e6,
      "rxgain": {"fixed": 50.0},
-     "rxrepeat": 20,
+     "rxrepeat": 10,
      "rxwait": {"min": 1, "max": 5, "res": "s"},
 
-     "txclients": ["nuc1", "nuc3"],
-     "rxclients": ["nuc2", "nuc4"]
+     "txclients": ["node0"],
+     "rxclients": ["node1"]
  }
 ]

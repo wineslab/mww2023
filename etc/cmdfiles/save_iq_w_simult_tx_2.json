@@ -1,0 +1,30 @@
+[
+ {
+     "cmd": "save_iq_w_simul_tx",
+     "sync": true,
+     "timeout": 10,
+
+     "nsamps": 1024,
+
+     "wotxrepeat": 5,
+     
+     "txgain": {"start": 44.0, "end": 56.0, "step": 2.0},
+     "txgaindiff": 0,
+     "txsignals": ["/local/repository/shout/signal_library/OFDM4_scaled.iq", "/local/repository/shout/signal_library/QAM64_0.5_2_10_scaled.iq", "/local/repository/shout/signal_library/PSK8_0.5_2_10_scaled.iq", "/local/repository/shout/signal_library/QAM64_0.5_4_10_scaled.iq", "/local/repository/shout/signal_library/PSK8_0.5_4_10_scaled.iq", "/local/repository/shout/signal_library/QAM256_0.5_2_10_scaled.iq", "/local/repository/shout/signal_library/QAM16_0.5_4_10_scaled.iq", "/local/repository/shout/signal_library/PSK4_0.5_4_10_scaled.iq", "/local/repository/shout/signal_library/QAM16_0.5_2_10_scaled.iq", "/local/repository/shout/signal_library/QAM256_0.5_4_10_scaled.iq", "/local/repository/shout/signal_library/PSK4_0.5_2_10_scaled.iq", "/local/repository/shout/signal_library/PSK2_0.5_2_10_scaled.iq", "/local/repository/shout/signal_library/PSK2_0.5_4_10_scaled.iq"],
+     "txguard": 3e6,
+     "txcount": 2,
+     "txsetupcount": 50,
+     "txoverlap": false,
+     "txwait": 20,
+     
+
+     "rxrate": 25e6,
+     "rxfreq": 3586e6,
+     "rxgain": {"fixed": 30.0},
+     "rxrepeat": 5,
+     "rxwait": {"min": 10, "max": 90, "res": "ms"},
+
+     "txclients": ["ota-nuc1-b210", "ota-nuc4-b210"],
+     "rxclients": ["ota-x310-2-comp"]
+ }
+]
