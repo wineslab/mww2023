@@ -4,14 +4,14 @@
         "sync": true,
         "timeout": 5,
 
-        "nsamps": 1024,
+        "nsamps": 10000,
         "use_lo_offset": true,
 
-        "rxrate": 25e6,
-        "rxfreq": 3586e6,
-        "rxgain": {"fixed": 30.0},
-        "rxrepeat": 5000,
-        "rxwait": {"min": 1, "max": 10, "res": "s"},
+        "rxrate": 2e6,
+        "rxfreq": 462.7e6,
+        "rxgain": {"fixed": 35.0},
+        "rxrepeat": 120,
+        "rxwait": {"min": 100, "max": 100, "res": "ms"},
         "rxclients": ["ota-x310-1-comp"]
     }
 ]
