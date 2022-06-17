@@ -1,0 +1,28 @@
+[
+    {
+   "cmd": "save_iq_w_tx",
+   "sync": false,
+   "timeout": 30,
+
+   "nsamps": 20480,
+
+   "wotxrepeat": 2,
+   
+   "txrate": 2e6,
+   "txfreq": 3600e6,
+   "txgain": {"start": 28.0, "end": 30.0, "step": 2.0},
+   "txsamps": "gold",
+   "gold_id": 0,
+   "nsymbols": 64,
+   "txwait": 30,
+
+   "rxrate": 2e6,
+   "rxfreq": 3600e6,
+   "rxgain": {"fixed": 50.0},
+   "rxrepeat": 10,
+   "rxwait": {"min": 1, "max": 5, "res": "s"},
+
+   "txclients": ["node0"],
+   "rxclients": ["node1"]
+}
+]
