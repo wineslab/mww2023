@@ -15,7 +15,7 @@
    "gold_id": 0,
    "gold_length": 127,
    "nsymbols": 64,
-   "txwait": 30,
+   "txwait": 5,
    "return_iq": false,
 
    "rxrate": 2e6,
