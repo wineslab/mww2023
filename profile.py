@@ -543,7 +543,7 @@ portal.context.defineStructParameter(
 portal.context.defineStructParameter(
     "dense_radios", "Dense Site Radios", [],
     multiValue=True,
-    min=2,
+    min=0,
     multiValueTitle="Dense Site NUC+B210 radios to allocate.",
     members=[
         portal.Parameter(
