@@ -2,7 +2,7 @@
     {
         "cmd": "save_iq",
         "sync": true,
-        "timeout": 5,
+        "timeout": 8,
 
         "nsamps": 10000,
         "use_lo_offset": true,
@@ -11,7 +11,7 @@
         "rxfreq": 462.7e6,
         "rxgain": {"fixed": 35.0},
         "rxrepeat": 120,
-        "rxwait": {"min": 100, "max": 100, "res": "ms"},
+        "rxwait": {"min": 100, "max": 110, "res": "ms"},
         "rxclients": ["ota-x310-1-comp"]
     }
 ]

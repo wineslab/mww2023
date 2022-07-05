@@ -283,6 +283,22 @@ pn_devices = [
     "nuc1-nuc2-nuc3-nuc4-nuc1"
 ]
 
+# List of dense radios.
+dense_radios = [
+    ("cnode-wasatch",
+     "Wasatch"),
+    ("cnode-mario",
+     "Mario"),
+    ("cnode-moran",
+     "Moran"),
+    ("cnode-guesthouse",
+     "Guesthouse"),
+#    ("cnode-ebc",
+#     "EBC"),
+    ("cnode-ustar",
+     "USTAR"),
+]
+
 freq_ranges = {
     "ISM-900": [914.87, 915.13],
     "ISM-2400": [2400.00, 2483.50],
@@ -521,6 +537,21 @@ portal.context.defineStructParameter(
             portal.ParameterType.STRING,
             ota_b210_devices[0], ota_b210_devices,
             longDescription="A NUC+B210 device in the OTA lab will be allocated."
+        ),
+    ])
+
+portal.context.defineStructParameter(
+    "dense_radios", "Dense Site Radios", [],
+    multiValue=True,
+    min=2,
+    multiValueTitle="Dense Site NUC+B210 radios to allocate.",
+    members=[
+        portal.Parameter(
+            "device",
+            "SFF Compute + NI B210 device",
+            portal.ParameterType.STRING,
+            dense_radios[0], dense_radios,
+            longDescription="A Small Form Factor compute with attached NI B210 device at the given Dense Deployment site will be allocated."
         ),
     ])
 
@@ -845,6 +876,12 @@ for mesite in params.me_radio_sites:
                 node.component_id = "ed1"
                 node.disk_image = nuc_image
                 break
+
+# Request NUC+B210 radio resources at the requested Dense Deployment sites.
+for dev in params.dense_radios:
+    node = request.RawPC("%s-dd-b210" % dev.device)
+    node.component_id = dev.device
+    node.disk_image = sm_image
 
  
 # Request NUC+B210 radio resources in the OTA Lab.
