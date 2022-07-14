@@ -8,12 +8,12 @@ cd /local/repository/
 #git submodule update --init --remote || { echo "Failed to update git submodules!" && exit 1; }
 
 START=1
-REPEAT=500
+REPEAT=1
 for i in $(eval echo "{$START..$REPEAT}")
 do
 	#for CMD in "save_iq_w_simult_tx_1" "save_iq_w_simult_tx_2" "save_iq_w_simult_tx_3"
 	#for CMD in "save_iq_w_simult_tx_2" "save_iq_w_simult_tx_3"
-	for CMD in "save_rssi"
+	for CMD in "save_iq_w_tx_gold"
 	do
 	
 		today=$(date +"%m-%d-%Y")
