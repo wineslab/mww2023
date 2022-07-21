@@ -293,8 +293,8 @@ dense_radios = [
      "Moran"),
     ("cnode-guesthouse",
      "Guesthouse"),
-#    ("cnode-ebc",
-#     "EBC"),
+    ("cnode-ebc",
+     "EBC"),
     ("cnode-ustar",
      "USTAR"),
 ]
