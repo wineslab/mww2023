@@ -848,6 +848,7 @@ for fesite in params.fe_radio_sites_nuc1:
     nuc.component_manager_id = fesite.site
     nuc.component_id = "nuc1"
     nuc.disk_image = nuc_image
+    nuc.startVNC()
     #nuc.addService(rspec.Execute(shell="bash", command=b210_setup_cmd))
 
 # Request nuc2+B210 radio resources at FE sites.
@@ -860,6 +861,7 @@ for fesite in params.fe_radio_sites_nuc2:
     nuc.component_manager_id = fesite.site
     nuc.component_id = "nuc2"
     nuc.disk_image = nuc_image
+    nuc.startVNC()
     #nuc.addService(rspec.Execute(shell="bash", command=b210_setup_cmd))
 
 
@@ -884,6 +886,7 @@ for dev in params.dense_radios:
     node = request.RawPC("%s-dd-b210" % dev.device)
     node.component_id = dev.device
     node.disk_image = sm_image
+    node.startVNC()
 
  
 # Request NUC+B210 radio resources in the OTA Lab.
