@@ -316,6 +316,7 @@ datasets = {
 
 # Top-level request object.
 request = portal.context.makeRequestRSpec()
+request.initVNC()
 
 # Helper function that allocates a PC + X310 radio pair, with Ethernet
 # link between them.
@@ -867,6 +868,7 @@ for mesite in params.me_radio_sites:
     if mesite.site == "All":
         obj = request.requestAllRoutes()
         obj.disk_image = nuc_image
+        obj.startVNC()
     else:
         node = ""
         for urn,sname in me_sites:
