@@ -2,23 +2,23 @@
       {
      "cmd": "save_iq_w_tx",
      "sync": true,
-     "timeout": 30,
+     "timeout": 5,
 
      "nsamps": 2048,
 
-     "wotxrepeat": 2,
+     "wotxrepeat": 5,
      
      "txrate": 2e6,
      "txfreq": 3600e6,
-     "txgain": {"start": 28.0, "end": 30.0, "step": 2.0},
+     "txgain": {"fixed": 30.0},
      "txsamps": {"signal": "sine", "wfreq": 1e3, "wampl": 0.8},
-     "txwait": 30,
+     "txwait": 3,
 
      "rxrate": 2e6,
      "rxfreq": 3600e6,
      "rxgain": {"fixed": 50.0},
      "rxrepeat": 10,
-     "rxwait": {"min": 1, "max": 5, "res": "s"},
+     "rxwait": {"min": 1, "max": 5, "res": "ms"},
 
      "txclients": ["node0"],
      "rxclients": ["node1"]
