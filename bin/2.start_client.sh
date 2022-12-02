@@ -18,6 +18,7 @@ if [ "" = "$PKG_OK" ]; then
   sudo apt-get update
   sudo apt -y install python3-gi gobject-introspection gir1.2-gtk-3.0
 fi
+pip3 install scipy
 
 cd $REPODIR
 #git submodule update --init --remote || { echo "Failed to update git submodules!" && exit 1; }
