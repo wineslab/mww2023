@@ -17,11 +17,13 @@
    "nsymbols": 64,
    "txwait": 5,
    "return_iq": false,
+   "use_lo_offset": true,
 
    "rxrate": 2e6,
    "rxfreq": 3600e6,
    "rxgain": {"fixed": 50.0},
    "rxrepeat": 10,
+   "on_client_repeat": 1,
    "rxwait": {"min": 0, "max": 1, "res": "ms"},
 
    "txclients": ["node0"],
