@@ -274,7 +274,7 @@ request = portal.context.makeRequestRSpec()
 # link between them.
 def x310_node_pair(x310_radio_name, node_type):
     radio_link = request.Link("%s-link" % x310_radio_name)
-    radio_link.bandwidth = 10e6 # 10Gbps expressed in Kbps
+    radio_link.bandwidth = 10*1000*1000 # 10Gbps expressed in Kbps
 
     node = request.RawPC("%s-comp" % x310_radio_name)
     node.hardware_type = node_type
