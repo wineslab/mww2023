@@ -267,10 +267,8 @@ datasets = {
     "ADSBRecordings": "urn:publicid:IDN+emulab.net:powdersandbox+stdataset+ADSBrecordings"
 }
 
-
 # Top-level request object.
 request = portal.context.makeRequestRSpec()
-request.initVNC()
 
 # Helper function that allocates a PC + X310 radio pair, with Ethernet
 # link between them.
