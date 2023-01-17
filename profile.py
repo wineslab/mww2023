@@ -272,13 +272,17 @@ request = portal.context.makeRequestRSpec()
 
 # Helper function that allocates a PC + X310 radio pair, with Ethernet
 # link between them.
-def x310_node_pair(x310_radio_name, node_type):
+def x310_node_pair(x310_radio_name, node_type, start_vnc = False, ignore_isbw = False):
     radio_link = request.Link("%s-link" % x310_radio_name)
     radio_link.bandwidth = 10*1000*1000 # 10Gbps expressed in Kbps
+    if ignore_isbw:
+        radio_link.best_effort = True
 
     node = request.RawPC("%s-comp" % x310_radio_name)
     node.hardware_type = node_type
     node.disk_image = x310_node_image
+    if start_vnc:
+        node.startVNC()
 
     #node.addService(rspec.Execute(shell="bash",command=x310_setup_cmd))
 
@@ -584,9 +588,15 @@ portal.context.defineStructParameter(
     ])
 
 # Start VNC?
-portal.context.defineParameter("start_vnc", 
+portal.context.defineParameter("start_vnc",
                                "Start X11 VNC on all compute nodes",
                                portal.ParameterType.BOOLEAN, True)
+
+# Start VNC?
+portal.context.defineParameter("ignore_isbw",
+                               "Ignore interswitch bandwith limitations on radio-to-compute links. (Do not use unless you have a specific reason to do so.)",
+                               portal.ParameterType.BOOLEAN, False,
+                               advanced=True)
 
 # Bind and verify parameters
 params = portal.context.bindParameters()
@@ -621,11 +631,17 @@ for i, frange in enumerate(params.ism2400_freq_ranges):
 # Now verify.
 portal.context.verifyParameters()
 
+# Declare that we may be starting X11 VNC on the compute nodes.
+if params.start_vnc:
+    request.initVNC()
+
 # Allocate orchestrator node
 if params.orchtype != "None":
     orch = request.RawPC("orch")
     orch.disk_image = orch_image
     orch.hardware_type = params.orchtype
+    if params.start_vnc:
+        orch.startVNC()
     if params.dataset != "None": 
         connect_to_dataset(orch, params.dataset)
 
@@ -642,6 +658,8 @@ for dev in params.phantomnet:
         node.hardware_type = "nuc5300"
         node.component_id = node_name
         node.disk_image = meas_disk_image
+        if params.start_vnc:
+            node.startVNC()
         nodes.append(node)
 
     if n_nodes == 2:
@@ -699,15 +717,15 @@ for dev in params.phantomnet:
 
 # Request PC + CBAND X310 resource pairs.
 for rsite in params.cband_radio_sites:
-    x310_node_pair(rsite.radio, params.nodetype)
+    x310_node_pair(rsite.radio, params.nodetype, params.start_vnc, params.ignore_isbw)
 
 # Request PC + Cellular X310 resource pairs.
 for rsite in params.cell_radio_sites:
-    x310_node_pair(rsite.radio, params.nodetype)
+    x310_node_pair(rsite.radio, params.nodetype, params.start_vnc, params.ignore_isbw)
 
 # Request PC + OTA Lab X310 resource pairs.
 for dev in params.ota_lab_x310s:
-    x310_node_pair(dev.radio, params.nodetype)
+    x310_node_pair(dev.radio, params.nodetype, params.start_vnc, params.ignore_isbw)
 
 # Request nuc1+B210 radio resources at FE sites.
 for fesite in params.fe_radio_sites_nuc1:
@@ -719,6 +737,8 @@ for fesite in params.fe_radio_sites_nuc1:
     nuc.component_manager_id = fesite.site
     nuc.component_id = "nuc1"
     nuc.disk_image = nuc_image
+    if params.start_vnc:
+        nuc.startVNC()
 
 # Request nuc2+B210 radio resources at FE sites.
 for fesite in params.fe_radio_sites_nuc2:
@@ -730,12 +750,16 @@ for fesite in params.fe_radio_sites_nuc2:
     nuc.component_manager_id = fesite.site
     nuc.component_id = "nuc2"
     nuc.disk_image = nuc_image
+    if params.start_vnc:
+        nuc.startVNC()
 
 # Request ed1+B210 radio resources at ME sites.
 for mesite in params.me_radio_sites:
     if mesite.site == "All":
         obj = request.requestAllRoutes()
         obj.disk_image = nuc_image
+        if params.start_vnc:
+            obj.startVNC()
     else:
         node = ""
         for urn,sname in me_sites:
@@ -751,12 +775,16 @@ for dev in params.dense_radios:
     node = request.RawPC("%s-dd-b210" % dev.device)
     node.component_id = dev.device
     node.disk_image = sm_image
+    if params.start_vnc:
+        node.startVNC()
  
 # Request NUC+B210 radio resources in the OTA Lab.
 for dev in params.ota_lab_b210s:
     node = request.RawPC("%s-b210" % dev.device)
     node.component_id = dev.device
     node.disk_image = sm_image
+    if params.start_vnc:
+        node.startVNC()
 
 # Request frequency range(s)
 for frange in params.cband_freq_ranges:
@@ -767,10 +795,6 @@ for frange in params.ism900_freq_ranges:
 
 for frange in params.ism2400_freq_ranges:
     request.requestSpectrum(frange.freq_min, frange.freq_max, 0)
-
-# Declare that we may be starting X11 VNC on the compute nodes.
-if params.start_vnc:
-    request.initVNC()
     
 # Emit!
 portal.context.printRequestRSpec()
