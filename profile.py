@@ -263,8 +263,8 @@ freq_ranges = {
 }
 
 datasets = {
-    "SpectSet": "urn:publicid:IDN+emulab.net:nrdz+ltdataset+SpectSet",
-    "ADSBRecordings": "urn:publicid:IDN+emulab.net:powdersandbox+stdataset+ADSBrecordings"
+    # "SpectSet": "urn:publicid:IDN+emulab.net:nrdz+ltdataset+SpectSet",
+    # "ADSBRecordings": "urn:publicid:IDN+emulab.net:powdersandbox+stdataset+ADSBrecordings"
 }
 
 # Top-level request object.
@@ -365,8 +365,8 @@ portal.context.defineParameter(
 portal.context.defineParameter(
     "dataset",
     "Dataset to connect",
-    portal.ParameterType.STRING, "SpectSet",
-    ["SpectSet","ADSBRecordings","None"],
+    portal.ParameterType.STRING, "None",
+    ["None"],
     "Name of the remote dataset to connect with orch",
 )
 
