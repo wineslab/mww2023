@@ -1,0 +1,18 @@
+[
+    {
+        "cmd": "rxsamples",
+        "nsamps": 1024,
+        "freq": 2.45e9,
+        "gain": 30,
+        "rate": 2e6,
+        "client_list": ["all"]
+    },
+
+    {
+        "cmd": "wait_results",
+        "client_list": ["all"],
+        "timeout": 30
+    },
+    
+    {"cmd": "plot_psd"}
+]

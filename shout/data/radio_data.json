@@ -1,0 +1,426 @@
+[
+    {
+	"dsgroup": "radios/cellsdr1-bes",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "cellsdr1-bes",
+		    "cls": "bs",
+		    "type": "x310",
+		    "minfreq": 2500,
+		    "maxfreq": 2690,
+		    "bw": 160
+		}
+	    }
+	]
+    },
+    {
+	"dsgroup": "radios/cellsdr1-browning",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "cellsdr1-browning",
+		    "cls": "bs",
+		    "type": "x310",
+		    "minfreq": 2500,
+		    "maxfreq": 2690,
+		    "bw": 160
+		}
+	    }
+	]
+    },
+    {
+	"dsgroup": "radios/cellsdr1-dentistry",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "cellsdr1-dentistry",
+		    "cls": "bs",
+		    "type": "x310",
+		    "minfreq": 2500,
+		    "maxfreq": 2690,
+		    "bw": 160
+		}
+	    }
+	]
+    },
+    {
+	"dsgroup": "radios/cellsdr1-honors",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "cellsdr1-honors",
+		    "cls": "bs",
+		    "type": "x310",
+		    "minfreq": 2500,
+		    "maxfreq": 2690,
+		    "bw": 160
+		}
+	    }
+	]
+    },
+    {
+	"dsgroup": "radios/cellsdr1-hospital",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "cellsdr1-hospital",
+		    "cls": "bs",
+		    "type": "x310",
+		    "minfreq": 2500,
+		    "maxfreq": 2690,
+		    "bw": 160
+		}
+	    }
+	]
+    },
+    {
+	"dsgroup": "radios/cellsdr1-fm",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "cellsdr1-fm",
+		    "cls": "bs",
+		    "type": "x310",
+		    "minfreq": 2500,
+		    "maxfreq": 2690,
+		    "bw": 160
+		}
+	    }
+	]
+    },
+    {
+	"dsgroup": "radios/cellsdr1-meb",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "cellsdr1-meb",
+		    "cls": "bs",
+		    "type": "x310",
+		    "minfreq": 2500,
+		    "maxfreq": 2690,
+		    "bw": 160
+		}
+	    }
+	]
+    },
+    {
+	"dsgroup": "radios/cellsdr1-smt",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "cellsdr1-smt",
+		    "cls": "bs",
+		    "type": "x310",
+		    "minfreq": 2500,
+		    "maxfreq": 2690,
+		    "bw": 160
+		}
+	    }
+	]
+    },
+    {
+	"dsgroup": "radios/cellsdr1-ustar",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "cellsdr1-ustar",
+		    "cls": "bs",
+		    "type": "x310",
+		    "minfreq": 2500,
+		    "maxfreq": 2690,
+		    "bw": 160
+		}
+	    }
+	]
+    },
+
+
+    {
+	"dsgroup": "radios/cbrssdr1-bes",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "cbrssdr1-bes",
+		    "cls": "bs",
+		    "type": "x310",
+		    "minfreq": 3400,
+		    "maxfreq": 3800,
+		    "bw": 160
+		}
+	    }
+	]
+    },
+    {
+	"dsgroup": "radios/cbrssdr1-browning",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "cbrssdr1-browning",
+		    "cls": "bs",
+		    "type": "x310",
+		    "minfreq": 3400,
+		    "maxfreq": 3800,
+		    "bw": 160
+		}
+	    }
+	]
+    },
+    {
+	"dsgroup": "radios/cbrssdr1-dentistry",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "cbrssdr1-dentistry",
+		    "cls": "bs",
+		    "type": "x310",
+		    "minfreq": 3400,
+		    "maxfreq": 3800,
+		    "bw": 160
+		}
+	    }
+	]
+    },
+    {
+	"dsgroup": "radios/cbrssdr1-honors",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "cbrssdr1-honors",
+		    "cls": "bs",
+		    "type": "x310",
+		    "minfreq": 3400,
+		    "maxfreq": 3800,
+		    "bw": 160
+		}
+	    }
+	]
+    },
+    {
+	"dsgroup": "radios/cbrssdr1-hospital",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "cbrssdr1-hospital",
+		    "cls": "bs",
+		    "type": "x310",
+		    "minfreq": 3400,
+		    "maxfreq": 3800,
+		    "bw": 160
+		}
+	    }
+	]
+    },
+    {
+	"dsgroup": "radios/cbrssdr1-fm",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "cbrssdr1-fm",
+		    "cls": "bs",
+		    "type": "x310",
+		    "minfreq": 3400,
+		    "maxfreq": 3800,
+		    "bw": 160
+		}
+	    }
+	]
+    },
+    {
+	"dsgroup": "radios/cbrssdr1-meb",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "cbrssdr1-meb",
+		    "cls": "bs",
+		    "type": "x310",
+		    "minfreq": 3400,
+		    "maxfreq": 3800,
+		    "bw": 160
+		}
+	    }
+	]
+    },
+    {
+	"dsgroup": "radios/cbrssdr1-smt",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "cbrssdr1-smt",
+		    "cls": "bs",
+		    "type": "x310",
+		    "minfreq": 3400,
+		    "maxfreq": 3800,
+		    "bw": 160
+		}
+	    }
+	]
+    },
+    {
+	"dsgroup": "radios/cbrssdr1-ustar",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "cbrssdr1-ustar",
+		    "cls": "bs",
+		    "type": "x310",
+		    "minfreq": 3400,
+		    "maxfreq": 3800,
+		    "bw": 160
+		}
+	    }
+	]
+    },
+
+
+    {
+	"dsgroup": "radios/nuc2-bookstore",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "nuc2-bookstore",
+		    "cls": "fe",
+		    "type": "b210",
+		    "minfreq": 2500,
+		    "maxfreq": 2690,
+		    "bw": 56
+		}
+	    }
+	]
+    },
+    {
+	"dsgroup": "radios/nuc2-cpg",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "nuc2-cpg",
+		    "cls": "fe",
+		    "type": "b210",
+		    "minfreq": 2500,
+		    "maxfreq": 2690,
+		    "bw": 56
+		}
+	    }
+	]
+    },
+    {
+	"dsgroup": "radios/nuc2-ebc",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "nuc2-ebc",
+		    "cls": "fe",
+		    "type": "b210",
+		    "minfreq": 2500,
+		    "maxfreq": 2690,
+		    "bw": 56
+		}
+	    }
+	]
+    },
+    {
+	"dsgroup": "radios/nuc2-guesthouse",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "nuc2-guesthouse",
+		    "cls": "fe",
+		    "type": "b210",
+		    "minfreq": 2500,
+		    "maxfreq": 2690,
+		    "bw": 56
+		}
+	    }
+	]
+    },
+    {
+	"dsgroup": "radios/nuc2-humanities",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "nuc2-humanities",
+		    "cls": "fe",
+		    "type": "b210",
+		    "minfreq": 2500,
+		    "maxfreq": 2690,
+		    "bw": 56
+		}
+	    }
+	]
+    },
+    {
+	"dsgroup": "radios/nuc2-law73",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "nuc2-law73",
+		    "cls": "fe",
+		    "type": "b210",
+		    "minfreq": 2500,
+		    "maxfreq": 2690,
+		    "bw": 56
+		}
+	    }
+	]
+    },
+    {
+	"dsgroup": "radios/nuc2-madsen",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "nuc2-madsen",
+		    "cls": "fe",
+		    "type": "b210",
+		    "minfreq": 2500,
+		    "maxfreq": 2690,
+		    "bw": 56
+		}
+	    }
+	]
+    },
+    {
+	"dsgroup": "radios/nuc2-moran",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "nuc2-moran",
+		    "cls": "fe",
+		    "type": "b210",
+		    "minfreq": 2500,
+		    "maxfreq": 2690,
+		    "bw": 56
+		}
+	    }
+	]
+    },
+    {
+	"dsgroup": "radios/nuc2-sagepoint",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "nuc2-sagepoint",
+		    "cls": "fe",
+		    "type": "b210",
+		    "minfreq": 2500,
+		    "maxfreq": 2690,
+		    "bw": 56
+		}
+	    }
+	]
+    },
+    {
+	"dsgroup": "radios/nuc2-web",
+	"entries": [
+	    {
+		"attributes": {
+		    "name": "nuc2-web",
+		    "cls": "fe",
+		    "type": "b210",
+		    "minfreq": 2500,
+		    "maxfreq": 2690,
+		    "bw": 56
+		}
+	    }
+	]
+    }
+]

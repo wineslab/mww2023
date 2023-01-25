@@ -1,0 +1,61 @@
+// Copyright 2020-2021 University of Utah
+
+//
+// Protocol Buffers definition for messages between the Mercury Adapter and
+// Client Endpoint services.
+//
+
+syntax = "proto3";
+
+package measurements;
+
+message SessionMsg {
+    // Session ID (assigned by controller).
+    int32 sid  = 1;
+
+    // Unique ID for function calls and messages.
+    int32 uuid = 2;
+
+    // Enum of message types.
+    enum MsgType {
+	INIT   = 0; // Session initialization messages
+	CLOSE  = 1; // Session close/end messages
+	CALL   = 2; // RPC call message
+	RESULT = 3; // RPC result message
+	HB     = 4; // Heartbeat message
+    }
+    // One of the above types.
+    MsgType type = 3;
+
+    enum PeerType {
+	MEAS_CLIENT = 0;  // Client that performs radio actions on demand.
+	IFACE_CLIENT = 1; // User-facing interface client.
+	ORCH = 2;   // The orchestrator.
+    }
+    // One of the above types
+    MsgType peertype = 4;
+    
+    // Start time for command
+    double start_time = 5;
+
+    // List of clients to receive a message (used controller-side).
+    repeated string clients = 6;
+    
+    // Efficient storage of complex samples.
+    message Complex {
+	double r = 1;
+	double j = 2;
+    }
+    repeated Complex samples = 7;
+
+    // For non-complex-valued measurements.
+    repeated float measurements = 8;
+
+    // keyval pair for general message attributes
+    message KeyVal {
+	string key = 1;
+	string val = 2;
+    }
+    // KV attributes for this session message
+    repeated KeyVal attributes = 9;
+}

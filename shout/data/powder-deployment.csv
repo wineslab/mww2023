@@ -1,0 +1,28 @@
+Station,Latitude (deg N),Longitude (deg E),Height (m),Type
+WEB,40.76793,-111.84559,1.5,Fixed endpoint
+EBC,40.7677,-111.83814,1.5,Fixed endpoint
+Bookstore,40.76414,-111.84759,1.5,Fixed endpoint
+Law73,40.76163,-111.85185,1.5,Fixed endpoint
+Humanities,40.76486,-111.84319,1.5,Fixed endpoint
+Madsen,40.75788,-111.83634,1.5,Fixed endpoint
+Sagepoint,40.7628,-111.83062,1.5,Fixed endpoint
+Moran,40.77004,-111.83786,1.5,Fixed endpoint
+Garage,40.76414,-111.84759,1.5,Fixed endpoint
+Guesthouse,40.76627,-111.83632,1.5,Fixed endpoint
+Medical Tower,40.7674008,-111.8311815,40,Rooftop
+Honors,40.7644037,-111.8369526,30,Rooftop
+Dentistry,40.7571518,-111.8314963,15,Rooftop
+Behavioral,40.7613391,-111.8462915,40,Rooftop
+Friendship,40.7580745,-111.8532534,40,Rooftop
+Browning,40.7662732,-111.8477366,25,Rooftop
+MEB,40.7687871,-111.8458272,15,Rooftop
+USTAR,40.7689874,-111.8416694,25,Rooftop
+Hospital,40.77105,-111.837123,20,Rooftop
+N Campus & Wasatch,40.7710376,-111.8431663,8,Dense
+N Campus & Mario,40.7728372,-111.8408752,8,Dense
+Hospital,40.7728661,-111.83749,8,Dense
+HCI,40.7729422,-111.8353607,8,Dense
+Moran,40.7698484,-111.8386649,8,Dense
+GH,40.7675208,-111.8360435,8,Dense
+EBC,40.7671703,-111.8382926,8,Dense
+SMBB,40.7684484,-111.8404899,8,Dense
