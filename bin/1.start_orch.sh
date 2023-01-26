@@ -13,6 +13,7 @@ if [ "" = "$PKG_OK" ]; then
   echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
   sudo apt-get update
   sudo apt-get --yes install $REQUIRED_PKG 
+  pip3 install scipy
 fi
 
 cd $REPODIR
