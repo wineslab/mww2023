@@ -1,32 +1,28 @@
-[
-  {
+[{
     "cmd": "save_iq_w_tx",
-    "sync": false,
-    "timeout": 30,
 
-    "nsamps": 20480,
+    "txclients": ["cbrssdr1-changme-comp"],
+    "rxclients": ["all"],
+    "txfreq": 3425e6,
+    "txgain": {"fixed": 30.0},
+    "rxfreq": 3425e6,
+    "rxgain": {"fixed": 30.0},
+    "rxrepeat": 10,
 
-    "wotxrepeat": 2,
-
-    "txrate": 2e6,
-    "txfreq": 3415e6,
-    "txgain": { "fixed": 85.0 },
     "txsamps": "gold",
+    "nsamps": 20480,
     "gold_id": 0,
     "gold_length": 511,
     "nsymbols": 128,
-    "txwait": 5,
-    "return_iq": false,
-    "use_lo_offset": true,
 
+    "txrate": 2e6,
     "rxrate": 2e6,
-    "rxfreq": 3415e6,
-    "rxgain": { "fixed": 70.0 },
-    "rxrepeat": 10,
-    "on_client_repeat": 1,
-    "rxwait": { "min": 0, "max": 1, "res": "ms" },
-
-    "txclients": ["all"],
-    "rxclients": ["all"]
-  }
-]
+    "sync": false,
+    "timeout": 30,
+    "wotxrepeat": 0,
+    "txwait": 5,
+    "rxwait": {"min": 0, "max": 1, "res": "ms"},
+    "return_iq": true,
+    "use_lo_offset": true,
+    "on_client_repeat": 1
+}]

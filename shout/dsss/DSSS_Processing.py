@@ -10,7 +10,7 @@ import argparse
 
 import json
 import numpy as np
-# import pandas as pd
+import pandas as pd
 from scipy import signal, stats
 import scipy
 import time
@@ -774,11 +774,6 @@ def main(folder, method='peak_find'):
         
     #### stats plotting ####
     print("Plotting figures...")
-
-    # Dumping data into a json file
-    with open("measurements.json", "w") as fp:
-        json.dump(stats,fp)
-
     plot_stats(stats, dis)
     plt.show()
 

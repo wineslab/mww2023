@@ -13,7 +13,9 @@ close all
 
 %% Plotting measurements
 
-fname = './measurements_example.json'; 
+nodes_name = ["RT-browning","RT-fm","RT-ustar","D-ebc","D-guesthouse","D-moran"];   % Hardcoded :(
+
+fname = './measurements_3.json'; 
 fid = fopen(fname); 
 raw = fread(fid,inf); 
 str = char(raw'); 
@@ -67,8 +69,8 @@ for i=1:length(tx_nodes)
 end
 
 % Plot heatmap for sinr
-h = heatmap(tx_nodes_str, tx_nodes_str, avg_sinr,'MissingDataColor','1.00,1.00,1.00','FontSize',11);%,'Colormap',cool);
-% colormap(flipud(jet))                 % Set colormap
+h = heatmap(nodes_name, nodes_name, avg_sinr,'MissingDataColor','1.00,1.00,1.00','FontSize',11);%,'Colormap',cool);
+colormap(flipud(summer))                 % Set colormap
 old_warning_state = warning('off', 'MATLAB:structOnObject');
 hxp = struct(h);                        % Generate a warning
 warning(old_warning_state);
@@ -76,6 +78,7 @@ warning(old_warning_state);
 h.XLabel = 'RX Node';
 h.YLabel = 'TX Node';
 h.CellLabelFormat = '%.2f';
+h.Title = 'Average SINR';
 % h.FontSize = 8;
 % orient(fig,'landscape')
 set(gca,'FontSize',15);

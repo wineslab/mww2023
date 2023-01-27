@@ -1,0 +1,27 @@
+[
+ {
+    "cmd": "save_iq_w_tx",
+    "sync": true,
+    "timeout": 30,
+
+    "nsamps": 8192,
+
+    "wotxrepeat": 100,
+    
+    "txrate": 1e6,
+    "txfreq": 3611.5e6,
+    "txgain": {"fixed": 28.0},
+    "txsamps": {"file": "/local/repository/shout/signals/16PSK_sps2/iq"},
+    "txwait": 30,
+    "use_lo_offset": true,
+
+    "rxrate": 10e6,
+    "rxfreq": 3610e6,
+    "rxgain": {"fixed": 30.0},
+    "rxrepeat": 100,
+    "rxwait": {"min": 50, "max": 2000, "res": "ms"},
+
+    "txclients": ["cbrssdr1-smt-comp", "cbrssdr1-hospital-comp", "cbrssdr1-honors-comp", "cbrssdr1-ustar-comp", "cbrssdr1-bes-comp"],
+    "rxclients": ["cbrssdr1-smt-comp", "cbrssdr1-hospital-comp", "cbrssdr1-honors-comp", "cbrssdr1-ustar-comp", "cbrssdr1-bes-comp"]
+ }
+]

@@ -138,12 +138,6 @@ class Radio:
         self._flush_rxstreamer()
 
     def recv_samples(self, nsamps, start_time=None, rate = None):
-
-        # Enable RX PA
-        self.usrp.set_gpio_attr("FP0", "CTRL", 0)
-        self.usrp.set_gpio_attr("FP0", "DDR", 0x10)
-        self.usrp.set_gpio_attr("FP0", "OUT", 0x10)
-
         # Set the sampling rate if necessary
         if rate and rate != self.currate:
             self.usrp.set_rx_rate(rate, self.channel)
@@ -205,12 +199,6 @@ class Radio:
         return samples, dt
 
     def send_samples(self, samples, rate = None):
-
-        # Enable TX PA
-        self.usrp.set_gpio_attr("FP0", "CTRL", 0)
-        self.usrp.set_gpio_attr("FP0", "DDR", 0x10)
-        self.usrp.set_gpio_attr("FP0", "OUT", 0)
-
         # Set the sampling rate if necessary
         if rate and rate != self.currate:
             self.usrp.set_tx_rate(rate, self.channel)

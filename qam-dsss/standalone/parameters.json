@@ -1,0 +1,25 @@
+[
+    {
+   "cmd": "save_iq_w_tx",
+   "sync": true,
+   "gold_length": 127,
+   "samps_per_chip": 2,
+   "use_lo_offset": true,
+
+   "txnode": "cbrssdr1-ustar-comp",
+   "txfreq": 3545e6,
+   "txrate": 2e6,
+   "txgain": 25.0,
+   "txtimeout": 30,
+
+   "rxnode": "cbrssdr1-hospital-comp",
+   "nsamps": 20480,
+   "rxfreq": 3545e6,
+   "rxrate": 2e6,
+   "rxgain": 30.0,
+   "method": "peak_find",
+   "return_stats": true,
+   "savefig": false
+
+}
+]

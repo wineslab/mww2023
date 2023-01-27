@@ -1,0 +1,26 @@
+[
+    {
+	"cmd": "save_iq_w_tx",
+
+	"txnode": "cbrssdr1-node1-comp",
+	"txfreq": 3425e6,
+	"txrate": 2e6,
+	"txgain": 30.0,
+	"txtimeout": 30,
+
+	"rxnode": "cbrssdr1-node2-comp",
+	"rxfreq": 3425e6,
+	"rxrate": 2e6,
+	"rxgain": 30.0,
+
+	"method": "peak_find",
+	"nsamps": 20480,
+	"gold_length": 511,
+	"samps_per_chip": 2,
+	
+	"sync": true,
+	"use_lo_offset": true,
+	"return_stats": true,
+	"savefig": false
+}
+]
