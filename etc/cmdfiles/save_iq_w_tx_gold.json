@@ -1,32 +1,32 @@
 [
-    {
-   "cmd": "save_iq_w_tx",
-   "sync": false,
-   "timeout": 30,
+  {
+    "cmd": "save_iq_w_tx",
+    "sync": false,
+    "timeout": 30,
 
-   "nsamps": 20480,
+    "nsamps": 20480,
 
-   "wotxrepeat": 2,
-   
-   "txrate": 2e6,
-   "txfreq": 3600e6,
-   "txgain": {"start": 28.0, "end": 30.0, "step": 2.0},
-   "txsamps": "gold",
-   "gold_id": 0,
-   "gold_length": 127,
-   "nsymbols": 64,
-   "txwait": 5,
-   "return_iq": false,
-   "use_lo_offset": true,
+    "wotxrepeat": 2,
 
-   "rxrate": 2e6,
-   "rxfreq": 3600e6,
-   "rxgain": {"fixed": 50.0},
-   "rxrepeat": 10,
-   "on_client_repeat": 1,
-   "rxwait": {"min": 0, "max": 1, "res": "ms"},
+    "txrate": 2e6,
+    "txfreq": 3415e6,
+    "txgain": { "fixed": 85.0 },
+    "txsamps": "gold",
+    "gold_id": 0,
+    "gold_length": 511,
+    "nsymbols": 128,
+    "txwait": 5,
+    "return_iq": false,
+    "use_lo_offset": true,
 
-   "txclients": ["node0"],
-   "rxclients": ["node1"]
-}
+    "rxrate": 2e6,
+    "rxfreq": 3415e6,
+    "rxgain": { "fixed": 70.0 },
+    "rxrepeat": 10,
+    "on_client_repeat": 1,
+    "rxwait": { "min": 0, "max": 1, "res": "ms" },
+
+    "txclients": ["all"],
+    "rxclients": ["all"]
+  }
 ]

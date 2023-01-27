@@ -33,6 +33,6 @@ sudo rm $CLILOG
 ORCHDOM=`$REPODIR/bin/getexpdom.py`
 ORCHHOST="$ORCHNAME.$ORCHDOM"
 echo "$ORCHHOST"
-$SHOUTSRC/meascli.py -s $ORCHHOST #--useoffset
+$SHOUTSRC/meascli.py -t -s $ORCHHOST #--useoffset
 
 exit 0
